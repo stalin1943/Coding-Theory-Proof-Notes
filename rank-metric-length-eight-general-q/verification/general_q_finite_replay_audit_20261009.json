@@ -1,0 +1,99 @@
+{
+  "status": "passed",
+  "replays": {
+    "general_q_ternary_subline_replay_20261008": {
+      "status": "passed",
+      "scope": null
+    },
+    "general_q_sextic_q45_replay_20261008": {
+      "status": "passed",
+      "scope": "Complete sextic isolated-subline boundary cells for q=4,5, conditional on the written normal-form and secant reductions."
+    },
+    "general_q_cubic_tower_replay_20261008": {
+      "status": "passed",
+      "scope": "analytic proofs plus finite formula checks and complete small residual families only; not complete q=3,4,5 code classification and not a general-q brute-force enumeration"
+    },
+    "general_q_cubic_genus_one_replay_20261009": {
+      "status": "passed",
+      "scope": "New dual formula, all 1228 supplied original residual spaces and their explicit obstructions, independent arithmetic, specified trace-conic examples, and exact symbolic identities. Not formal verification of Hasse--Weil/descent and not full general-q code classification."
+    },
+    "general_q_sextic_uniform_replay_20261008": {
+      "status": "passed",
+      "scope": "New sextic proof supplement only. Finite tests concern listed generators, their complete final q^2 parameter sets and selected grid lifts; uniform general-q conclusions rely on the analytic proof. No old small-field sextic exhaustion or global low-point classification is rerun."
+    },
+    "general_q_det4_replay_retry_20261009": {
+      "status": "passed",
+      "scope": "rank-four scattered special sections only: uniform odd-q proof (q>=7); complete q=3,5,7 normal-form scans; quinary all-graph rank certificates. Does not exclude determinant ranks five or six or complete any remaining base field."
+    },
+    "general_q_herm5_replay_retry_20261009": {
+      "status": "passed",
+      "scope": "new quinary Hermitian special-section exclusion; additional quaternary Hermitian s>=2 exclusion; no classification of all q=4 or q=5 codes or heavy-fibre sections; no replay of the historical rank-six counts"
+    },
+    "general_q_tangent7_replay_retry_20261009": {
+      "status": "passed",
+      "scope": "Complete q=7 Hermitian tangent auxiliary ranks; complete q=3,4 scalar three-space classifications; 13 specified section bindings; one explicit seven-ary graph. No complete q=7 non-Hermitian classification."
+    },
+    "general_q_det5_replay_retry2_20261009": {
+      "status": "passed",
+      "math_outputs_match": true,
+      "text_line_endings_normalized": true,
+      "checked_geometry_inputs": [
+        "geometry_input3.txt",
+        "geometry_input5.txt",
+        "geometry_input7.txt"
+      ]
+    },
+    "general_q_det6_replay_retry_20261009": {
+      "status": "passed",
+      "array_hashes_match_after_text_normalization": true,
+      "arrays": {
+        "inc3_counts.bin": {
+          "bytes": 78624,
+          "expected_bytes": 78624,
+          "hash_matches": true
+        },
+        "ind3_counts.bin": {
+          "bytes": 78624,
+          "expected_bytes": 78624,
+          "hash_matches": true
+        },
+        "inc5_counts.bin": {
+          "bytes": 7812000,
+          "expected_bytes": 7812000,
+          "hash_matches": true
+        },
+        "ind5_counts.bin": {
+          "bytes": 7812000,
+          "expected_bytes": 7812000,
+          "hash_matches": true
+        },
+        "inc7_counts.bin": {
+          "bytes": 161413056,
+          "expected_bytes": 161413056,
+          "hash_matches": true
+        },
+        "ind7_counts.bin": {
+          "bytes": 161413056,
+          "expected_bytes": 161413056,
+          "hash_matches": true
+        },
+        "sweep3_planes.txt": {
+          "normalized_bytes": 220900,
+          "expected_bytes": 220900,
+          "normalized_hash_matches": true
+        },
+        "sharp5_planes.txt": {
+          "normalized_bytes": 24155355,
+          "expected_bytes": 24155355,
+          "normalized_hash_matches": true
+        },
+        "maxima7_planes.txt": {
+          "normalized_bytes": 443,
+          "expected_bytes": 443,
+          "normalized_hash_matches": true
+        }
+      }
+    }
+  },
+  "scope": "Finite replay audit only; analytic theorem validity remains a mathematical review obligation."
+}

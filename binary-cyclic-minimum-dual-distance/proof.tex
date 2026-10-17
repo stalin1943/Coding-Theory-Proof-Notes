@@ -1,0 +1,189 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[OT1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage[unicode,bookmarksnumbered,breaklinks,colorlinks=true,
+ linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\F}{\mathbb F}
+\newcommand{\E}{\mathbb E}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\rkcyc}{r}
+\hypersetup{pdftitle={Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances},pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 16, 2026\par\bigskip
+
+\section*{Result overview}
+For every odd integer $m\ge3$, put $n=2^m-1$. We give a self-contained probabilistic proof that ordinary binary cyclic codes of dimension $(n-1)/2$ can have both minimum distance and dual distance at least $(1/2-o(1))n/(m\log_2m)$. A finite-length sufficient condition is $H_2(\delta)+\delta\le1/(2m)$. The proof counts only low-weight words whose zeroth coordinate is one. Shift symmetry contributes a factor $\delta$ to the count, and a first-moment estimate for random reciprocal-factor choices completes the argument. A probability-tending-to-one version has the same leading distance constant.
+
+\section{Finite-Length Statement}
+Identify $\F_2^n$ with $R_n=\F_2[X]/(X^n-1)$ by the coefficient vector. An ordinary binary cyclic code is an ideal of $R_n$. The dual is taken with respect to the usual binary dot product, and $d(A)$ denotes the minimum Hamming weight of a nonzero word of $A$. Write
+\[
+ H_2(x)=-x\log_2x-(1-x)\log_2(1-x),
+ \qquad 0<x<1.
+\]
+
+\begin{theorem}\label{thm:finite}
+Let $m\ge3$ be odd and $n=2^m-1$. If $0<\delta<1/2$ and
+\begin{equation}
+ H_2(\delta)+\delta\le\frac1{2m},
+ \label{eq:condition}
+\end{equation}
+then there is an ordinary binary cyclic code $C$ satisfying
+\begin{equation}
+ \dim C=\frac{n-1}{2},\qquad C\subset C^\perp,\qquad
+ \min\{d(C),d(C^\perp)\}>\delta n.
+ \label{eq:finite}
+\end{equation}
+\end{theorem}
+
+Condition~\eqref{eq:condition} is sufficient; no necessity assertion is made. In particular, the distance guarantee is the integer bound $\lfloor\delta n\rfloor+1$.
+
+\section{A First-Coordinate Counting Lemma}
+For $f\in R_n$, define its cyclic rank by
+\begin{equation}
+ \rkcyc(f)=\dim_{\F_2}(R_nf)
+ =n-\deg\gcd(f,X^n-1).
+ \label{eq:rank}
+\end{equation}
+For $1\le r\le n$, set
+\[
+ \mathcal S_r=\{f:\rkcyc(f)=r,\ 0<\wt(f)\le\delta n\},
+ \qquad
+ \mathcal S_r^{(1)}=\{f\in\mathcal S_r:f_0=1\}.
+\]
+
+\begin{lemma}\label{lem:count}
+For $0<\delta<1/2$,
+\begin{equation}
+ |\mathcal S_r^{(1)}|\le\delta\,2^{2rH_2(\delta)}.
+ \label{eq:count}
+\end{equation}
+\end{lemma}
+\begin{proof}
+The first $k$ coordinates form an information set for every $k$-dimensional binary cyclic code. Indeed, if $g$ is its monic generator, every word has a unique expression $ug$ with $\deg u<k$. Since $g(0)=1$, the first $k$ coefficients of $ug$ determine those of $u$ by a triangular system with diagonal entries one.
+
+If $\rkcyc(f),\rkcyc(h)\le r$, then $f+h$ belongs to the cyclic code $R_nf+R_nh$, of dimension at most $2r$. Hence projection onto the first $\ell=\min(2r,n)$ coordinates is injective on the union of all words of cyclic rank at most $r$.
+
+Assume $\mathcal S_r\ne\varnothing$ and let $F$ be uniform on $\mathcal S_r$. This set is shift invariant, so every coordinate has the same probability
+\[
+ p=\Pr(F_i=1)=\frac{\E\wt(F)}n\le\delta.
+\]
+Prefix injectivity and entropy subadditivity give
+\[
+ \log_2|\mathcal S_r|
+ =H(F_0,\ldots,F_{\ell-1})
+ \le\ell H_2(p)\le2rH_2(\delta).
+\]
+Finally, $|\mathcal S_r^{(1)}|=p|\mathcal S_r|$, which proves~\eqref{eq:count}. The empty case is immediate.
+\end{proof}
+
+Only $\mathcal S_r$, not $\mathcal S_r^{(1)}$, is asserted to be shift invariant. The argument uses no independence among word coordinates.
+
+\section{Reciprocal Factors and One First Moment}
+\begin{proof}[Proof of Theorem~\ref{thm:finite}]
+For a polynomial with constant term one, let $P^*(X)=X^{\deg P}P(X^{-1})$ denote its reciprocal. Since $n=2^m-1$ is odd, $X^n-1$ is square-free and splits over $\F_{2^m}$. Its factorization over $\F_2$ has the form
+\begin{equation}
+ X^n-1=(X+1)\prod_{i=1}^{t}P_iP_i^*,
+ \qquad P_i\ne P_i^*,\quad \deg P_i\le m.
+ \label{eq:factorization}
+\end{equation}
+To check the distinct reciprocal pairing, suppose a nontrivial root $\alpha$ and $\alpha^{-1}$ were Frobenius conjugate. If $s>1$ is the order of $\alpha$, then $2^j\equiv-1\pmod s$ for some $j$. But the order of $2$ modulo $s$ divides the odd integer $m$, whereas $-1$ has order two, a contradiction.
+
+Independently and uniformly choose $Q_i\in\{P_i,P_i^*\}$ and put
+\[
+ g=\prod_iQ_i,\qquad D=\langle g\rangle,
+ \qquad C=\langle(X+1)g\rangle.
+\]
+The dual generator formula yields
+\[
+ g_{D^\perp}=\left(\frac{X^n-1}{g}\right)^*=(X+1)g.
+\]
+Thus $C=D^\perp\subset D$, $\dim C=(n-1)/2$, and
+\begin{equation}
+ \min\{d(C),d(C^\perp)\}=d(D).
+ \label{eq:both}
+\end{equation}
+
+Fix $f\ne0$. If neither factor in some pair $P_i,P_i^*$ divides $f$, then $\Pr(f\in D)=0$. Otherwise, let $b$ be the number of pairs in which exactly one factor divides $f$. Each such pair forces one independent choice, so $\Pr(f\in D)=2^{-b}$. By~\eqref{eq:rank}, the cyclic rank is the sum of the degrees of the irreducible factors that do not divide $f$. The factor $X+1$ contributes at most one, and therefore $\rkcyc(f)\le1+mb$. In all cases,
+\begin{equation}
+ \Pr(f\in D)\le2^{-(\rkcyc(f)-1)/m}.
+ \label{eq:inclusion}
+\end{equation}
+
+Count only the low-weight words with zeroth coordinate one:
+\[
+ Z_\delta(D)=|\{f\in D:f_0=1,\ \wt(f)\le\delta n\}|.
+\]
+Any nonzero word can be shifted to such a coordinate position. Hence the exact equivalence is
+\begin{equation}
+ d(D)>\delta n\quad\Longleftrightarrow\quad Z_\delta(D)=0.
+ \label{eq:equivalence}
+\end{equation}
+Let $a=1/m-2H_2(\delta)$. If $a>0$, Lemma~\ref{lem:count}, \eqref{eq:inclusion}, and linearity of expectation imply
+\begin{align}
+ \Pr\{d(D)\le\delta n\}
+ &\le\E Z_\delta(D)\notag\\
+ &\le\sum_{r=1}^{n}\delta\,2^{2rH_2(\delta)}2^{-(r-1)/m}\notag\\
+ &\le\frac{\delta\,2^{1/m}}{2^a-1}.
+ \label{eq:moment}
+\end{align}
+Under~\eqref{eq:condition}, $a\ge2\delta$. Since $2^{2\delta}-1>2\delta\ln2$,
+\begin{equation}
+ \E Z_\delta(D)
+ \le\frac{\delta\,2^{1/m}}{2^{2\delta}-1}
+ <\frac{2^{1/m}}{2\ln2}
+ \le\frac{2^{1/3}}{2\ln2}<1.
+ \label{eq:lessone}
+\end{equation}
+The nonnegative integer $Z_\delta(D)$ is therefore zero for at least one choice. Equations~\eqref{eq:both} and~\eqref{eq:equivalence} finish the proof.
+\end{proof}
+
+\section{Asymptotic Distance and Success Probability}
+\begin{corollary}\label{cor:asymptotic}
+As $m\to\infty$ through odd integers, there are ordinary binary cyclic codes $C_m$ of length $n=2^m-1$ and dimension $(n-1)/2$ such that
+\begin{equation}
+ \min\{d(C_m),d(C_m^\perp)\}
+ \ge\left(\frac12-o(1)\right)\frac{n}{m\log_2m}.
+ \label{eq:asymptotic}
+\end{equation}
+\end{corollary}
+\begin{proof}
+Let $\delta_m\in(0,1/2)$ be the unique solution of
+\[
+ H_2(\delta_m)+\delta_m=\frac1{2m}.
+\]
+The left side is strictly increasing on $(0,1/2)$. Since
+\[
+ H_2(x)+x=x\log_2(1/x)+O(x)\qquad(x\downarrow0),
+\]
+its inverse satisfies $\delta_m=(1+o(1))/(2m\log_2m)$. Apply Theorem~\ref{thm:finite}.
+\end{proof}
+
+The random choices themselves can be good with probability tending to one at the same leading distance constant. Put
+\[
+ \ell=\log_2m,\qquad \epsilon_m=\ell^{-1/2},\qquad
+ H_2(\widetilde\delta_m)=\frac{1-\epsilon_m}{2m}.
+\]
+Then $\widetilde\delta_m=(1+o(1))/(2m\ell)$ and $a=\epsilon_m/m$. From~\eqref{eq:moment},
+\begin{equation}
+ \Pr\{d(D)\le n\widetilde\delta_m\}
+ \le\frac{2^{1/m}m\widetilde\delta_m}{(\ln2)\epsilon_m}
+ =O(\ell^{-1/2})=o(1).
+ \label{eq:whp}
+\end{equation}
+This version uses~\eqref{eq:moment} directly and does not require~\eqref{eq:condition}.
+
+\section*{Scope of the conclusion}
+The equivalence~\eqref{eq:equivalence} is exact. The first-moment condition $\E Z_\delta<1$ and the scalar condition~\eqref{eq:condition} are only sufficient. The result is a probabilistic existence theorem, not a deterministic efficient procedure for choosing a good generator. The relative distance guaranteed by~\eqref{eq:asymptotic} tends to zero; no positive constant relative distance is proved. No orbit-size estimate, rank--weight inequality, nested all-rate construction, self-dual lifting, or channel-capacity theorem is needed for this proof.
+\end{document}

@@ -1,0 +1,1407 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{amsthm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{microtype}
+\usepackage{booktabs,array,multirow}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit}
+\usepackage{cite}
+\usepackage{xcolor}
+\usepackage{xparse}
+
+% ------------------------------------------------------------------
+% Hyperlink style matched to the supplied reference TeX.
+% Bibliographic citations use green PDF-annotation borders, internal
+% references use red borders, and DOI/URL links use cyan borders.
+% ------------------------------------------------------------------
+\usepackage{etoolbox}
+\usepackage{url}
+\usepackage{hyperref}
+
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{arXiv:\nolinkurl{#1}}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Nm}{N}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\PG}{PG}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Herm}{Herm}
+\DeclareMathOperator{\rowsp}{rowsp}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\Sing}{Sing}
+\DeclareMathOperator{\Pf}{Pf}
+\DeclareMathOperator{\Span}{span}
+\newcommand{\F}{\mathbb F}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\C}{\mathcal C}
+\newcommand{\Q}{\mathcal Q}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\LL}{\mathsf L}
+\newcommand{\wt}{\operatorname{wt}_{\rm rk}}
+\newcommand{\srk}{\operatorname{supp}_{\rm rk}}
+\newcommand{\trp}{\perp_{\rm tr}}
+\newcommand{\gauss}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}_{q}}
+\newcommand{\sectref}[1]{Section~\ref{#1}}
+\newcommand{\suppsec}[1]{Supplementary Section~#1}
+\newcommand{\mat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\eqsmall}[1]{\textstyle #1}
+\interdisplaylinepenalty=2500
+\setlength{\emergencystretch}{1.2em}
+\allowdisplaybreaks[1]
+
+
+\usepackage[margin=1in]{geometry}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries The Universal Length-Eight Gap for Rank-Metric Intersecting Codes\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 8, 2026\par\bigskip
+\hypersetup{pdftitle={The Universal Length-Eight Gap for Rank-Metric Intersecting Codes}}
+
+\section*{Result overview}
+We prove that a nondegenerate rank-metric intersecting code with parameters
+\([8,3]_{q^6/q}\) does not exist for any prime power \(q\ge3\).  The proof
+reduces the column system to scalar-fibre configurations, closes repeated
+ordinary sublines and quadratic fibres, and then analyzes the remaining
+four-dimensional section through local conics, an octic obstruction, and
+Hermitian graph equations.  Exact finite-field reductions close the small
+fields \(q=3,4,5,7\), while the point bounds and sextic equations close
+\(q\ge8\).  The note records the load-bearing algebraic identities and the
+coverage interfaces for the finite verification files.
+
+    \section{Context}
+Let \(K=\mathbb F_q\), \(E=\mathbb F_{q^2}\), \(L=\mathbb F_{q^3}\), and
+\(F=\mathbb F_{q^6}\).  The target is a nondegenerate \(F\)-linear
+\([8,3]_{q^6/q}\) rank-metric intersecting code.  The main theorem is the
+nonexistence statement proved at the end of this note.  The argument keeps
+the finite-field reductions explicit so that each computational branch has
+a reproducible domain and an independently checked obstruction.
+    
+% PRIVATE WORKING BODY. Not assembled into an upload folder.
+% The universal exclusion still needs a public closure of the scalar-fiber
+% reductions, octic point bounds, and all finite exceptional-field inputs.
+% The results below are the complete core proofs prepared for that body.
+
+\section{Rank Supports and a Common Graph}
+Put \(K=\F_q\), \(E=\F_{q^2}\), \(L=\F_{q^3}\), and \(F=\F_{q^6}\).
+Unqualified dimensions are over \(K\). For a word \(c\in F^n\), its rank support is the row space of its coordinate expansion in any \(K\)-basis of \(F\). A code is intersecting when every pair of nonzero rank supports intersects nontrivially.
+For a nondegenerate \(F\)-linear \([8,3]\) code, let \(U\le_KF^3\) be the span of the columns of a generator matrix. Then \(\dim U=8\) and \(FU=F^3\).
+For an \(F\)-linear functional \(h\), the coefficient kernel is \(U\cap\ker h\), and the rank support identifies with its annihilator. Therefore intersection is equivalent to
+\begin{equation}\label{eq:core-nonspan}
+U\ne(U\cap H)+(U\cap H')
+\end{equation}
+for every two distinct \(F\)-hyperplanes.
+
+The minimum-rank bound for intersecting dimension-three codes~\cite{bpz} gives \(\dim(U\cap H)\le4\). Dimension counting gives the lower bound two. Trace duality then bounds every point weight of \(U^{\perp_{\rm tr}}\) by two. The same point bound holds for \(U\):
+weight four is impossible by counting outside that point along its hyperplane pencil; a weight-three point lies in exactly \(\theta_4(q)\) four-dimensional sections, where \(\theta_j(q)=1+\cdots+q^j\).
+The three incidence moments give
+\begin{equation}\label{eq:core-moment}
+M_4=\theta_4(q)+q^2\sum_P{\dim(U\cap P)\brack2}_q.
+\end{equation}
+If a weight-three point existed, this total would exceed the number of four-sections through it. A four-section avoiding the point would have to meet all \(\theta_4(q)\) sections through it by~\eqref{eq:core-nonspan}, at distinct supported \(F\)-points. A four-dimensional \(K\)-space supports at most \(\theta_3(q)\) such points, a contradiction.
+Thus every point has weight at most two, and~\eqref{eq:core-moment} becomes
+\(M_4=\theta_4(q)+q^2s\), where \(s\) is the number of weight-two points.
+
+Choose a complete four-dimensional section \(T=U\cap(F^2\times0)\) and let \(Z\) be the four-dimensional third-coordinate image. Then
+\[
+U_\Phi=\{(t+\Phi(z),z):t\in T,\ z\in Z\}.
+\]
+Section-valued changes of \(\Phi\) and shears \(\Phi(z)\mapsto\Phi(z)+az\) preserve the system up to an \(F\)-linear coordinate change. Hence its graph parameter space is
+\begin{equation}\label{eq:core-graphquot}
+\Hom_K(Z,F^2/T)/\{z\mapsto az+T:a\in F^2\},
+\end{equation}
+of dimension \(4\cdot8-12=20\). The shear map is injective: if \(a\ne0\) and \(aZ\subseteq T\), equality of dimensions makes \(T\) lie in the \(F\)-point \(Fa\), contrary to \(FT=F^2\).
+
+\section{Scalar Types and Their Repetition}
+Two scalar planes \(B,C\le_KF\) have the same type if \(C=aB\) for some \(a\in F^*\).
+Their stabilizer \(D(B)=\{a:aB\subseteq B\}\) is a field: every nonzero stabilizing scalar is bijective on the finite space.
+For \(\dim_KB=2\), it is \(K\) or \(E\); we call these types ordinary or quadratic.
+Normalize \(B=K+K\lambda\), whose generator degree is two, three or six.
+There is one quadratic type and one cubic type. Indeed all planes in \(L\) form one scalar orbit, since their stabilizer is \(K\) and both the orbit and the Grassmannian have size \(q^2+q+1\).
+
+\begin{lemma}\label{lem:core-three-fibers}
+Three \(F\)-independent fibers of one scalar type cannot occur in \(U\).
+An ordinary type consequently occurs zero, one, or \(q+1\) times; in the last case it fills a complete section \(B^2\) and its points form a \(K\)-subline.
+\end{lemma}
+\begin{proof}
+Three independent fibers give \(U=B^3+Kv+Kw\).
+If \(\lambda\) has degree two, the \(E\)-linear map \(E^3\to F/E\), \(h\mapsto h\cdot v+E\), has a nonzero kernel. The corresponding image of \(U\) is contained in \(E+K(h\cdot w)\), of rank at most three.
+If its degree is three, the map \(L^3\to(F/L)^2\), \(h\mapsto(h\cdot v+L,h\cdot w+L)\), has a nonzero kernel and gives the same contradiction.
+
+In degree six put \(D=K+K\lambda+K\lambda^2\).
+Every \(K\)-rational normal gives the complete section \(B\ker_Kh\).
+Another complete section must meet all \(\theta_2(q)\) of these.
+For its normal \(h\), put \(C_h=\langle h_1,h_2,h_3\rangle_K\).
+If \(\dim C_h=3\), then \(\dim BC_h\ge4\), since \(\lambda\)-stability of \(C_h\) would require its dimension to be a multiple of six.
+Its kernel on \(B^3\) has dimension at most two and contains no coordinate-rank-one vector.
+Each coordinate-rank-two vector has a unique \(K\)-coordinate relation and lies in exactly one of the \(B\ker_Ka\).
+Thus this kernel meets at most \(q+1<\theta_2(q)\) fixed sections.
+If \(\dim C_h=2\), normalize \(h=(c_0,c_1,0)\).
+When \(\dim BC_h=4\), its core kernel is \(Be_3\), missing a fixed section.
+Hence \(\dim(C_h+\lambda C_h)=3\), and a nonzero vector in \(C_h\cap\lambda^{-1}C_h\) proves \(C_h=xB\).
+Together with the coordinate-rank-one normals, every complete-section normal therefore has a representative in \(B^3\).
+
+The map
+\[
+\Psi:B^3\longrightarrow(F/D)^2,\qquad
+h\longmapsto(h\cdot v+D,h\cdot w+D)
+\]
+is an isomorphism between six-dimensional spaces: a nonzero kernel would give a message image in \(D\).
+For a nonrational normal in \(B^3\), its core image is \(D\); a complete section requires the two quotient coordinates of \(\Psi(h)\) to span one \(K\)-line.
+There are \((q^3-1)(q+1)\) rank-one \(3\times2\) matrices, and each such projective normal has \(q-1\) representatives in \(B^3\), by the stabilizer of \(B\).
+Consequently
+\[
+M_4\le\theta_2(q)+\frac{(q^3-1)(q+1)}{q-1}
+=(q+2)\theta_2(q)<\theta_4(q),
+\]
+the difference being \(q^4-2q^2-2q-1>0\) for \(q\ge2\).
+
+Now \(V_B=\{v:Bv\subseteq U\}\) has \(F\)-span dimension at most two.
+In one \(F\)-direction its dimension is one, by the point-weight bound and \(D(B)=K\).
+Two independent directions fill their containing complete section with \(Bv_1+Bv_2\).
+For \(B(av_1+bv_2)\) to belong to it, each coefficient stabilizes \(B\), so \(a,b\in K\).
+Thus \(V_B=Kv_1+Kv_2\), giving exactly \(q+1\) fibers.
+\end{proof}
+
+\subsection{Placement and Multiplier Bounds}
+For \(B=K+K\lambda\), write \(B^{(2)}=K+K\lambda+K\lambda^2\).
+If \(\lambda\) has degree six and \(C^{(2)}\subseteq\alpha B^{(2)}\), then \(C\) has the type of \(B\).
+Indeed for a basis \(u,v\) of \(C\) write
+\[
+u^2=\alpha P(\lambda),\quad uv=\alpha Q(\lambda),\quad
+v^2=\alpha R(\lambda),\qquad \deg P,Q,R\le2.
+\]
+The identity \(Q^2=PR\) follows from the degree-six minimal polynomial.
+Factoring by \(\gcd(P,Q)\) gives \(P=da^2,Q=dab,R=db^2\).
+Since \(u,v\) are independent, the degree bounds make \(d\in K^*\) and \(a,b\) independent linear polynomials. Hence \(C=(u/a(\lambda))B\).
+This also shows that the square span of a sextic type contains no scalar \(E\)-line, and that different ordinary types have inequivalent square spans.
+
+For a three-space \(S\le_KF\), put \(\Omega_B(S)=\{a:aB\subseteq S\}\).
+If its dimension is two for an ordinary \(B\), choose independent \(u,v\) in it. A relation among \(u,v,\lambda u,\lambda v\) makes \(v/u\) a nonconstant fractional-linear transform of \(\lambda\).
+Thus \(\Omega_B(S)=\delta B\), \(S=\delta B^{(2)}\).
+If its dimension is three, then \(\lambda S=S\), so \(S\) is a scalar \(L\) and \(B\) has cubic type.
+When \(S\) contains two different types, at most one ordinary placement has dimension two, and it is sextic.
+With a fixed different-type anchor \(A\subset S\), there is at most one such critical space \(S=\delta B^{(2)}\): its inverse scalar lies in \(\Omega_A(B^{(2)})\), whose dimension is at most one by the preceding square-span argument.
+
+For \(\dim_KA=4\), \(\dim_KD=3\), the multiplier space
+\(\Omega(A,D)=\{t:tD\subseteq A\}\) has dimension at most two, except when
+\[
+D=\delta L,\qquad \alpha L\subseteq A,\qquad
+\Omega(A,D)=(\alpha/\delta)L.
+\]
+To prove this, assume its dimension is at least three and put \(S=\langle\Omega D\rangle_K\subseteq A\).
+The field-extension Kneser inequality~\cite{kneser} rules out a trivial stabilizer of \(S\).
+Its degree divides six and \(\dim_KS\in\{3,4\}\).
+A quadratic stabilizer would give two \(E\)-spanned factors of dimension at least two over \(E\); applying the same inequality over \(E\) forces their product to have dimension at least three over \(E\), exceeding \(A\).
+Thus \(S\) is a scalar cubic field, and multiplication by a nonzero element of each factor gives the displayed equality.
+In this exceptional case, if \(B\subseteq A\) is ordinary and \(D=C+Kz\), \(C\) of a different type, then \(B\cap\alpha L=Kb_0\) has dimension one.
+Dimension two would identify \(B\) with the cubic type of \(C\).
+The extra incidence \(C\cap\gamma B\ne0\), together with \(\gamma^{-1}D\subseteq A\), then reduces to \(\gamma b_0\in C\).
+In both multiplier cases,
+\begin{equation}\label{eq:core-multiplier-count}
+\#\{\gamma K^*:\gamma^{-1}D\subseteq A,
+\ C\cap\gamma B\ne0\}\le q+1.
+\end{equation}
+
+\subsection{An Ordinary Subline Is Isolated}
+Suppose \(R=B^2\times0\oplus Ce_3\subseteq U\), where \(B\) is ordinary and \(C\) has a different type.
+It supplies \(q+2\) complete sections: \(B^2\times0\) and \(Bv+Ce_3\), \(Kv\in\PG(1,K)\).
+A complete-section normal cannot have rank four on \(R\).
+Otherwise its two-dimensional core kernel meets all those fixed sections. It contains no vertical vector, since that would make the whole \(Ce_3\) its kernel and miss \(B^2\times0\).
+Its projection has dimension two and supports all \(K\)-subline directions, so it equals \(\beta K^2\).
+Meeting \(B^2\times0\) makes its third-coordinate map have rank at most one. Its kernel is therefore
+\[
+\{(\beta x,\beta y,c(ax+by)):x,y\in K\},\qquad a,b\in K.
+\]
+The normalized defining form has core image \(C+(c/\beta)B\), of dimension at most three, a contradiction.
+Core-rank-two normals give exactly the \(q+2\) fixed sections.
+
+Write \(U=R+Kv+Kw\).
+For each nonzero quotient direction \(Kx\), minimum rank four gives
+\(x_3\notin C\) and \(A=B+Kx_1+Kx_2\) of dimension four.
+Put \(D_B=B^{(2)}\). The map
+\[
+\Psi_x:B^2\to F/D_B,\qquad (u,v)\mapsto ux_1+vx_2+D_B
+\]
+has rank at least two. Rank at most one would make \(A+\lambda A=A\), requiring the degree three or six of \(\lambda\) to divide four.
+
+Let \(\rho_R(x)\) count core-rank-three normals whose kernels gain a fourth dimension at \(x\).
+For zero third coordinate their normalized first-coordinate span is \(B\), and \(\ker\Psi_x\) gives at most \(q+1\) projective normals.
+For a nonzero third coordinate normalize it to one.
+If the first two coordinates are \(K\)-dependent, write them \((a\gamma,b\gamma)\).
+The condition \(C\cap\gamma B\ne0\) gives at most \((q+1)^2\) scalar directions \(\gamma K^*\).
+For each, the equation
+\(\gamma(ax_1+bx_2)+x_3\in C+\gamma B\)
+has rank one or two in \((a,b)\).
+A solvable rank-one equation requires \(\gamma^{-1}(C+Kx_3)\subseteq A\).
+By~\eqref{eq:core-multiplier-count}, at most \(q+1\) directions have this property.
+Counting one solution per direction and at most \(q-1\) extra solutions at each exceptional direction gives
+\((q+1)^2+(q-1)(q+1)=2q(q+1)\).
+If the first coordinates are independent, their span is a scalar \(B\); the inclusion of \(C\) in its core image requires a nonzero multiplier in \(\Omega_C(D_B)\).
+The placement argument makes this multiplier space at most one-dimensional.
+Its single scalar direction leaves an affine fiber of \(\Psi_x\), with at most \(q^2\) elements.
+Hence \(\rho_R(x)\le3q^2+3q+1\).
+Every additional complete section has exactly one zero direction in \(U/R\), since its normal has core rank three and full rank four. Therefore
+\[
+M_4\le q+2+(q+1)(3q^2+3q+1)
+<\theta_4(q)+q^2(q+2)\le M_4.
+\]
+The middle gap is
+\((q-3)(q^3+2q^2+3q+5)+13>0\) for \(q\ge3\).
+Thus an ordinary subline coexists only with its own scalar type.
+
+\section{Repeated Quadratic Fibers}
+The following argument supplies the pencil and subplane steps explicitly.
+Let \(W=U^{\perp_{\rm tr}}\), so \(\dim_KW=10\).
+Its line weights belong to \(\{4,5,6\}\). For a weight-two point \(R\) of \(W\), let \(n_i(R)\) count the \(F\)-lines through \(R\) having weight \(i\). Counting vectors outside \(R\) in this pencil gives
+\begin{equation}\label{eq:core-pencil}
+n_5(R)+(q+1)n_6(R)=(q+1)(q^2+1).
+\end{equation}
+Indeed, the pencil has \(q^6+1\) lines and
+\(\sum_i n_i(R)(q^i-q^2)=q^{10}-q^2\); subtraction of the weight-four baseline proves the identity.
+For two weight-two points \(R,R'\) of \(W\), trace duality gives
+\[
+\dim_K(U\cap\langle R,R'\rangle_F^{\perp_F})
+=w_W(\langle R,R'\rangle_F)-4.
+\]
+The two associated complete four-sections of \(U\) must meet, so the joining line has weight at least five.
+
+\begin{lemma}\label{lem:core-quadratic-repeat}
+A complete four-section of \(U\) cannot be two-dimensional over \(E\).
+Consequently, \(U\) has at most one weight-two fiber of quadratic scalar type.
+\end{lemma}
+\begin{proof}
+Suppose that \(T_E\) is such a section, with containing \(F\)-plane \(H\) and corresponding point \(R=H^{\perp_F}\).
+The \(q^2+1\) supported points of \(T_E\) have weight two in \(U\), and their orthogonal lines are weight-six lines of \(W\) through \(R\).
+Thus~\eqref{eq:core-pencil} forces \(n_6(R)=q^2+1\) and \(n_5(R)=0\).
+Every weight-two point of \(W\) is therefore on one of these weight-six lines.
+
+For \(\omega\in E\setminus K\), put \(C=W\cap\omega W\).
+The relation \(\omega^2=a+b\omega\), \(a,b\in K\), makes \(C\) an \(E\)-linear space.
+The dimension identity
+\[
+\dim_K C=2+\dim_K(U\cap\omega U)\ge6
+\]
+follows by taking trace orthogonals of \(W+\omega W\).
+We show that \(FC=F^3\).
+If \(C\) lies in an \(F\)-plane \(H_0\), its point weights over \(E\) are at most one.
+For \(\alpha\in F\setminus E\), this gives \(C\cap\alpha C=0\), whence \(\dim_E C\le3\).
+It follows that \(\dim_K C=6\), \(C=W\cap H_0\), and \(C\) supports \(q^4+q^2+1\) weight-two points.
+The number of weight-two points of \(W\) equals \(M_4(U)\).
+Since \(s\ge q^2+1\), it exceeds \(q^4+q^2+1\), so a weight-two point \(R'\) lies outside \(H_0\).
+The joining lines from \(R'\) to all these points are distinct and have weight at least five.
+Equation~\eqref{eq:core-pencil} bounds their number by
+\((q+1)(q^2+1)=q^3+q^2+q+1\).
+This contradicts \(q^4+q^2+1>q^3+q^2+q+1\).
+
+Choose three \(F\)-independent vectors in \(C\) as coordinates; then \(E^3\subseteq W\).
+Its subplane \(\PG(2,E)\) consists of weight-two points and is covered by the \(q^2+1\) selected lines through \(R\).
+If \(R\) is outside this subplane, at most one selected line contains an \(E\)-subline: two such lines are defined over \(E\) and intersect in the subplane.
+Every other selected line contains at most one subplane point.
+Their union would cover at most \(2q^2+1\) of the \(q^4+q^2+1\) points, a contradiction.
+Hence \(R\in\PG(2,E)\), and the selected lines form the full \(E\)-subplane pencil through \(R\).
+Use a coordinate change over \(E\) to put \(R=Fe_3\).
+Then \(U\subseteq Z_0^3\), where \(Z_0=\ker\Tr_{F/E}\), and the supported points of \(T_E\) form \(\PG(1,E)\) in \(F^2\times0\).
+The directions \(e_1,e_2,e_1+e_2\) imply
+\(T_E=\gamma E^2\times0\) for a scalar \(\gamma\) with \(\gamma E\subseteq Z_0\).
+
+Choose a nonzero \(K\)-linear functional \(\eta:Z_0\to K\) vanishing on \(\gamma E\).
+The map
+\[
+E^3\longrightarrow\Hom_K(U/T_E,K),\qquad
+h\longmapsto\bigl(u+T_E\mapsto\eta(h\cdot u)\bigr)
+\]
+has domain dimension six and codomain dimension four.
+A nonzero kernel vector \(h\) satisfies \(hU\subseteq\ker\eta\), of dimension three, contradicting the minimum-rank bound.
+Finally, two independent quadratic fibers would fill an \(E\)-linear complete four-section, giving the asserted multiplicity bound.
+\end{proof}
+
+\section{Four Distinct Fiber Types}
+Four heavy points of different types have no collinear triple. Their fiber sum has dimension seven: dimension six identifies the four types by coordinate projection, and dimension eight gives two complementary complete sections.
+Its one-dimensional relation therefore normalizes the sum to
+\[
+R=B_1e_1+B_2e_2+B_3e_3+B_4(e_1+e_2+e_3),
+\qquad B_i=K+K\lambda_i,
+\]
+with four distinct types. Write \(n_4(R)\) for its complete four-sections.
+Every nonzero normal has rank at least three on \(R\), since it is nonzero on at least two frame points, whose scalar planes have different types.
+Thus \(n_4(R)\) counts precisely its projective rank-three normals.
+
+\begin{lemma}\label{lem:core-four-existing}
+\(n_4(R)\le q^3+7q^2+3q-3\).
+\end{lemma}
+\begin{proof}
+Permute the frame points so that \(B_2,B_3,B_4\) are ordinary; their permutations are induced, up to \(K^*\)-scalings, by \(\GL_3(K)\).
+For \(h=(1,a,b)\), \(a\ne0\), a rank-three image equals \(S=B_1+aB_2\).
+The ratio directions \(K(x/y)\), \(Kx\in\PG(B_1)\), \(Ky\in\PG(B_2)\), are all distinct: two independent representations would make the intersection of the two scalar planes two-dimensional and identify their types.
+There are \((q+1)^2\) directions.
+Let \(N\) count the possible spaces \(S\), and \(u\) those with \(\dim\Omega_{B_2}(S)=2\).
+The placement and anchor results give \(u\le1\) and
+\(N+qu=(q+1)^2\).
+
+For a fixed \(S\), set \(\Omega_j=\Omega_{B_j}(S)\).
+The remaining parameters solve
+\[
+a\in\Omega_2,\quad b\in\Omega_3,\quad c\in\Omega_4,
+\qquad a+b-c=-1,quad a\ne0.
+\]
+The affine dimension is at most two, because at most one placement dimension is two and all are at most two.
+Let \(v\le2\) count spaces with a dimension-two placement at \(B_3\) or \(B_4\).
+When all placements are lines, dimension two requires all three to be the same line; nonemptiness makes that line \(K\), hence \(S=B_1+B_2\).
+This last case, counted by \(p\le1\), is disjoint from the \(u,v\) cases.
+An ordinary space gives at most \(q\) solutions; a \(u\) space gives at most \(q^2\).
+In a two-dimensional \(v\) or \(p\) solution set exactly \(q\) solutions have \(a=0\): its remaining placement sum is already the full target, containing one. In dimension at most one, the bound \(q\le q^2-q\) suffices.
+The number with \(a\ne0\) is therefore at most
+\begin{align*}
+qN+u(q^2-q)+(v+p)(q^2-2q)
+&=q(q+1)^2-qu+(v+p)(q^2-2q)\\
+&\le q^3+5q^2-5q.
+\end{align*}
+
+On \(h_1=0\), normalize \(h=(0,1,t)\).
+For \(t\ne0\) the image is \(S=B_2+tB_3\), with \((1+t)B_4\subseteq S\).
+Again \(N+qu=(q+1)^2\), where \(u\le1\) counts the critical placement of \(B_3\).
+Let \(v\le1\) count the critical placement of \(B_4\) and \(p\le1\) the case \(\Omega_3=\Omega_4=K\); the three are disjoint.
+The parameter set is an affine intersection of placement spaces and has dimension at most one.
+An ordinary case gives at most one nonzero \(t\), and a \(u\) case at most \(q\).
+For a one-dimensional \(v\) or \(p\) parameter set, the smaller line lies in the larger placement plane and nonemptiness places one in the latter; thus \(t=0\) is included, leaving at most \(q-1\) nonzero parameters.
+Add the two endpoint normals to obtain
+\[
+N+u(q-1)+(v+p)(q-2)+2\le q^2+4q-1.
+\]
+The same estimate applies on \(h_2=0\).
+Their common point \(F(0,0,1)\) has image \(B_3+B_4\) of rank three.
+Their union contributes at most \(2q^2+8q-3\).
+Adding the first chart proves the lemma.
+\end{proof}
+
+\begin{lemma}\label{lem:core-four-new}
+Let \(a(U,R)\) count the complete sections of \(U\) outside \(R\), and define
+\[
+\mathcal R_q=(q-1)^{-1}
+\#\{(\beta_i)\in\textstyle\prod_iB_i^*:
+\beta_1^{-1}+\beta_2^{-1}+\beta_3^{-1}=\beta_4^{-1}\}.
+\]
+If \(N_3\) counts those reciprocal orbits whose inverse coordinates have \(K\)-rank three, then
+\[
+a(U,R)\le\mathcal R_q+4q-8,
+\qquad a(U,R)\le N_3+\theta_2(q)-6.
+\]
+\end{lemma}
+\begin{proof}
+A new section meets \(R\) in dimension three, so its normal \(h\) has core rank four.
+For frame vectors \(v_i\) put \(a_i=h(v_i)\).
+Any two nonzero image planes \(a_iB_i\) meet, since the new section meets every fixed two-fiber section.
+Their total span has dimension four, so they share a \(K\)-line \(L_0\): a plane outside the sum of two intersecting planes must contain their common line, and every remaining plane must meet that outside plane in the same line.
+
+The coordinate rank of \(h\) differs from two.
+If \(A_0=h(K^3)\) has dimension two and \(L_0\not\subset A_0\), each image plane lies in \(A_0+L_0\), of dimension three.
+If \(L_0\subset A_0\), at most two frame points lie in the inverse-image plane of \(L_0\).
+The image planes at two other frame points both equal \(A_0\), identifying their scalar types.
+Both alternatives contradict the core data.
+
+At coordinate rank three all \(a_i\ne0\). Choose \(\ell\in L_0^*\) and set \(\beta_i=\ell/a_i\in B_i^*\).
+The frame relation gives the reciprocal equation; one orbit determines at most one projective normal.
+This bounds the nonrational new sections by \(N_3\).
+Coordinate-rank-one normals are \(K\)-rational. Among their \(\theta_2(q)\) directions, the six normals vanishing at two frame points have core rank three and give existing sections.
+Thus the rational contribution is at most \(\theta_2(q)-6\).
+Finally a reciprocal orbit has coordinate rank one exactly when every \(\beta_i\in K^*\), since \(\bigcap_iB_i=K\).
+These base-field orbits number \(q^2-3q+3\).
+Subtracting them from \(\mathcal R_q\) and adding the rational contribution proves the other estimate.
+\end{proof}
+
+For a sextic plane \(B=K+K\lambda\), any at most six distinct inverse directions \(K\beta^{-1}\) are independent.
+Represent them by one and \((\lambda-c)^{-1}\), \(c\in K\).
+Multiplying a relation by its distinct linear denominators gives a polynomial of degree at most five vanishing at \(\lambda\).
+It is zero; evaluation at each denominator root kills every coefficient.
+Hence a projective plane contains at most three inverse directions.
+Four distinct scalar types include a sextic one, which we label \(B_4\).
+A rank-three reciprocal orbit gives four directions with a unique full-support relation; any three are independent.
+For the first three directions, \(q^3\) triples avoid their common point \(K1\); each gives at most three choices in \(B_4\).
+Exactly one copy of \(K1\) gives \(3q^2\) triples and at most two further choices. Two copies give no independent triple.
+Thus \(N_3\le3q^3+6q^2\), and
+\[
+M_4=n_4(R)+a(U,R)\le4q^3+14q^2+4q-8.
+\]
+Four heavy points require \(M_4\ge q^4+q^3+5q^2+q+1\).
+For \(q=5+x\), their difference is
+\[
+x^4+17x^3+96x^2+182x+19>0.
+\]
+For \(q=3,4\), the complete finite bound in Lemma~\ref{lem:core-reciprocal-small} gives instead
+\[
+M_4\le96+(39+4)=139<157,
+\qquad M_4\le185+(96+8)=289<405.
+\]
+This excludes four distinct fiber types for every \(q\ge3\).
+Together with the repetition and isolation lemmas, the remaining configurations have at most three distinct heavy points or consist of one isolated ordinary subline.
+
+\section{Closure of Isolated Ordinary Sublines}
+The scalar plane of an isolated ordinary subline has degree three or six.
+The two trace-core reductions below close both cases.
+
+\subsection{Cubic scalar type}
+Let \(L=\mathbb F_{q^3}\), \(B=K+K\lambda\subset L\), and
+\(X=W\cap\lambda^{-1}W\).  The trace-core reduction gives
+\(\dim_KX=4\) and \(W\cap(E^2\times F)=BX\).
+For the zero vertical-intersection case, allowed changes give
+\[
+X=\langle(1,0,0),(\lambda,0,r_1),(0,1,0),(0,\lambda,r_2)\rangle_K,
+\]
+with \(Kr_1+Kr_2\) of a type different from \(B\).  Every secant gives a
+bidegree-\((4,4)\) polynomial in two extension coordinates.  For \(q\ge4\),
+the five-by-five projective grid forces this polynomial to vanish; its three
+conjugate mixed poles then give a rank-\((4,4,8)\) pair.  The complete
+ternary replay supplies the \(q=3\) boundary.
+
+For the one-dimensional vertical-intersection case, every core is equivalent
+to
+\[
+X=\{(t,t^q,\mu t^{q^2}+c):t\in L, c\in K\},
+\qquad \mu\in F\setminus L.
+\]
+Choose \(k\in L^*\) with
+\(\ker\operatorname{Tr}_{L/K}(kx)=B\), and set \(\xi=k^{q^2}/k\).
+Comparison of all nonvertical secants gives
+\[
+r=\xi p^{q^2},\qquad b=-\beta^qp-\beta^{q^2}r,
+\tag{*}
+\]
+for every extension vector \((\mu p,\mu r,a+\mu b)\); the converse also
+holds.  Thus all candidates have the form
+\[
+W(P,\varphi)=BX+\{(\mu p,\mu\xi p^{q^2},
+\widetilde\varphi(p)-\mu[\beta^qp+\beta^{q^2}\xi p^{q^2}]):p\in P\},
+\]
+where \(P\le_KL\) is a plane and \(\varphi:P\to L/B\) is linear.
+
+An allowed change puts \(\mu\in K_2=\mathbb F_{q^2}\), with
+\(\mu^q=\beta-\mu\), \(\beta,n_0\in K\), and \(\mu^2=n_0+\beta\mu\).
+If \(P^{\perp_{\rm tr}}=Ka\), the trace dual is, up to a nonzero scalar,
+\[
+U_{A,e}=\{(\mu z^q+\beta z-y^q+Ad-ec,
+y+(\mu-\beta)z^{q^2},z+(\mu-\beta)c):z,y\in L, c,d\in K\}.
+\]
+For \(h(a,t)=(a^q,a^{q^2},t+\mu a)\), its rank is three exactly when
+\[
+Q_A(a)=\operatorname{Tr}_{L/K}(Aa^{q+1})=0,
+\]
+and
+\[
+G_e(a,t)=t^2+\beta t\operatorname{Tr}_{L/K}(a)
+ +\operatorname{Tr}_{L/K}(ea^{q+1})-n_0\operatorname{Tr}_{L/K}(a^2)=0.
+\]
+These equations form a genus-one double cover of a smooth trace conic.
+If \(e+2n_0\notin KA\), its normalization has a \(K\)-point for \(q\ge4\)
+by Hasse--Weil, giving a rank-three word.  If \(e+2n_0=Ar\) with \(r\in K\),
+then \(v=(n_0,n_0,\mu-\beta)\) and \(v,\mu v\) lie in the dual space,
+giving a quadratic-subfield fibre.  The \(q=3\) full replay covers the last
+boundary.  The cubic isolated subline is therefore impossible.
+
+\subsection{Sextic scalar type}
+The sextic trace-core normal forms are
+\[
+X_0=\langle(\delta,0,0),(\delta\lambda,0,r_1),
+(0,\delta,0),(0,\delta\lambda,r_2)\rangle_K
+\]
+and
+\[
+X_1=\langle(0,0,1),(\delta,-\delta\lambda,\gamma),
+(\delta\lambda,0,0),(0,\delta,0)\rangle_K.
+\]
+The \(X_0\) secants give two inverse quartic curves with a common trace
+quadric; opposite ruling requirements yield a rank-\((4,4,8)\) pair.  For
+\(X_1\), all secant-compatible extensions reduce to
+\[
+u=-f_0\lambda^{-1}+p\lambda^2,qquad
+v=f_5\lambda^3+s\lambda^2,qquad p,s\in K.
+\]
+The dual rank-three condition is
+\[
+t^2-H(r)t+J(r)=0,
+\quad H(R)=p+(s-f_4)R-f_5R^2,
+\quad J(R)=f_0+f_1R+f_2R^2+(f_3+p)R^3+sR^4,
+\]
+because \(f(R)=R^6-H(R)R^3+J(R)\).  Its completion is a genus-one
+double cover.  It is geometrically reducible at one parameter pair obtained
+from \(f=g\bar g\) over \(K_2\); that pair contains a quadratic-subfield fibre.
+Every other pair has a \(K\)-point on the normalization for \(q\ge7\), hence a
+rank-three word.  The regenerated (q=4,5) boundary cells and the full
+ternary replay exclude all remaining parameters.
+
+\begin{theorem}\label{thm:core-isolated-closed}
+No nondegenerate intersecting \([8,3]_{q^6/q}\) system with \(q\ge3\)
+has an isolated ordinary repeated subline.  Thus the scalar-fiber reduction
+leaves at most three pairwise distinct weight-two types.
+\end{theorem}
+\begin{proof}
+The cubic and sextic normal forms cover every isolated ordinary subline.
+The rank-three, quadratic-fibre, disjoint-support, and finite boundary
+alternatives exclude each form.  The repetition lemma gives the stated
+bound on the remaining heavy points.
+\end{proof}
+
+\section{A Complete Small-Field Reciprocal Bound}
+This lemma supplies an independently reproducible finite input for the four-type reduction.
+For four normalized scalar planes \(B_i\) of distinct types, define
+\[
+A_i=\{b^{-1}:b\in B_i\setminus0\},\qquad
+c_{ij}(z)=\#\{(x,y)\in A_i\times A_j:x+y=z\}.
+\]
+The reciprocal-orbit count satisfies
+\[
+\mathcal R_q=\frac1{q-1}\sum_{z\in F}c_{12}(z)c_{34}(z).
+\]
+Each \(A_i\) is stable under \(K^*\) and negation, so the formula covers the equation \(b_1^{-1}+b_2^{-1}+b_3^{-1}=b_4^{-1}\).
+For distinct types, \(c_{ij}(0)=q-1\), and \(c_{ij}(z)=q-2\) for \(z\in K^*\).
+Indeed, a solution at such a \(z\) with \(b\notin K\) would place
+\(b/(zb-1)\) in the other normalized plane. Its span with \(1\) is
+\((zb-1)^{-1}(K+Kb)\), identifying the two scalar types.
+The contribution from \(K\) is therefore \(q^2-3q+3\).
+Put
+\[
+E_{ij}=\frac1{q-1}\sum_{z\notin K}c_{ij}(z)^2.
+\]
+Cauchy's inequality gives, for each of the three pair partitions,
+\[
+\mathcal R_q\le q^2-3q+3+\left\lfloor\sqrt{E_{ij}E_{kl}}\right\rfloor.
+\]
+The energies are integers because \(c_{ij}\) is constant on every \(K^*\)-orbit.
+
+\begin{lemma}\label{lem:core-reciprocal-small}
+Every four normalized scalar planes of distinct types satisfy
+\[
+\mathcal R_3\le39,\qquad \mathcal R_4\le96.
+\]
+\end{lemma}
+\begin{proof}
+List all planes \(K+K\lambda\), \(\lambda\in F\setminus K\), retaining distinct sorted element sets.
+There are \(121\) and \(341\) planes for \(q=3,4\).
+The normalized representatives of the scalar orbit of \(B\) are exactly
+\(\{b^{-1}B:0\ne b\in B\}\), so the resulting complete type lists have sizes \(31\) and \(69\).
+For each of the \(7080\) and \(57290\) plane pairs of different types, respectively, enumerate all inverse pairs and accumulate \(c_{ij}(z)\).
+For every unordered type pair, record the largest energy among all its normalized representatives.
+For each of the \(31465\) and \(864501\) sets of four different types, take the smallest of the three resulting Cauchy bounds.
+Their maximum nonbase contributions are \(36\) and \(89\).
+Adding \(q^2-3q+3\) gives the asserted bounds.
+
+The supplied \texttt{reciprocal\_energy.cpp} regenerates this entire finite domain using exact finite-field operations and integer square roots.
+Two coefficient towers with different defining polynomials reproduce the same complete energy histograms and bounds.
+The respective histograms are
+\[
+\begin{array}{c|rrrrr}
+q=3:\ E&30&32&34&36&38\\
+\#\text{pairs}&4509&696&1701&120&54
+\end{array}
+\]
+and
+\[
+\begin{array}{c|rrrrrr}
+q=4:\ E&72&76&80&84&88&96\\
+\#\text{pairs}&27682&23631&5319&264&54&340.
+\end{array}
+\]
+All normalized representatives and all distinct type quadruples are generated from their definitions.
+\end{proof}
+
+Together with the four-fiber section bound
+\(n_4(R)\le q^3+7q^2+3q-3\) and the new-section capacity
+\(a(U,R)\le\mathcal R_q+4q-8\), the lemma gives
+\[
+q=3:\ M_4(U)\le139<157,\qquad
+q=4:\ M_4(U)\le289<405.
+\]
+The full four-type argument for \(q\ge5\) and the two analytic section-count lemmas are included in the completed note.
+
+\section{Half-Dimensional Product Defects}
+For \(S\le_KF\), write \(S^{(2)}=\langle xy:x,y\in S\rangle_K\) and
+\(S^\circ=\{a:\Tr_{F/K}(aS)=0\}\).
+
+\begin{theorem}\label{thm:core-half}
+For any finite extension \(F/K\) of degree \(2n\) and any \(n\)-dimensional \(S\),
+\[
+S^{(2)}\ne F\quad\Longleftrightarrow\quad S^\circ=\lambda S
+\quad\text{for some }\lambda\in F^*.
+\]
+In that case, for the scalar stabilizer \(D(S)=\{a:aS\subseteq S\}\),
+\[
+(S^{(2)})^\circ=\lambda D(S),\qquad
+\dim_K S^{(2)}=2n-[D(S):K].
+\]
+In all cases \(\dim_K(S^\circ)^{(2)}=\dim_KS^{(2)}\).
+\end{theorem}
+\begin{proof}
+Choose \(0\ne\lambda\in(S^{(2)})^\circ\). Then \(\lambda S\subseteq S^\circ\), with equal dimensions, so equality holds. The converse follows by multiplying the equality by a second element of \(S\) inside the trace pairing. Moreover
+\[
+c\in(S^{(2)})^\circ
+\ \Longleftrightarrow\ cS\subseteq\lambda S
+\ \Longleftrightarrow\ c\in\lambda D(S).
+\]
+The stabilizer is a field: any nonzero stabilizing scalar acts bijectively on the finite space. This proves the dimension formula. In the deficient case
+\((S^\circ)^{(2)}=\lambda^2S^{(2)}\). If only one of the two product spans were deficient, applying the established statement to that space would give a contradiction. Thus the dimensions agree also in the full-span case.
+\end{proof}
+
+In degree six, a three-dimensional \(S\) has square-span dimension \(3,5\), or \(6\). Dimension three is equivalent to \(S\) being a scalar multiple of \(L\).
+
+Let \(T\le F^2\) be scattered of dimension four, let \(G_T\) contain a \(K\)-basis of its columns, and write \(\mathcal C_T=\rowsp_FG_T\).
+A generator of the ordinary \(F\)-linear dual \(\mathcal C_T^\perp\) defines another four-dimensional scattered space \(T^\sharp\).
+For \(KP\in\PG(T,K)\), put \(S_P=\det_F(P,T)\) and
+\[
+Z_j(T)=\#\{KP:\dim_KS_P^{(2)}=j\}.
+\]
+
+\begin{theorem}\label{thm:core-duality}
+For every \(j\), \(Z_j(T)=Z_j(T^\sharp)\).
+\end{theorem}
+\begin{proof}
+The auxiliary code \(\mathcal C_T\) has minimum rank three by scatteredness.
+If its dual had a nonzero word of rank at most two, a \(K\)-coordinate transformation would confine that word to two coordinates. Orthogonality would force two \(K\)-independent column combinations of \(G_T\) to be \(F\)-dependent, contradicting scatteredness. Thus the dual has the same minimum rank and its columns are nondegenerate.
+
+For each three-dimensional \(S\le F\), both \(\mathcal C_T\) and \(S^4\) have dimension 12 in the 24-dimensional \(K\)-space \(F^4\). Consequently
+\[
+\dim(\mathcal C_T\cap S^4)
+=\dim(\mathcal C_T^\perp\cap(S^\circ)^4).
+\]
+Here the trace orthogonal of an \(F\)-linear code equals its ordinary \(F\)-linear dual. Sum the nonzero-vector counts over all \(S\) having square-span dimension \(j\). Theorem~\ref{thm:core-half} preserves this class under \(S\mapsto S^\circ\).
+Minimum rank three means that each counted word has scalar image exactly \(S\), and is counted only once.
+Every projective rank-three word corresponds to its unique one-dimensional kernel in \(T\), with scalar image proportional to \(S_P\), and contributes \(q^6-1\) nonzero words. Dividing both totals by this number proves the claim.
+\end{proof}
+
+This also controls multiplicities when the determinant span
+\(\langle\det(t_i,t_j):i<j\rangle_K\) has dimension six. Two \(F\)-independent rank-three words of the same deficient scalar type could be scaled to the same image \(S\) and used as generator rows. Every column minor would then lie in \(S^{(2)}\), of dimension at most five, contradicting the full determinant span. Thus each deficient scalar type occurs at most once in this branch.
+
+\section{Eliminating the Single Quadratic Fiber}
+Throughout this section assume the scalar-fiber reduction \(s\le3\).
+We first give the matrix descent input, including the two smallest base fields.
+
+\begin{lemma}\label{lem:core-right-descent}
+Let \(R\le_K\operatorname{Mat}_2(E)\) have dimension four and full \(E\)-span. Suppose the right-kernel map on its projective singular matrices is injective.
+If its determinant fails to descend up to scalar to \(K\), it has at most \(2(q+1)\) projective singular matrices.
+Consequently, a right-kernel bijection onto \(\PG(1,E)\) forces an elliptic determinant form over \(K\) for every \(q\ge3\), and
+\(R=\mathcal H C\) for some \(C\in\GL_2(E)\).
+\end{lemma}
+\begin{proof}
+A \(K\)-basis of \(R\) is an \(E\)-basis of the matrix algebra. Its determinant quadric \(Q\) is geometrically smooth.
+In the non-descended case \(Q\) and \(\bar Q\) are distinct, and their intersection is a complete-intersection curve of bidegree \((2,2)\) on \(V(Q)\). Its \(K\)-points are precisely the projective singular matrices in \(R\).
+Every \(K\)-line component with a fixed right kernel contradicts injectivity. All \(K\)-line components therefore belong to the other ruling, and there are at most two.
+If the curve is geometrically integral, its arithmetic genus is one. Its normalization and the singular-curve point bound~\cite{aubry} give
+\[
+\#C(K)\le q+1+g\lfloor2\sqrt q\rfloor+1-g\le2(q+1),\qquad g\le1.
+\]
+An integral cubic component has bidegree \((1,2)\) or \((2,1)\), genus zero, and is defined over \(K\), since a distinct conjugate would exceed total degree four. Its residual component is a \(K\)-line, giving the same bound.
+An integral conic has bidegree \((1,1)\). A \(K\)-conic contributes \(q+1\) points; its residual divisor is another conic, a repeated conic, or two lines. Two distinct \(K\)-lines in this residual divisor lie in opposite rulings, already excluded. A nonrational conjugate line pair adds at most one point.
+A nonrational conic and its conjugate exhaust the degree and share at most two rational points.
+For line components alone, at most two are rational, in one ruling. With two rational lines the other two form a disjoint conjugate pair; with one rational line the residual nonrational lines add at most one point; with none there are at most two contributing conjugate pairs. An orbit of more than two distinct lines has no common point, since a smooth quadric has only two lines through each point.
+These possibilities prove the bound, including nonreduced divisors by passing to their support.
+
+A bijection gives \(q^2+1>2(q+1)\) singular directions, forcing descent. The smooth descended quadric with \(q^2+1\) points is elliptic.
+A hyperbolic-plane splitting and the norm model for its anisotropic binary remainder give a \(K\)-similarity from \(\det|_{\mathcal H}=ad-N_{E/K}(b)\) to \(\det|_R\), in every characteristic.
+Its \(E\)-linear extension preserves the rank-one cone. Such a map is \(M\mapsto PMQ\) or \(M\mapsto PM^tQ\): the two maximal singular-plane families fix a left or right factor, and their preservation fixes the matrix-unit images up to separable row and column scalars.
+Indeed preservation of the rank-one all-one matrix gives \(c_{11}c_{22}=c_{12}c_{21}\), allowing those scalars to be absorbed in the factors.
+Finally \(\mathcal H^t=\mathcal H\) and \(P\mathcal H=\mathcal H P^{-*}\), giving \(R=\mathcal H C\).
+\end{proof}
+
+Suppose \(U\) has its unique quadratic fiber. Then \(C_0=W\cap\omega W\) has \(E\)-dimension two, and its \(F\)-carrier \(L_*\) is a plane.
+The section \(S=W\cap L_*\) has dimension five or six: it contains two dual heavy points, whose joining line has weight at least five, and the line-weight upper bound is six.
+If its dimension is five, \(ES\) is an \(E\)-scattered three-space, since an \(E\)-point of dimension at least two would meet \(S\) in at least three \(K\)-dimensions. Its heavy fibers are exactly the \(q^2+1\) \(E\)-directions of \(C_0\).
+If its dimension is six, \(ES\) has \(E\)-dimension four with maximum point weight two. Its \(E\)-trace dual is a two-space spanning \(F^2\), and normalization of that dual to \(E^2\) shows that the weight-two directions of \(ES\) form an \(E\)-subline of size \(q^2+1\).
+Ordinary heavy fibers of \(S\) lie on this subline; quadratic ones lie on the subline of \(C_0\). Thus \(L_*\) contains at most \(2(q^2+1)\) heavy points of \(W\).
+
+The section moment and the heavy-degree bound give
+\begin{equation}\label{eq:core-scattered-lower}
+M_{4,\mathrm{sc}}(U)\ge M_4-sH=(q-s)H+q^2s+1.
+\end{equation}
+For \(s\le3\), this is at least \(q^3+1>2(q^2+1)\). Choose a scattered complete section whose dual point \(Q\) is outside \(L_*\).
+Normalize \(C_0=E^2\times0\), \(Q=Fe_3\). Then
+\[
+U\subseteq Z_0^2\times F,\qquad Z_0=\ker\Tr_{F/E},\qquad
+T=U\cap(F^2\times0),\quad ET=Z_0^2.
+\]
+Write \(Z_0=\gamma(E+E\xi)\), \([E(\xi):E]=3\), and absorb \(\gamma\).
+The matrix realization of \(T\) is a four-dimensional real form of \(\operatorname{Mat}_2(E)\).
+Every \(E\)-direction in \(C_0\) is a dual heavy point and corresponds to a complete section meeting \(T\). Its matrix realization has a nonzero matrix with the prescribed right kernel. For a fixed right kernel the lifts all lie on one \(F\)-point, so scatteredness gives uniqueness.
+Lemma~\ref{lem:core-right-descent} makes \(T=(1,\xi)\mathcal H\) after a horizontal coordinate change.
+The scalar fiber \(B_0=W\cap Fe_3\) is ordinary, since every quadratic fiber of \(W\) belongs to \(C_0\subset L_*\).
+Its orthogonal \(D=B_0^\circ\) has dimension four and \(ED=F\).
+This proves the complete graph cover
+\begin{equation}\label{eq:core-hermitian-image}
+U_A=\{((1,\xi)(H+\rho A(z)),z):H\in\mathcal H,z\in D\},
+\qquad A:D\to\mathcal H,
+\end{equation}
+for \(\rho\in E\setminus K\).
+Indeed \(M\mapsto(M-M^*)/(\rho-\bar\rho)\) identifies the horizontal quotient with \(\mathcal H\) and sends \(\rho H\) to \(H\).
+
+Put \(J=A(D)\), \(j=\dim_KJ\), and \(N=J^\perp\) under the ordinary matrix-trace pairing, which is nondegenerate and \(K\)-valued on \(\mathcal H\).
+For \(v\in E^2\setminus0\), evaluation of \(\mathcal H\) at \(v\) has image \(\{y:v^*y\in K\}\), of dimension three.
+The graph enlarges this image by one exactly when \(v^*Jv\ne0\). Thus
+\[
+r_U(v_1,v_2,0)=3+\epsilon_v,
+\qquad \epsilon_v=\mathbf1_{v^*Jv\ne0}.
+\]
+For two \(E\)-independent messages the joint rank is \(4+j\).
+Minimum rank four means that \(N\) contains no rank-one matrix, because these are the \(K\)-multiples of \(vv^*\).
+Every three-dimensional Hermitian hyperplane contains a rank-one matrix, by isotropy of binary Hermitian forms and surjectivity of the norm \(E^*\to K^*\).
+Hence \(j\ge2\); intersection of the two message supports forces \(j\le3\).
+
+\subsection{Image Dimension Two}
+If \(j=2\), choose \(N_0,N_1\) spanning \(N\).
+The pencil \(\det(N_1-tN_0)\) is irreducible quadratic over \(K\). Its two conjugate eigenvectors for \(N_0^{-1}N_1\) are isotropic for \(N_0\): a nonzero quadratic value would place their eigenvalues in \(K\).
+In that eigenbasis \(N\) is the full off-diagonal Hermitian space, so \(J\) is the diagonal plane under the contragredient congruence.
+The evaluation row becomes \((1,\eta)\) with \([E(\eta):E]=3\).
+For \(\lambda\in E\setminus K\), take
+\[
+h_\lambda=(1,\lambda/\eta,0),\qquad
+Q_\lambda(b)=\eta\bar b+\lambda\eta^{-1}b.
+\]
+If \(Q_\lambda(b)\in E\), independence of \(1,\eta,\eta^2\) forces \(b=0\). Thus
+\(h_\lambda T_H=E\oplus Q_\lambda(E)\), of dimension four.
+All graph contributions equal \(\rho(s_z+\lambda t_z)\in E\), already in this image.
+Pairing \(h_\lambda\) with \(g=(0,0,1)\) gives ranks \((4,4,8)\): their common coefficient kernel is zero because \(h_\lambda\) is injective on \(T_H\).
+This excludes image dimension two for every map \(A\).
+
+\subsection{Image Dimension Three}
+Now \(N=KH_0\), \(H_0\) nonsingular. The horizontal projection is
+\[
+\mathcal P_J=\{M:\operatorname{tr}_2(MH_0)\in K\},\qquad \dim_K\mathcal P_J=7,
+\]
+and the vertical fiber is \(Kz_0\) for some \(z_0\ne0\).
+Exactly \(q^2+1\) complete sections pass through this vertical point, indexed by the \(E\)-rational horizontal messages.
+For any other horizontal message \((a,b)\), the distinct \(E\)-planes \(a(E+E\xi)\), \(b(E+E\xi)\) span \(F\); their map on the seven-dimensional projection has rank at least five.
+
+A scattered complete section avoiding the vertical point projects injectively to a matrix real form \(R\le\mathcal P_J\). Its intersection with every section of the preceding pencil gives the right-kernel bijection of Lemma~\ref{lem:core-right-descent}.
+Therefore \(R=\mathcal HC\), and its containment in \(\mathcal P_J\) forces \(CH_0\) Hermitian by nondegeneracy of the ordinary trace pairing. Write
+\[
+R=\mathcal H B H_0^{-1},\qquad B\in\mathcal H,\quad\det B\ne0.
+\]
+Two parameters give the same space exactly when they are \(K^*\)-proportional: a right multiplier preserving \(\mathcal H\) is Hermitian, commutes with all Hermitian matrices, and is a scalar in \(K\).
+
+Let \(f:\mathcal P_J\to F/Kz_0\) be the third-coordinate map of \(U\), so \(f(\mathcal H)=0\), and put \(w=(1,\xi)\).
+The parameters of liftable projections lie in the linear space
+\[
+\mathscr L=\{B\in\mathcal H:\exists v\in F^2,
+\ f(HBH_0^{-1})+wHv=0\pmod{Kz_0}\ \text{for all }H\in\mathcal H\}.
+\]
+The vector \(v(B)\) is unique: a difference gives a functional of rank at most one on the scattered \(w\mathcal H\), whose nonzero functional ranks are at least three.
+Thus \(v\) is linear, with \(v(H_0)=0\). Each invertible projective parameter lifts to at most one section, by the same rank argument.
+
+We prove \(\dim_K\mathscr L\le3\) using the following elementary rigidity fact.
+If \(v:\mathcal H\to F^2\) is linear, \(v(I)=0\), and
+\[
+wHv(H)\in K,\qquad wHv(B)+wBv(H)\in K\quad(H,B\in\mathcal H),
+\]
+then \(v=0\).
+Indeed \(H=I\) gives \(v(B)=(a_B-\xi c_B,c_B)\), with \(a_B\in K\).
+Modulo \(KI\) use
+\[
+B(t,b)=\begin{pmatrix}0&b\\\bar b&t\end{pmatrix},
+\qquad Q(t,b)=b+t\xi-\bar b\xi^2.
+\]
+At \(T=B(1,0)\), write \(c_T=k/\xi\), \(a_T=a_0\), \(k,a_0\in K\).
+The mixed condition gives
+\[
+c_B=-a_0\bar b-k\xi^{-2}Q(t,b)+d_B\xi^{-1},\qquad d_B\in K.
+\]
+For \(t=0\) the diagonal condition reduces to
+\[
+(a_0-k)\bar b^2\xi^2-kb^2\xi^{-2}
++d_bb\xi^{-1}+(a_b-d_b)\bar b\xi\in K.
+\]
+Write \(\xi^{-1}=r_0+r_1\xi+r_2\xi^2\),
+\(\xi^{-2}=s_0+s_1\xi+s_2\xi^2\); then \(r_2\ne0\), \((s_1,s_2)\ne(0,0)\).
+Putting \(d_b=\Tr_{E/K}(\delta b)\), its \(\xi^2\)-coefficient is
+\[
+(a_0-k)\bar b^2-ks_2b^2+r_2(\delta b^2+\bar\delta b\bar b)=0.
+\]
+The three binary forms \(b^2,b\bar b,\bar b^2\) are independent over \(E\). Hence \(\delta=0\), \(a_0=k\), \(ks_2=0\).
+Next \(a_b=\Tr_{E/K}(\gamma b)\) and the \(\xi\)-coefficient give \(\gamma=0\), \(ks_1=0\).
+Thus \(k=a_0=0\), \(a_b=d_b=0\), and the displayed formula yields \(c_B=0\) by linearity, proving the rigidity fact. The coefficient comparisons hold on all \(b\in E\): a binary homogeneous quadratic vanishing on the \(q+1\ge4\) rational directions is zero.
+
+If \(\mathscr L=\mathcal H\), set \(f_1(X)=f(XH_0^{-1})\), \(v_I=v(I)\),
+\[
+f_2(X)=f_1(X)+wXv_I,
+\qquad v_2(B)=v(B)-Bv_I.
+\]
+Then \(f_2(\mathcal H)=0\), \(v_2(I)=0\), and
+\(f_2(HB)+wHv_2(B)=0\pmod{Kz_0}\).
+Since \(H^2\) and \(HB+BH\) are Hermitian, \(v_2/z_0\) satisfies the rigidity fact, giving \(v_2=0\).
+At \(B=H_0\), \(v(H_0)=0\) forces \(v_I=0\). Products of Hermitian matrices span the seven-dimensional space \(\{X:\operatorname{tr}_2X\in K\}\): besides \(\mathcal H\), they supply the strictly upper triangular matrices and one additional diagonal \(\operatorname{diag}(\bar\theta,\theta)\), \(\theta\in E\setminus K\).
+Hence \(f_2\), and therefore \(f\), is zero. This would confine the third projection to \(Kz_0\), contradicting \(\dim_KD=4\).
+We conclude \(\dim_K\mathscr L\le3\).
+
+There are now at most \(\theta_2(q)\) scattered sections away from the vertical point and \(q^2+1\) through it. Thus
+\[
+M_{4,\mathrm{sc}}\le2q^2+q+2.
+\]
+For \(s\le3\le q\),~\eqref{eq:core-scattered-lower} is at least \(q^3+1\), and
+\(q^3+1>2q^2+q+2\) for every \(q\ge3\). This excludes image dimension three and completes the quadratic-fiber exclusion under the stated scalar-fiber reduction.
+
+\section{Local Conics and Weighted Incidence}
+Assume the low-weight reduction and absence of quadratic fibers, and choose the distinguished section \(T\) and \(E\)-plane projection \(Z\).
+Then \(W\cap\omega W=Ee_3\), \(EU=F^2\times Z\), and \(\dim_KT=\dim_EET=4\).
+Write \(r\le\min(s,2)\) for the heavy points in \(T\), and put \(H=\theta_3(q)\).
+
+\begin{lemma}\label{lem:core-local-conic}
+Let \(A\le_KF^2\) have dimension five, point weights at most two, and \(A\cap\omega A=E(1,0)\).
+Let \(D\) be its second-coordinate image.
+If \(\dim_EED=3\), a nonsingular conic \(\mathcal C\) over \(E\) satisfies
+\[
+m(A)=1+\#\bigl(\mathcal C\cap\PG(2,K)\bigr),
+\]
+where \(m(A)\) counts weight-two points.
+A descended conic gives \(m(A)=q+2\); a distinct conjugate gives \(m(A)\le5\).
+If \(\dim_EED=2\), then \(m(A)\in\{1,2,q+1,q+2\}\).
+\end{lemma}
+\begin{proof}
+Write \(A=\{(g(d)+a,d):a\in E,d\in D\}\).
+In the first case a \(K\)-basis of \(D\) is an \(E\)-basis of \(F\).
+Extend \(g\) linearly over \(E\), and express its quotient coordinates as
+\(\Tr_{F/E}(a_0d),\Tr_{F/E}(a_1d)\).
+Choose \(u_0,u_1\) as an \(E\)-basis of \(\ker\Tr_{F/E}\); these trace forms are the quotient coordinates of scalar multiplication by a slope \(t\).
+The row pair \(a_i-tu_i\) has rank one precisely at
+\[
+t=\frac{b_0a_0+b_1a_1}{b_0u_0+b_1u_1},
+\qquad(b_0:b_1)\in\PG(1,E).
+\]
+Put \(\zeta=a_0u_1-a_1u_0\).
+If \(\zeta=0\), the extension of \(g\) is scalar multiplication modulo \(E\), producing a point of weight three. Hence \(\zeta\ne0\).
+The row normal at the displayed slope is the direction
+\(E\zeta/(b_0u_0+b_1u_1)\).
+Its kernel meets the real form \(D\) in two \(K\)-dimensions precisely when the normal is \(K\)-rational in the dual basis of \(D\).
+These directions form the inverse conic
+\[
+\Tr_{F/E}(\zeta v^\sigma v^{\sigma^2})=0,
+\qquad \sigma(x)=x^{q^2}.
+\]
+In splitting coordinates it has three nonzero mixed coefficients.
+Its polar determinant is nonzero in odd characteristic; in characteristic two its polar radical has nonzero conic value. It is therefore nonsingular.
+The vertical point contributes the initial one.
+Descent gives \(q+1\) rational conic points, and intersection with a distinct conjugate conic has at most four points by B\'ezout.
+
+For the second case, \(D\cap\omega D\) is an \(E\)-line.
+Scalar changes and a shear give
+\[
+A=\{(a+rb^q+t\delta,b+t\gamma):a,b\in E,t\in K\},
+\qquad r,\gamma\notin E.
+\]
+The points supported by its four-dimensional \(t=0\) part have slopes
+\(u+rz\), \(u\in E\), \(z^{q+1}=1\).
+Every weight-two point meets that part, by the dimension formula.
+A slope gains its second \(K\)-dimension exactly when
+\[
+r(b^q-zb)+\delta-u\gamma-rz\gamma\in E
+\]
+is solvable for \(b\in E\).
+Put \(\Lambda=E+Er\).
+If \(\gamma\notin\Lambda\), reduction modulo \(\Lambda\) gives \(u=u_0+u_1z\), and the remaining equation is
+\(b^q-zb=w_0+w_1z\).
+Its solvability condition is \(B+zB^q=0\), \(B=w_0+w_1^q\), yielding one or \(q+1\) norm-one values of \(z\).
+This gives \(m(A)=2\) or \(q+2\).
+If \(\gamma\in\Lambda\setminus E\), then \(r\gamma\notin\Lambda\), so reduction fixes \(z\).
+A norm-one value gives \(q\) choices of \(u\), and other values give none. Thus \(m(A)=q+1\) or \(1\).
+\end{proof}
+
+For a light point \(P\) of \(T\), \(A=W\cap P^{\perp_F}\) has dimension five and the stated quadratic core.
+Its scalar projection is the trace orthogonal of \(\det(P,T)\).
+For a three-dimensional scalar space, trace orthogonality preserves its \(E\)-span dimension: the formula follows by taking orthogonals of \(S+\omega S\).
+Thus the local lemma applies with ordinary points of \(E\)-weight one and critical points of \(E\)-weight two in \(ET\).
+Let \(d\) count ordinary descended points and \(c\) count light critical points.
+
+\begin{lemma}\label{lem:core-weighted-incidence}
+Every heavy point \(P\) of \(U\) is on at most \(H\) complete four-sections, and
+\[
+(q-3)(d+c)\ge(q-4-r)H+q^2s+(4q+5)r.
+\]
+\end{lemma}
+\begin{proof}
+Projection from \(P\) gives a six-dimensional space with point weights at most two.
+Its number of weight-two points bounds the section degree \(m(P)\) by \(q^4+q^2+1<M_4(U)\).
+Choose a complete four-section avoiding \(P\).
+Every complete section through \(P\) meets it in a distinct supported \(F\)-point, giving \(m(P)\le H\).
+
+The actual point set of \(T\) has size \(H-qr\), because a heavy fiber identifies \(q+1\) projective \(K\)-directions.
+Every other four-section meets \(T\) in its whole fiber at one point. Consequently
+\[
+\sum_{P\in L_T}m(P)=|L_T|+M_4(U)-1=(q+1)H+q^2s-qr.
+\]
+The local lemma bounds the \(d+c\) special light degrees by \(q+2\), the other light degrees by five, and the \(r\) heavy degrees by \(H\).
+Substitution gives
+\[
+(q+1)H+q^2s-qr
+\le5(H-qr-r-d-c)+(q+2)(d+c)+rH.
+\]
+Rearrangement proves the inequality.
+\end{proof}
+
+\begin{lemma}\label{lem:core-joint-heavy}
+For two distinct heavy points \(P,Q\) of \(U\),
+\[
+m(P)+m(Q)\le2H-2q.
+\]
+If the distinguished section has exactly these two heavy points, then
+\begin{equation}\label{eq:core-joint-density}
+(q-3)(d+c)\ge(q-6)H+q^2s+10q+10.
+\end{equation}
+\end{lemma}
+\begin{proof}
+The previous lemma gives each individual degree at most \(H\).
+If both degrees are at least two, choose a complete section through \(Q\) and avoiding \(P\). There is exactly one ambient hyperplane containing both points, so such a choice exists.
+This section supports at most \(H-q\) actual \(F\)-points: its heavy fiber merges \(q+1\) projective \(K\)-directions.
+Distinct sections through \(P\) meet it in distinct supported points. Hence \(m(P)\le H-q\); interchanging the points gives the same bound for \(m(Q)\).
+If one degree is at most one, their sum is at most \(H+1\le2H-2q\).
+For the density formula, use \(H-2q-2\) light points, the bounds \(q+2\) and five from the local conic lemma, and the exact sum
+\[
+(q+1)H+q^2s-2q
+\le5(H-2q-2-d-c)+(q+2)(d+c)+2H-2q.
+\]
+Rearrangement proves~\eqref{eq:core-joint-density}.
+\end{proof}
+
+\section{Six Sextics for the Actual Hermitian Graph}
+Let a distinguished section have the Hermitian form
+\[
+T_H=(1,\xi)\mathcal H,\qquad
+\mathcal H=\left\{\begin{pmatrix}a&b\\\bar b&d\end{pmatrix}:a,d\in K,\ b\in E\right\}.
+\]
+Here \(\xi\in L\setminus K\), bar denotes the involution of \(F/L\), and
+\[
+f(X)=X^3+f_2X^2+f_1X+f_0\in K[X],\qquad
+f(\xi)=0,\quad f_0f_2\ne0.
+\]
+Such a cubic generator exists for every \(q\ge3\): a nonzero trace fiber in \(L\) has \(q^2\) elements, whereas its intersection with \(K\) has at most \(q\). Its minimal polynomial has nonzero constant and quadratic coefficients.
+Set \(\alpha=1/f'(\xi)\). The trace identities
+\[
+\Tr_{F/E}(\alpha)=\Tr_{F/E}(\alpha\xi)=0,
+\qquad \Tr_{F/E}(\alpha\xi^2)=1
+\]
+follow from Lagrange interpolation. The dual carrier \(Ee_3\) places the third-coordinate projection in \(\ker\Tr_{F/E}\), so it equals
+\(Z=\alpha(E+E\xi)\).
+Write an arbitrary extension as
+\[
+U_\Phi=\{((1,\xi)M+\Phi(z),\alpha(z_1+\xi z_2)):
+M\in\mathcal H,\ z\in E^2\}.
+\]
+
+\subsection{An Explicit Cubic Local Normal}
+For an ordinary point represented by
+\[
+P=\begin{pmatrix}a&b\\\bar b&d\end{pmatrix},\qquad
+Q=ad-b\bar b\ne0,\qquad p=(1,\xi)P,
+\]
+put \(S_P=\det(p,T_H)\). For \(M=\bigl(\begin{smallmatrix}x&z\\\bar z&y\end{smallmatrix}\bigr)\), its scalar coordinate vector is
+\[
+s(M)=(-bx+az)+(-dx+ay+\bar bz-b\bar z)\xi
+ +(\bar by-d\bar z)\xi^2.
+\]
+Define the \(E\)-linear operator \(L_P\) in the basis \(1,\xi,\xi^2\) by
+\begin{equation}\label{eq:core-real-adjoint}
+L_P=Q^{-1}
+\begin{pmatrix}
+b^2&-ab&a^2\\
+2bd&-ad-b\bar b&2a\bar b\\
+d^2&-d\bar b&\bar b^2
+\end{pmatrix}=Q^{-1}\widetilde L_P.
+\end{equation}
+The two coefficient matrices of \(s(M)\) and \(\overline{s(M)}\) are
+\[
+A_P=\begin{pmatrix}-b&0&a&0\\-d&a&\bar b&-b\\0&\bar b&0&-d\end{pmatrix},
+\qquad
+\bar A_P=\begin{pmatrix}-\bar b&0&0&a\\-d&a&-\bar b&b\\0&b&-d&0\end{pmatrix}.
+\]
+Matrix multiplication gives
+\(\widetilde L_P\bar A_P+QA_P=0\).
+Their maximal minors are the coordinates of \(P\) times \(Q\), with signs, so both have rank three. Thus
+\[
+L_P(\overline{s(M)})=-s(M)
+\]
+determines the operator uniquely and proves the formula in every characteristic.
+
+Put \(D_P=S_P^\circ\). It is a three-dimensional \(K\)-space spanning \(F\) over \(E\).
+For \(\tau\in D_P\), \(\Tr_{F/E}(\tau s(M))\) has zero trace to \(K\), and its conjugate is its negative.
+Therefore the \(E\)-linear extension of \(\tau\mapsto\bar\tau\) on this real form has trace adjoint \(L_P\):
+\[
+\Tr_{F/E}(\bar\tau\,v)=\Tr_{F/E}(\tau L_P(v)),
+\qquad \tau\in D_P,\ v\in F.
+\]
+
+Expand the fixed graph in its linear and conjugate-linear parts,
+\[
+(-p_2,p_1)\Phi(z)
+ =\ell_0(P)z_1+\ell_1(P)z_2+m_0(P)\bar z_1+m_1(P)\bar z_2.
+\]
+These four coefficients are linear in \(P\). The two local trace equations are
+\[
+\Tr_{F/E}(c\alpha\xi^j)
+=\Tr_{F/E}(\tau a_j(P)),\qquad
+a_j=-\ell_j-L_P(\bar m_j),\quad j=0,1.
+\]
+The quotient trace normals for \(c\) are \(u_0=\alpha,u_1=\alpha\xi\).
+Consequently the actual inverse-conic normal is
+\begin{equation}\label{eq:core-actual-cubic}
+\zeta_\Phi(P)=\alpha(\xi a_0-a_1),\qquad
+Z_\Phi(P)=Q\zeta_\Phi(P).
+\end{equation}
+The cleared vector \(Z_\Phi\) is homogeneous cubic in \(P\) and linear in the original graph parameters.
+
+\subsection{A Reference Conic and the Sextic Equations}
+Take the reference graph
+\(\Phi_{\rm ref}(z)=(\xi^2\bar z_1,\xi^2\bar z_2)\).
+Its cleared normal is
+\begin{equation}\label{eq:core-ref-cubic}
+Z_0(P)=\alpha R_0(P),\qquad
+R_0(P)=\xi\widetilde L_P(\bar p_2\xi^2)
+                   +\widetilde L_P(\bar p_1\xi^2).
+\end{equation}
+The reference conic
+\[
+C_P(M)=\Tr_{F/E}(Z_0(P)s(M)^\sigma s(M)^{\sigma^2}),
+\qquad \sigma(v)=v^{q^2},
+\]
+has coefficients in \(K\).
+Here is a characteristic-free polynomial verification of this fact.
+In \(E[\xi]\), let \(M_s\) be the multiplication matrix of \(s=s(M)\). Then the coordinate vector of \(s^\sigma s^{\sigma^2}\) is
+\(\operatorname{adj}(M_s)(1,0,0)^t\).
+The value \(C_P(M)\) is the \(\xi^2\)-coefficient of
+\(R_0(P)\operatorname{adj}(M_s)(1,0,0)^t\), reduced by \(f(\xi)=0\).
+Write \(b=b_0+\mu b_1\), \(z=z_0+\mu z_1\),
+\(\mu^2=\beta\mu+\nu\), \(\bar\mu=\beta-\mu\).
+Substituting~\eqref{eq:core-real-adjoint} and~\eqref{eq:core-ref-cubic} in this expression makes its \(\mu\)-coefficient zero.
+This is an integer-polynomial identity modulo the two monic defining relations; its executable symbolic checker accompanies the construction.
+For \(Z_0(P)\ne0\), each split mixed coefficient is a nonzero conjugate of \(Z_0(P)\), so this descended conic is nonsingular.
+
+We also need uniqueness when the reference normal is nonzero.
+In split coordinates the local inverse-conic net is the span of
+\(v_0v_1,v_0v_2,v_1v_2\); its annihilator consists of the three coordinate point-evaluation functionals.
+The union with the conjugate annihilator has dimension \(\dim_KD_P^{(2)}\): its matrix is the six-coordinate expansion of the pair products of a \(K\)-basis of \(D_P\).
+Thus the intersection of the two conic nets has dimension
+\[
+6-\dim_KD_P^{(2)}=6-\dim_KS_P^{(2)}.
+\]
+This uses evaluation on the six monomials, including in characteristic two.
+
+There is exactly one projective word on \(T_H\) with a cubic-field scalar image.
+To see this, write a message as \((u_1,u_2)\). Its image contains \(u_1\) and \(\xi u_2\).
+If \(u_1=0\), its image is \(u_2(E+K\xi)\), whose \(E\)-span has dimension two; a cubic-field scalar image spans dimension three over \(E\).
+If \(u_1\ne0\), scale it to one. A cubic-field scalar image containing one equals \(L\); hence \(u_2\in L\).
+The image of the off-diagonal parameter \(b=b_0+\mu b_1\) is
+\(\xi\bar b+u_2b=(\xi+u_2)b_0+\beta\xi b_1+(u_2-\xi)\mu b_1\).
+Its membership in \(L\) forces \(u_2=\xi\).
+The corresponding kernel point is represented by
+\(P_*=(\begin{smallmatrix}0&\kappa\\-\kappa&0\end{smallmatrix})\), \(\bar\kappa=-\kappa\).
+At this point \(\widetilde L_{P_*}=\kappa^2I\) and~\eqref{eq:core-ref-cubic} gives \(Z_0(P_*)=0\).
+
+At any other ordinary point with \(Z_0(P)\ne0\), the nonzero common conic and the square-span classification force \(\dim_KS_P^{(2)}=5\).
+The net intersection is therefore one-dimensional. Every descended actual conic has its normal proportional over \(E\) to \(Z_0(P)\).
+At points with \(Z_0(P)=0\) the following equations hold automatically. We have proved the necessary condition
+\begin{equation}\label{eq:core-six-sextics}
+Z_\Phi(P)\wedge_E Z_0(P)=0.
+\end{equation}
+Its three \(E\)-coordinates give six homogeneous sextics over \(K\), all computed from one fixed graph.
+
+\subsection{Density Forces Polynomial Vanishing}
+We use the elementary bound that a nonzero homogeneous degree-\(e\) form on \(\PG(3,K)\), \(e\le q\), has at most \(eq^2+q+1\) zeros.
+If it has a rational plane component, factor that plane: its \(\theta_2(q)\) points and the affine degree-\((e-1)\) zero bound give this estimate.
+Otherwise every rational plane restriction is nonzero. The analogous plane bound \(eq+1\), obtained by counting rational lines, and point--plane double counting give
+\[
+N\theta_2(q)\le\theta_3(q)(eq+1)
+\le\theta_2(q)(eq^2+q+1).
+\]
+The last inequality has difference \(q(q+1-e)\ge0\).
+For the plane bound, a rational line component leaves at most \((e-1)q\) affine zeros, and the component has \(q+1\) points; without a line component the line incidence bound is \(N(q+1)\le e\theta_2(q)\le(eq+1)(q+1)\).
+The Hermitian section is scattered and has \(q^2+1\) critical points.
+The weighted incidence lemma gives
+\[
+(q-3)d\ge(q-4)H+q^2s-(q-3)(q^2+1).
+\]
+If one sextic in~\eqref{eq:core-six-sextics} is nonzero, the homogeneous projective zero bound gives
+\(d\le6q^2+q+1\) for \(q\ge8\).
+The gap, using \(s\ge0\), is
+\[
+q^4-10q^3+17q^2-2q+2
+=x^4+22x^3+161x^2+398x+50>0,
+\qquad q=8+x.
+\]
+Thus all six sextics are identically zero.
+
+\subsection{Eliminating All Twenty Graph Parameters}
+Modulo section-valued changes and shears, every graph has the unique form
+\begin{align*}
+\Phi_1&=A(z)+\xi^2(N_{11}\bar z_1+N_{12}\bar z_2),\\
+\Phi_2&=D(z)+\xi F_0(z)+\xi^2(N_{21}\bar z_1+N_{22}\bar z_2),\\
+A(z)&=\rho\Tr_{E/K}(J_4z_1+J_5z_2),\\
+F_0(z)&=\rho\Tr_{E/K}(J_0z_1+J_1z_2),\\
+D(z)&=-\kappa^{-1}J_2z_2+\overline{\kappa^{-1}J_3}\bar z_1,
+\end{align*}
+where \(N\in\operatorname{Mat}_2(E)\), \(J_i\in E\),
+\(\bar\kappa=-\kappa\ne0\), and \(\Tr_{E/K}(\kappa\rho)=1\).
+For completeness, section-valued changes first remove the \(\xi\)-coefficient of \(\Phi_1\) and the \(K\)-parts of its constant and the \(\xi\)-coefficient of \(\Phi_2\).
+This leaves \(A,F_0\) valued in \(\rho K\), one arbitrary \(E\)-valued low map \(D\), and two arbitrary high maps.
+A shear \((u_0+u_1\xi+u_2\xi^2)(z_1+\xi z_2)\) changes the high coefficients by
+\(u_2z_1+(u_1-f_2u_2)z_2\).
+Use \(u_1,u_2\) in each coordinate to remove both high linear maps; their conjugate-linear parts give \(N\).
+The two remaining \(u_0\) shears remove respectively the \(\bar z_2\) and \(z_1\) coefficients of \(D\), after restoring the section gauge.
+Each elimination has a unique coefficient choice. The resulting four entries of \(N\) and six \(J_i\) give exactly twenty \(K\)-parameters.
+
+At \(P_t=\operatorname{diag}(1,t)\), \(t\in K^*\), the operator~\eqref{eq:core-real-adjoint} sends
+\(v_0+v_1\xi+v_2\xi^2\) to \(v_2/t-v_1\xi+tv_0\xi^2\).
+Put \(n_{ij}=\bar N_{ij}\) and
+\begin{align*}
+G(t)&=-1+f_2t\xi-f_1t^2\xi^2+f_0t^3\xi^3,\\
+A_*&=-J_2+J_1\xi-J_0\xi^2,\\
+C_*&=-J_5+J_4\xi-J_3\xi^2,\\
+R(t)&=n_{22}-n_{11}-n_{21}\xi
+       +n_{12}(f_2t-f_1t^2\xi+f_0t^3\xi^2)\\
+    &\quad+(t/\kappa)A_*+(t^2/\kappa)\xi C_*.
+\end{align*}
+Substitution in~\eqref{eq:core-actual-cubic} gives
+\[
+\zeta_\Phi(P_t)=\frac\alpha t[-n_{11}G(t)+R(t)],
+\qquad \zeta_{\rm ref}(P_t)=-\frac\alpha tG(t).
+\]
+The symbolic checker verifies this identity for arbitrary coefficients and every characteristic.
+Polynomial vanishing in~\eqref{eq:core-six-sextics} yields \(R(t)\wedge_EG(t)\equiv0\).
+Its constant coefficient forces \(n_{21}=0\); its coefficient of \(t^6\) is
+\(n_{12}f_0^2(\xi^2\wedge\xi^3)\), forcing \(n_{12}=0\).
+Hence \(\deg R\le2\).
+The three coordinates of \(G\) are
+\[
+-1-f_0^2t^3,\quad f_2t-f_0f_1t^3,\quad -f_1t^2-f_0f_2t^3.
+\]
+They are relatively prime. Indeed a common root would satisfy
+\(t=-f_1/(f_0f_2)\), \(f_1^3=f_0f_2^3\), and
+\(f(-f_1/f_2)=0\), contrary to irreducibility.
+It follows from \(R\wedge G=0\) that \(R=c(t)G\) with \(c(t)\in E[t]\).
+Since \(\deg G=3>\deg R\), one has \(R=0\).
+Its coefficients give \(n_{22}=n_{11}\) and \(A_*=C_*=0\), so all \(J_i\) vanish and \(N=\tau I\).
+
+The surviving system is
+\[
+U_\tau=\{(a+\xi\bar b+\xi^2\tau\bar z_1,
+ b+\xi d+\xi^2\tau\bar z_2,\alpha(z_1+\xi z_2))\}.
+\]
+For \(h_\tau=(1,\xi,\bar\tau\xi^2/\alpha)\), its image is
+\[
+a+\xi(b+\bar b)
++\xi^2(d+\tau\bar z_1+\bar\tau z_1)
++\xi^3(\tau\bar z_2+\bar\tau z_2)\in L.
+\]
+It contains \(1,\xi,\xi^2\), so it has rank exactly three. This contradicts the minimum-rank bound for every \(\tau\in E\).
+
+\section{Compatibility Must Refer to One Graph}
+Assume now that \(T\le F^2\) is scattered of dimension four and \(Z\le F\) has dimension two over \(E\).
+Choose \(E\)-independent \(x,y\in Z\), put \(B=Kx+Ky\), and define
+\[
+X_B=(xT+yT)^{\perp_{\rm tr}}.
+\]
+Scatteredness gives \(xT\cap yT=0\), so \(\dim X_B=4\).
+Every nonzero \(u\in X_B\) has \(3\le\dim(uT)\le4\); the upper bound follows from \(B\subseteq(uT)^\circ\), and the lower bound from scatteredness. If the image dimension is four then \((uT)^\circ=B\).
+For the fixed graph map \(\Phi\), set
+\begin{equation}\label{eq:core-D}
+\mathcal D_{B,\Phi}(u)(a)
+=\Tr_{F/K}\!\left(u\cdot[x\Phi(ya)-y\Phi(xa)]\right),
+\qquad a\in E.
+\end{equation}
+This maps \(X_B\) linearly to the two-dimensional space \(\Hom_K(E,K)\), so its kernel has dimension at least two.
+
+\begin{theorem}\label{thm:core-compatibility}
+If \(u\in X_B\) and \(\dim(uT)=4\), then
+\[
+\mathcal D_{B,\Phi}(u)=0
+\quad\Longleftrightarrow\quad
+\exists!\,c\in F:\ u\Phi(z)+cz\in uT\quad(z\in Z).
+\]
+For that \(c\), the messages \(h=(u_1,u_2,c)\) and \(g=(0,0,1)\) yield codeword ranks \(4,4\) and stacked expansion rank \(8\), hence disjoint rank supports.
+\end{theorem}
+\begin{proof}
+The unknown \(c\) must solve the eight trace equations
+\[
+\Tr_{F/K}(bc z_j)=-\Tr_{F/K}(bu\Phi(z_j)),
+\qquad b=x,y,\quad1\le j\le4,
+\]
+where \((z_j)\) is a \(K\)-basis of \(Z\).
+The distinct \(E\)-planes \(xZ,yZ\) span \(F\). Otherwise \(y/x\notin E\) would stabilize \(Z\) and force stability under \(E(y/x)=F\), impossible for an \(E\)-plane.
+Thus the coefficient map has rank six. Its dependencies are exactly
+\[
+xz'+yz''=0
+\quad\Longleftrightarrow\quad
+(z',z'')=(ya,-xa),\qquad a\in E,
+\]
+because \(x^{-1}Z\cap y^{-1}Z=E\). Their right-hand sides vanish precisely under~\eqref{eq:core-D}, proving unique solvability.
+
+Then \(hU=uT\) and \(gU=Z\), both of dimension four. The common coefficient kernel is zero: \(g=0\) restricts to \(T\), on which \(u\) is injective. Its stacked expansion has rank eight, proving the rank-support conclusion.
+\end{proof}
+
+For each scalar plane define
+\[
+\mathcal L_B(T)=\{V\le_KX_B:\dim V=2,\
+\dim(vT)=3\text{ for all }0\ne v\in V\}.
+\]
+If some \(\mathcal L_B(T)\) is empty, every graph is excluded by Theorem~\ref{thm:core-compatibility}. Otherwise every surviving graph class in~\eqref{eq:core-graphquot} must belong to
+\begin{equation}\label{eq:core-union}
+\bigcap_B\ \bigcup_{V\in\mathcal L_B(T)}
+\{[\Psi]:\mathcal D_{B,\Psi}|_V=0\}.
+\end{equation}
+Each member of the union is a linear subspace defined by four scalar equations.
+Both section-valued graph changes and coordinate shears vanish in these equations. Moreover
+\[
+X_{aB}=a^{-1}X_B,\quad
+\mathcal D_{aB,\Phi}(a^{-1}u)(r)=\mathcal D_{B,\Phi}(u)(ar)
+\qquad(a\in E^*),
+\]
+so scalar-equivalent plane conditions may be merged without changing the common graph.
+After intersecting these complete linear unions, terminal parameters must be checked using the entire kernel of \(\mathcal D_{B,\Phi}\), not merely the selected plane \(V\). A rank-four kernel direction gives the unique third coordinate and an explicit disjoint-support certificate.
+
+\section{Low-Weight Special-Section Closure}
+The scalar-fiber and isolated-subline arguments give \(s\le3\), pairwise
+distinct heavy types, no quadratic type, and a four-dimensional scattered
+or heavy distinguished section \(T\).  Write \(r\le2\) for the heavy points
+of \(T\), \(H=\theta_3(q)\), and let \(d+c\) count ordinary descending and
+light-critical points.  The local conic calculation and section moments give
+\begin{equation}\label{eq:core-combined-density}
+(q-3)(d+c)\ge(q-4-r)H+q^2s+(4q+5)r.
+\end{equation}
+Every counted point is a zero of the section octic.
+
+\subsection{The large fields}
+For \(ET\cong(E+E\xi)^2\), the octic has six Frobenius-double kernel lines.
+The plane-slicing lemma gives, for \(q\ge7\),
+\[
+Z_0\le7q^2+2q+1,\qquad
+Z_1\le6q^2-4q,\qquad
+Z_2\le4q^2-4,
+\]
+according as \(r=0,1,2\).  The proof uses the six double lines, the
+Sziklai bound for plane slices, the genus estimate after normalization, and
+the residual \((3,3)\) lemma.  Substitution in
+\eqref{eq:core-combined-density} gives the gap polynomials
+\[
+\begin{aligned}
+P_0(q)&=q^4-10q^3+16q^2+2q-1,\\
+P_1(q)&=q^4-10q^3+19q^2-12q,\\
+P_2(q)&=q^4-9q^3+9q^2+7q-8.
+\end{aligned}
+\]
+At \(q=8+x\), their constant terms are \(15,96,112\), and all other
+coefficients are positive.  Hence a non-descending octic is impossible for
+every \(q\ge8\).
+
+If the octic vanishes identically, the characteristic-free ruling argument
+forces the determinant form of \(T\) to descend to \(K\).  The split form
+would give \(q+1\) heavy fibres; the degenerate relative span has a direct
+line-component contradiction.  The remaining form is the Hermitian section
+\(T_H=(1,\xi)\operatorname{Herm}_2(E/K)\).  Its actual graph has six
+homogeneous sextic descent equations.  The projective degree bound gives
+\(d\le6q^2+q+1\) if one sextic is nonzero, while
+\[
+q^4-10q^3+17q^2-2q+2
+=x^4+22x^3+161x^2+398x+50>0,\qquad q=8+x.
+\]
+Thus all six sextics vanish.  The diagonal identity
+\(R(t)\wedge G(t)\equiv0\) then gives \(N=\tau I\) and all six lower
+coefficients zero; the message
+\[
+h_\tau=(1,\xi,\bar\tau\xi^2/\alpha)
+\]
+has image in the cubic subfield and contains \(1,\xi,\xi^2\), so its rank is
+three.  This excludes the Hermitian graph.  Together, these arguments close
+all \(q\ge8\).
+
+\subsection{The septenary field}
+For \(q=7\), the rank-four determinant branch has the uniform bound
+\(Z\le176<300\), the rank-five finite relation calculation gives
+\(Z\le122<300\), and the rank-six scalar-orbit calculation gives
+\(Z\le131<300\).  Moore sections are handled by the norm--quadratic
+factorization and the zero-octic Hermitian argument.  The Hermitian
+special-section tangent calculation has 400 tangent lines and 349 ordinary
+points; its two independent implementations give at most 200 descending
+ordinary points, while \eqref{eq:core-combined-density} requires at least
+250 in the scattered case.  For one heavy point, the complete quartic-plane
+scan gives \(Z_1\le184\), whereas the density inequality gives
+\(d+c\ge221\).  For two heavy points, the residual \((3,3)\) lemma gives
+\(Z_2\le4(7^2-1)=192\), and the joint heavy incidence improvement gives
+\(d+c\ge145\) while the two-heavy branch has the sharper upper bound
+\(144\).  Every septenary branch is therefore excluded.
+
+\subsection{The fields \(q=5,4,3\)}
+For \(q=5\), the rank-four normal-form scan leaves 18 boundary sections;
+seven disjoint full-rank local blocks per section give \(d+c\le77\), below
+the required 78.  The rank-five and rank-six complete relation scans give
+maxima \(72\) and \(68\), respectively, below 78.  The quinary heavy-section
+replay covers all 130 scalar types in both \(r=1,2\) branches, with
+260 complete local spectrum tasks and two independent paths; its sharp
+capacity inequalities contradict \eqref{eq:core-combined-density}.  The
+remaining Hermitian descent block has minimum block weight 117 and at most
+13 descending ordinary points, again below the required block count.
+
+For \(q=3,4\), projection from a heavy point gives the complete finite
+capacity bounds
+\[
+q=3:\ b(V)+m(V)\le52<68,\qquad
+q=4:\ b(V)\le7<134.
+\]
+Thus a heavy point cannot lie in \(T\).  For a scattered \(T\), the complete
+normalized section enumeration contains 925771 and 24208613 row-space
+representatives, respectively; after full right-orbit reduction it leaves
+19677 and 262806 scattered orbits.  The compatibility calculation, including
+all scalar planes and terminal kernels, leaves no graph class outside the
+Hermitian orbit.  The Hermitian orbit has the explicit rank-three message
+\[
+h_\tau=(1,\xi,\bar\tau\xi^2/\alpha),
+\]
+whose image contains \(1,\xi,\xi^2\).  Both finite fields are therefore
+closed.
+
+\begin{theorem}\label{thm:core-length-eight}
+For every prime power \(q\ge3\), there is no nondegenerate
+\([8,3]_{q^6/q}\) rank-metric intersecting code.
+\end{theorem}
+\begin{proof}
+The point-weight and section reductions lead to the scalar-fiber cases
+already exhausted above.  Repeated types, quadratic fibres, isolated
+ordinary sublines, and four distinct types are excluded by the preceding
+lemmas.  The remaining distinguished-section branches are excluded for
+\(q\ge8\) by the octic and Hermitian arguments, for \(q=7\) by the rank-four,
+rank-five, rank-six, Hermitian, and heavy-section bounds, and for \(q=3,4,5\)
+by the complete finite projection, graph, and descent-block computations.
+Every exclusion supplies either a rank-three codeword or two rank-four
+codewords with stacked rank eight, contradicting the defining conditions.
+\end{proof}
+
+\section{Scope of the Proof Note}
+The proof note contains the symbolic reductions, the load-bearing geometric
+lemmas, and the finite verification interfaces used in the length-eight
+exclusion.  The accompanying verification folders are required for the
+finite branches and record exact field representations, coverage counts,
+independent arithmetic paths, and explicit obstruction objects.  The final
+public package will include only the proof note, its LaTeX source, and those
+mathematically necessary verification files.
+
+\begin{thebibliography}{99}
+
+\bibitem{bpz} M. Borello, O. Polverino, and F. Zullo, ``On the existence of linear rank-metric intersecting codes,'' 2026, \arxiv{2604.02004}.
+
+\bibitem{kneser} C. Bachoc, O. Serra, and G. Z\'emor, ``Revisiting Kneser's theorem for field extensions,'' 2015, \arxiv{1510.01354}.
+
+\bibitem{aubry} Y. Aubry and A. Iezzi, ``On the maximum number of rational points on singular curves over finite fields,'' 2015, \arxiv{1501.03676v2}.
+\end{thebibliography}
+
+\end{document}

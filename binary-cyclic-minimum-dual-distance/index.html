@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances</title>
+  <meta name="description" content="A short probabilistic proof of simultaneous near-linear minimum and dual distances for ordinary binary cyclic codes. Full proof note, LaTeX source and citation.">
+  <meta name="author" content="Yang Shifu">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances">
+  <meta property="og:description" content="A first-coordinate entropy count and one first-moment estimate give simultaneous near-linear minimum and dual distances for binary cyclic codes.">
+  <meta property="og:url" content="https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/">
+  <meta name="twitter:card" content="summary">
+  <link rel="alternate" type="application/pdf" href="https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/proof.pdf" title="Full proof note (PDF)">
+  <link rel="canonical" href="https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/">
+  <link rel="stylesheet" href="../styles.css">
+  <meta name="citation_title" content="Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances">
+  <meta name="citation_author" content="Yang, Shifu">
+  <meta name="citation_author_institution" content="National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China">
+  <meta name="citation_publication_date" content="2026/10/16">
+  <meta name="citation_pdf_url" content="https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/proof.pdf">
+  <meta name="keywords" content="binary cyclic codes; minimum distance; dual distance; self-orthogonal codes; cyclic rank; entropy method; probabilistic existence; 二元循环码；最小距离；对偶距离；自正交码；循环秩；熵方法；概率存在性">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ScholarlyArticle","@id":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/#note","name":"Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances","headline":"Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances","url":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/","datePublished":"2026-10-16","version":"1.0","inLanguage":"en","genre":"Mathematical proof note","abstract":"For odd m at least three and n=2^m-1, ordinary binary cyclic codes of dimension (n-1)/2 can have both minimum distance and dual distance at least (1/2-o(1))n/(m log_2 m). The finite-length sufficient condition is H_2(delta)+delta at most 1/(2m). A first-coordinate entropy count and a first-moment estimate for random reciprocal-factor choices give a short proof.","keywords":["binary cyclic codes","minimum distance","dual distance","self-orthogonal codes","cyclic rank","entropy method","probabilistic existence"],"author":{"@type":"Person","name":"Yang Shifu","givenName":"Shifu","familyName":"Yang","sameAs":"https://orcid.org/0009-0002-2768-8506","affiliation":{"@type":"Organization","name":"National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China"}},"encoding":{"@type":"MediaObject","encodingFormat":"application/pdf","contentUrl":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/proof.pdf"},"mainEntityOfPage":{"@id":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/#webpage"},"isAccessibleForFree":true},{"@type":"WebPage","@id":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/#webpage","url":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/","name":"Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances","description":"A short probabilistic proof of simultaneous near-linear minimum and dual distances for ordinary binary cyclic codes.","inLanguage":"en","dateModified":"2026-10-16","mainEntity":{"@id":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/#note"},"isPartOf":{"@id":"https://stalin1943.github.io/Coding-Theory-Proof-Notes/#collection"}}]}</script>
+</head>
+<body>
+<main>
+  <nav aria-label="Collection"><a href="../">All proof notes</a></nav>
+  <article>
+    <p class="kind">Mathematical proof note · Version 1.0 · October 16, 2026</p>
+    <h1>Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances</h1>
+    <p class="author"><strong>Yang Shifu</strong> · <a href="https://orcid.org/0009-0002-2768-8506">ORCID 0009-0002-2768-8506</a></p>
+    <p class="affiliation">National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China</p>
+    <section aria-labelledby="abstract">
+      <h2 id="abstract">Abstract</h2>
+      <p>For every odd integer <i>m</i> ≥ 3, put <i>n</i> = 2<sup><i>m</i></sup> − 1. We give a self-contained probabilistic proof that ordinary binary cyclic codes of dimension (<i>n</i> − 1)/2 can have both minimum distance and dual distance at least (1/2 − <i>o</i>(1))<i>n</i>/(<i>m</i> log<sub>2</sub> <i>m</i>). A finite-length sufficient condition is <i>H</i><sub>2</sub>(δ) + δ ≤ 1/(2<i>m</i>). The proof counts only low-weight words whose zeroth coordinate is one. Shift symmetry contributes a factor δ to the count, and a first-moment estimate for random reciprocal-factor choices completes the argument. A probability-tending-to-one version has the same leading distance constant.</p>
+    </section>
+    <section aria-labelledby="files">
+      <h2 id="files">Full text and source</h2>
+      <p class="links"><a href="proof.pdf">Full-text PDF</a> <a href="proof.tex">LaTeX source</a> <a href="citation.bib">BibTeX</a> <a href="https://github.com/stalin1943/Coding-Theory-Proof-Notes/tree/main/binary-cyclic-minimum-dual-distance">GitHub project</a></p>
+      <p><a href="https://github.com/stalin1943/Coding-Theory-Proof-Notes/blob/main/binary-cyclic-minimum-dual-distance/proof.pdf">PDF on GitHub</a></p>
+    </section>
+    <section aria-labelledby="scope">
+      <h2 id="scope">Scope</h2>
+      <p>This is a probabilistic existence theorem. The scalar condition is sufficient, not necessary. The guaranteed relative distance tends to zero; no fixed positive relative distance or efficient deterministic generator-selection algorithm is claimed.</p>
+    </section>
+    <section aria-labelledby="keywords">
+      <h2 id="keywords">Keywords</h2>
+      <p>binary cyclic codes; minimum distance; dual distance; self-orthogonal codes; cyclic rank; entropy method; probabilistic existence.</p>
+      <p lang="zh-Hans">中文关键词：二元循环码；最小距离；对偶距离；自正交码；循环秩；熵方法；概率存在性。</p>
+    </section>
+    <section aria-labelledby="citation">
+      <h2 id="citation">Suggested citation</h2>
+      <p class="citation">S. Yang, &quot;Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances,&quot; mathematical proof note, version 1.0, Oct. 16, 2026. [Online]. Available: https://github.com/stalin1943/Coding-Theory-Proof-Notes/blob/main/binary-cyclic-minimum-dual-distance/proof.pdf</p>
+    </section>
+  </article>
+  <footer><a href="https://github.com/stalin1943/Coding-Theory-Proof-Notes">Coding-Theory-Proof-Notes</a> · <a href="../sitemap.xml">Sitemap</a></footer>
+</main>
+</body>
+</html>

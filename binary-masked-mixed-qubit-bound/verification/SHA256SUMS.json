@@ -1,0 +1,18 @@
+{
+  "certify_2mqc_events.py": "734b857b91295880d63035ac85bc36c70650d1931f2a8f792ecbf8da94594cee",
+  "cover_2mqc_folds.py": "f7a8a45a8aa857ac19e3489e32714d981cb14779803ed58f09628e5be21fc4b9",
+  "cover_2mqc_high.py": "56fa9f2eaef244af41177f81ceefe525b1666effa01da5123f4980895fb072dc",
+  "data/endpoint.json.gz": "36fcf9c18a52cf38b02a49bc5ff589dc84e44990a2e2a15c5b0e6474dbb5917b",
+  "data/events.json.gz": "41c4127b0c5d6dd00f283d3acc2bc822e606f7488dd5f28c7a36ac7c3191c027",
+  "data/high_distance.json.gz": "ba117adfa11d4a66ea1780ae154cc475035e7b9b3e686475c1d0b01c3e7834b4",
+  "data/high_fold.json.gz": "6beb1142416416668468668992a8c0676fe74ce24f3cfc0093f92503f3c4eb9b",
+  "data/low_distance.json.gz": "32c0397e27dfb69ef5b6a68d9f22c6ad479c1d5780761accb952aebcf0139190",
+  "data/low_fold.json.gz": "e2db6cd7cf55235dea4cde74e1e1f4854f094b4510934ee15329e97fdd9de886",
+  "data/values.json.gz": "01f50422d921d5cf6a8b752e1b543ff25c6db6af587788903463de38118adcc2",
+  "requirements.txt": "49680741648b3b2528c9bece0fd002516520174085d307e8252ecec269640afc",
+  "verified_affine.py": "9e1f53f546410b4654eedadeedf4cbacc990bc223949845dc028eac6ca9f25b9",
+  "verified_mqc_companion.py": "8491b299700cb9eb388d6d3a0d58d8b939fd51dd3e9a6bb6e4408be5d356de05",
+  "verify.py": "44732f5d533f051ed02524a7ae4fac44d4c3f9a3e927d6a26a9d574b96dfdc8f",
+  "verify_2mqc_analytic_constants.py": "02907a298ad80699cea229b2116e99527a4b25ef3a718f1aed2d8ba3b9095378",
+  "verify_2mqc_tail_rationals.py": "51e58ef3fca9e24bd4b854941bf1d392932d44142164e04017c35230f5f3cf07"
+}

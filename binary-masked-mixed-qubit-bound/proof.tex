@@ -1,0 +1,939 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext}
+\usepackage{amsmath,amssymb,amsthm,mathtools,mathrsfs}
+\usepackage{newtxmath}
+\usepackage{booktabs,array,microtype,cite}
+\usepackage{xcolor}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning}
+\usepgfplotslibrary{groupplots}
+\usepackage{url}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newcommand{\BM}{B_{\mathrm{M}}}
+\newcommand{\BT}{B_{\mathrm{2M}}}
+\newcommand{\Bs}{B_{\mathrm{s}}}
+\newcommand{\co}{\mathrm{co}}
+\newcommand{\spn}{\mathrm{sp}}
+\newcommand{\bd}{\mathrm{b}}
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\atanh}{\operatorname{atanh}}
+\newcommand{\intr}{\operatorname{int}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\calD}{\mathcal D}
+\newcommand{\calK}{\mathcal K}
+\newcommand{\calL}{\mathcal L}
+\newcommand{\calN}{\mathcal N}
+\newcommand{\calI}{\mathcal I}
+\newcommand{\calP}{\mathcal P}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\half}{\tfrac12}
+\newcommand{\smallgap}{\vspace{1pt}}
+\setlength{\emergencystretch}{1em}
+\interdisplaylinepenalty=2500
+\allowdisplaybreaks[1]
+
+
+
+\usepackage[margin=1in]{geometry}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries Global Optimizers of the Binary Masked Mixed-Qubit Bound\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 8, 2026\par\bigskip
+\hypersetup{pdftitle={Global Optimizers of the Binary Masked Mixed-Qubit Bound}}
+\section*{Result overview}
+We determine all global optimizers of the binary masked mixed-qubit coding bound. There is one transition at relative distance \(0.20022512064126755\ldots\). Below it the unique optimizer is strictly masked; above it the unique optimizer is the optimized unmasked mixed-qubit channel. Exactly two separated optimizers coexist at the transition, and the optimized bound has unequal one-sided derivatives. The proof exhausts the feasible boundary, reduces every interior stationary point to a distance-independent scalar equation, and relates its distance Jacobian to the fixed-distance Hessian determinant. Analytic endpoint estimates and reproducible interval covers establish the complete stationary geometry and the unique value exchange. The accompanying arithmetic verifies functions and derivatives over entire intervals and recomputes every sign from outward enclosures.
+\section{The Variational Problem and Main Result}
+Auxiliary-channel coding converses turn channel design into a rate-bound optimization. We study the global optimization of the masked mixed-qubit bound introduced by Alrabiah and Guruswami~\cite{AlrabiahGuruswami2026}. The better coding bound is determined jointly by feasibility, fixed-distance curvature, and comparison with the optimized boundary when two stationary channels share an auxiliary parameter.
+
+Put \(a=2\delta\in(0,1)\) and
+\[
+s(z)=h_2\!\left(\frac{1-\sqrt{1-z}}2\right),\qquad
+h_2(p)=-p\log_2p-(1-p)\log_2(1-p).
+\]
+Endpoint values use continuity. Define
+\begin{align}
+D&=1+\rho u-\rho u^2+\rho^2u^2,\notag\\
+\lambda_a&=\frac{u^2(1-\rho)^2+a(1+u)}{D},\label{eq:lambda}\\
+\mathcal D_a&=\{(u,\rho)\in[0,1]^2:
+a(1-\rho u^2)\ge\rho u^2(1-\rho)\},\notag\\
+V_a(u,\rho)&=1+s(u^2)-s(\min(1,\lambda_a))-s(\rho u^2).\label{eq:objective}
+\end{align}
+The coding bound and its unmasked face are
+\begin{align}
+B_T(\delta)&=\min_{\mathcal D_{2\delta}}V_{2\delta},\label{eq:BT}\\
+B_M(a/2)&=\min_{1-a\le w\le1}
+\{s(w^2)-s(w(w-1+a))\}.\label{eq:BM}
+\end{align}
+In particular \(R_2(\delta)\le B_T(\delta)\) for arbitrary binary codes, linear or nonlinear~\cite{AlrabiahGuruswami2026}. All objective values below are in bits.
+
+\begin{theorem}\label{thm:main}
+There is exactly one transition distance
+\[
+0.2002251206412457<\delta_*<0.2002251206412894.
+\]
+For \(0<\delta<\delta_*\), the unique global minimizer of~\eqref{eq:BT} is a strict interior masked point and \(B_T(\delta)<B_M(\delta)\). For \(\delta_*<\delta<1/2\), the unique minimizer is the optimized face point and \(B_T(\delta)=B_M(\delta)\). At \(\delta_*\) there are exactly two minimizers, one of each type.
+
+The interior minimizer at coexistence satisfies
+\(1-\lambda_*>0.3782489593555764\).
+Writing \(B_s\) for the interior value branch,
+\[
+0.0747075697651890<B_s'(\delta_*)-B_M'(\delta_*)
+<0.0747075697653768.
+\]
+Thus \(B_T\) is continuous, analytic on each open side, and nondifferentiable at the transition.
+\end{theorem}
+
+\section{Entropy Geometry and Exhaustion of the Boundary}
+The normalized derivative and its reciprocal are
+\[
+g(z)=2\ln2\,s'(z)=\frac{\atanh\sqrt{1-z}}{\sqrt{1-z}},
+\qquad A(z)=1/g(z).
+\]
+Here \(g(1)=1\), \(g(0+)=\infty\), and
+\begin{equation}\label{eq:g}
+g(z)=\int_0^1\frac{dt}{1-(1-z)t^2},\qquad
+2(1-z)g'(z)=g(z)-z^{-1}.
+\end{equation}
+
+\begin{lemma}\label{lem:entropy}
+\(A\) is strictly increasing and strictly concave, with \(A(0)=0,A(1)=1\), and \(zA'(z)/A(z)\) increases strictly. For \(0<u<1\),
+\[
+g(u^2)<\frac{2+u}{3u}<\frac1u,\qquad
+A(u^2)<\frac{1+2u}{3}.
+\]
+Moreover
+\begin{equation}\label{eq:quarter}
+g(x^2/4)<\frac{2g(x)}{1+x/4}\qquad(0<x\le1).
+\end{equation}
+\end{lemma}
+\begin{proof}
+The integral gives \(g'<0\) and, by strict Cauchy--Schwarz,
+\(g'^2<gg''/2\), hence \(A''<0\).
+Equation~\eqref{eq:g} gives
+\[
+\frac{2zA'}A=\frac{A-z}{1-z}.
+\]
+Its derivative is positive because strict concavity gives
+\(A+(1-z)A'>1\).
+For \(r^2=1-u^2\), compare the coefficients of
+\[
+g(u^2)=\sum_{n\ge0}\frac{r^{2n}}{2n+1},
+\qquad \frac{2+u}{3u}
+=1+\frac23\sum_{n\ge1}\frac{\binom{2n}{n}}{4^n}r^{2n}.
+\]
+They agree at \(n=1\); the successive ratio of the normalized right coefficients is \((2n+3)/(2n+2)>1\).
+The reciprocal inequality follows on putting \(u=\operatorname{sech}t\):
+\(t(\cosh t+2)-3\sinh t\) has positive coefficients from degree five onward.
+
+The double-angle identity gives
+\(g(x^2/(2-x)^2)=(2-x)g(x)\).
+The reciprocal inequality and~\eqref{eq:g} imply
+\[
+-g'(z)<\frac{1+3\sqrt z}{2z(1+\sqrt z)(1+2\sqrt z)}.
+\]
+Integrate from \(x^2/4\) to \(x^2/(2-x)^2\), using the antiderivative
+\(\ln\{v(1+2v)/(1+v)^2\}\), \(v=\sqrt z\). This gives
+\[
+g(x^2/4)<(2-x)g(x)+\ln\frac{(2+x)^3}{8(1+x)}.
+\]
+The difference between \(x(2+x)/(4+x)\) and the logarithm vanishes at zero and has derivative
+\(x^2(x^2+9x+17)/[(x+4)^2(x+1)(x+2)]>0\).
+Since \(g(x)\ge1\), this proves~\eqref{eq:quarter}.
+\end{proof}
+
+The strictly concave function
+\[
+\mathcal K_x(r)=2A(rx)-(1+r)A(x)
+\]
+is negative at zero, positive at \(x/4\), and zero at one. It has one other zero \(r_M(x)\), with
+\begin{equation}\label{eq:rM}
+0<r_M(x)<x/4,\qquad r_M'(x)>0,\qquad r_M(1)<3/20.
+\end{equation}
+Indeed \(\partial_r\mathcal K_x>0\) at that zero, while the increasing elasticity in Lemma~\ref{lem:entropy} gives \(\partial_x\mathcal K_x<0\). The last bound follows by \(g(3/20)<40/23\).
+
+\begin{lemma}\label{lem:face}
+Put \(\rho_0=r_M(1)\), so \(1/16<\rho_0<3/20\).
+The face minimizer is unique: \(w=1\) for \(a\le\rho_0\), and otherwise it solves
+\[
+a=1-w\{1-r_M(w^2)\}.
+\]
+In particular \(B_M(a/2)=1-s(a)\) for \(a\le\rho_0\).
+\end{lemma}
+\begin{proof}
+For \(r=1-(1-a)/w\), the face derivative is
+\[
+-ws'(rw^2)\left(1+r-\frac{2g(w^2)}{g(rw^2)}\right).
+\]
+Implicit differentiation of \(\mathcal K_x(r)=0\), \(x=w^2\), reduces the strict increase of \(w(1-r_M(w^2))\) to positivity of
+\[
+S=(1+r)A(x)\{(1-r)-x(1+3r)\}
++2r\{-2+3(1+r)x+(1-r)x^2\}.
+\]
+If the coefficient of \(A(x)\) is nonnegative, use \(A(x)>x\) and \(r=vx/4\), \(v<1\), to get
+\[
+S>x(1-x)\{(1-v)+vx/2+5v^2x^2/16\}>0.
+\]
+If it is negative, \(A(x)<1\) and \(r<1/6\) give
+\(S>(1-x)(1-6r+r^2)>0\).
+The derivative sign now gives the stated unique minimizer. Finally \(g(1/16)>32/17\) places \(\rho_0\) above \(1/16\).
+\end{proof}
+
+\begin{lemma}\label{lem:candidates}
+Every global minimizer is either the face minimizer of Lemma~\ref{lem:face} or a strictly interior stationary point with \(\lambda_a<1\). The original strict-domain channel formulation has the same infimum as~\eqref{eq:BT}.
+\end{lemma}
+\begin{proof}
+Decreasing \(u\) creates strict slack in
+\(W_a=a-u^2\rho(a+1-\rho)\ge0\), after which a small perturbation enters the open square. This proves density in the compact domain.
+Subtracting the denominator in~\eqref{eq:lambda} from its numerator gives
+\((1+u)\{u(1-\rho)+a-1\}\).
+On the truncation region the objective decreases strictly with \(\rho\) for fixed \(u>0\); its minimum occurs at
+\(\rho=1-(1-a)/u\), giving~\eqref{eq:BM}.
+Every such face point is feasible, since substitution gives
+\[
+W_a(u,1-(1-a)/u)=(1-u)\{a(1+u)+(1-a)^2\}\ge0.
+\]
+
+On \(W_a=0\) with \(0<\rho<1\), write \(x=u^2,y=\rho u^2\). Substitution gives
+\[
+\lambda=\frac{x(1-\rho)}{1-y},\qquad
+x=\lambda+y-\lambda y,\qquad a=\lambda y/x.
+\]
+Independent binary signs of variances \(\lambda,y\) have product variance \(x\); the expected conditional variance of the first given their product is \(a\).
+Conditional entropy and concavity of \(s\) therefore give
+\(s(\lambda)+s(y)-s(x)\le s(a)\).
+Thus this boundary, \(u=0\), and \(\rho=1\) have value at least \(1-s(a)\).
+At \(u=1,\rho<1\), feasibility gives \(a\ge\rho\), placing the point in the truncation region; the corner \(\rho=1\) was already covered.
+On \(\rho=0\), any strict point improves on increasing \(\rho\), since
+\(-s(\rho u^2)\) dominates the smooth linear changes.
+Finally
+\[
+\left.\frac{d}{dh}\{1+s(h^2)-s(a+ah+h^2)\}\right|_{h=0+}
+=-as'(a)<0.
+\]
+A small subsequent positive \(\rho\) makes this trial point strictly feasible with value below \(1-s(a)\). None of the other boundary cases can minimize.
+\end{proof}
+
+\section{Stationarity and Fixed-Distance Curvature}
+Introduce the projective parameter and auxiliary quantities
+\begin{align}
+C&=\frac{1-u+2u\rho}{1+u},& d&=1-C,&
+\rho&=\frac{(1+C)u-d}{2u},\notag\\
+K&=\frac{3+C^2-(1-C^2)u}{4},&
+M&=1+\rho-\frac{2g(u^2)}{g(\rho u^2)},&
+Q&=d+C\lambda.\label{eq:chart}
+\end{align}
+The algebraic stationary relation, residual, and recovered distance are
+\begin{align}
+M&=m_C(\lambda)=\frac{d^2(1-\lambda)}{4Q},&
+\lambda&=\frac{d(d-4M)}{d^2+4CM},\label{eq:eliminate}\\
+F(C,u)&=Qg(\lambda)-uKg(\rho u^2),&
+a(C,u)&=K\lambda-\frac{d^2(1+u)}4.\label{eq:residual}
+\end{align}
+All partial derivatives of \(F,a\) include the displayed dependence of \(\lambda\).
+
+\begin{proposition}\label{prop:stationarity}
+Interior stationary points correspond exactly to zeros of \(F\) on
+\begin{equation}\label{eq:physical}
+0<C<1,\qquad d/(1+C)<u<1,\qquad 0<M<d/4.
+\end{equation}
+Every such zero satisfies
+\[
+0<\rho<\min(u^2/4,3/20),\qquad
+u^2<\lambda,\qquad 0<\rho u^2<a<\lambda<1,
+\]
+and recovers a strictly feasible stationary point of~\eqref{eq:objective}.
+\end{proposition}
+\begin{proof}
+Set \(z=u\rho,h=u-z\), so \(u=z+h\), and write
+\(Q_0=1+z(1-h)\), \(K=Q_0/(1+u)\), \(d=2h/(1+u)\).
+Let \(\sigma=(2\ln2)^{-1}\), \(\mathscr A=M-m_C(\lambda)\), and
+\[
+B_z=-\lambda_z=\frac{(1-\lambda)h^2}{(1+u)Q_0},
+\qquad \lambda_h=\frac{2h+a+\lambda z}{Q_0}.
+\]
+Direct differentiation at fixed \(a\), before imposing stationarity, gives
+\begin{align}
+\sigma^{-1}V_z&=-ug(zu)\mathscr A+(B_z/Q)F,\notag\\
+\sigma^{-1}V_h&=-ug(zu)\mathscr A-(\lambda_h/Q)F.\label{eq:gradient}
+\end{align}
+The row transformation has determinant \(ug(zu)/K>0\).
+Also \(\partial_\lambda\mathscr A=d^2/(4Q^2)>0\), proving the two-way elimination.
+
+Since \(M>0\) means \(\mathcal K_{u^2}(\rho)<0\),~\eqref{eq:rM} gives the claimed \(\rho\) bounds.
+Freeze \(u,\rho\), put \(x=u^2\), and set
+\[
+Q_1(w)=(d+Cw)(1+\rho)-d^2(1-w)/4,\qquad \Phi(w)=Q_1(w)g(w).
+\]
+The equations give \(\Phi(\lambda)=2uKg(x)\), and
+\[
+Q_1(x)-2uK=\rho u\{u-\rho(2-u)\}>0.
+\]
+Furthermore \(k(x):=-g'(x)/g(x)>(u+3)/[2u(1+u)(2+u)]=k_b\), and
+\[
+k_bQ_1(x)-Q_1'=\frac{-N}{2(1+u)^2(2+u)}>0,
+\]
+where
+\[
+N=\rho^2(3u^3+8u^2+13u+6)+\rho(-u^3+u+4)-2\le-23/40.
+\]
+The last bound uses \(u<1,\rho<3/20\).
+Since \((Q_1A'-Q_1'A)'=Q_1A''<0\), positivity at \(x\) implies \(\Phi'<0\) on \((0,x]\). The residual equation therefore forces \(\lambda>x\).
+Finally, with \(y=\rho x\),
+\[
+a_0:=Kx-d^2(1+u)/4=y\{1+(1-u)(1-\rho)\}>y.
+\]
+Thus \(a=K(\lambda-x)+a_0>y\), while \(K<1\) gives \(a<\lambda<1\).
+As \(y<\rho\), \(a(1-y)>y(1-\rho)\), proving strict feasibility.
+\end{proof}
+
+Define \(J=a_CF_u-a_uF_C\). On a simple stationary graph,
+\begin{equation}\label{eq:distance-J}
+a'(C)=J/F_u,\qquad
+\det\nabla^2_{z,h}V_a
+=-\frac{\sigma^2ug(y)d^2}{2Q^2K^2(1+u)}\,J.
+\end{equation}
+For the determinant identity, differentiate~\eqref{eq:gradient} before setting \(\mathscr A=F=0\).
+At fixed \(a\), the eliminated system has determinant \(-\mathscr A_aJ\), where
+\(\mathscr A_a=d^2/(4Q^2K)\); the coordinate change has determinant
+\(\det\partial(C,u)/\partial(z,h)=2/(1+u)\).
+Multiplication gives~\eqref{eq:distance-J}. In particular \(J>0\) certifies a saddle without any separate principal-curvature assumption.
+
+\section{Counting All Stationary Branches}
+\begin{lemma}\label{lem:proper}
+The strict root set is proper over every closed \(C\)-strip inside \((0,1)\): roots cannot approach the boundary of~\eqref{eq:physical}.
+\end{lemma}
+\begin{proof}
+On such a strip \(u\) is bounded below, hence \(g(u^2)\) is bounded.
+Since \(2g(u^2)/g(y)=1+\rho-M>3/4\), \(y\) cannot approach zero.
+Proposition~\ref{prop:stationarity} excludes \(\lambda=0\).
+
+At \(u=1\), \(\rho=C\) and \(M=1+C-2/g(C)\).
+For \(C\ge1/5\),~\eqref{eq:rM} gives \(M<0\).
+For \(C\le1/5\), use \(g(\lambda)\ge3/(2+\lambda)\) in~\eqref{eq:residual}.
+After substitution of \(M=m_C(\lambda)\), the needed rational comparison reduces to
+\(-M(5C-1)(3C+1)\ge0\), giving
+\(F(C,1)\ge C(1-C)g(C)/2>0\).
+
+At \(\lambda=1\), \(M=0\) and \(\rho=r_M(x)\), \(x=u^2\).
+We first prove \(\rho>x/8\).
+From~\eqref{eq:g} and Lemma~\ref{lem:entropy},
+\(-zg'(z)\ge(3+\sqrt z)/(6(1+\sqrt z))\).
+Integration and the double-angle identity give
+\[
+g(x^2/8)\ge(2-x)g(x)+G(x),\qquad
+G(x)=\frac13\ln\frac{(2\sqrt2+x)^2}{\sqrt2(2-x)}.
+\]
+The function
+\[
+J_0(u)=G(u^2)-\frac{u(6+u^2)(2+u)}{3(8+u^2)}
+\]
+is positive on \([0,1]\); the accompanying interval proof covers this closed interval by 47 rational subintervals and encloses a positive lower bound on each.
+Using \(g(u^2)<(2+u)/(3u)\), this implies
+\((1+x/8)g(x^2/8)>2g(x)\).
+The sign pattern of \(\mathcal K_x\) therefore gives \(r_M(x)>x/8\).
+
+Now \(F>0\) on \(M=0\) is equivalent to
+\[
+2u g(u^2)D-(1+u)(1+\rho)<0.
+\]
+This is convex in \(\rho\). At \(\rho=1\) it is negative by \(ug(u^2)<1\).
+At \(\rho=x/8\) it is negative if
+\[
+g(u^2)<R_*(u):=\frac{4(1+u)(8+u^2)}
+{u(64+8u^3-8u^4+u^6)}.
+\]
+For \(u\le1/5\), \(R_*(u)\ge1/(2u)\); also \(ug(u^2)\) increases, and \(g(1/25)<5/2\).
+For \(1/5\le u\le1\), use
+\[
+g(u^2)\le S_8(u):=\sum_{j=0}^{7}\frac{(1-u^2)^j}{2j+1}
++\frac{(1-u^2)^8}{17u^2}.
+\]
+Clearing positive denominators from \(R_*-S_8\) gives a polynomial whose Bernstein coefficients are positive on \([1/5,3/5]\) and \([3/5,1]\); they are supplied and recomputed in the verification material.
+Thus convexity excludes the entire interval \(x/8\le\rho\le1\).
+All remaining boundary exclusions follow from the preceding positive lower bounds and compactness.
+\end{proof}
+
+The endpoint argument needed below is stated separately; its proof appears in Section~\ref{sec:tail}.
+\begin{lemma}\label{lem:tail}
+Put \(d=1-C\).
+For \(0<d\le1/20\), every stationary fiber has exactly two roots, with
+\[
+0<\lambda_-<d^2<d<\lambda_+<5d/4.
+\]
+On the upper root, \(0<a<5d/4\), \(da/dd>7/100\), and its value is strictly below \(B_M(a/2)\).
+For \(0<d\le1/5\), there is exactly one residual zero below \(d^2\); it satisfies
+\[
+u^2<\lambda_-<5u^2/4,\qquad
+0<a<13u^2/50<1/16,
+\]
+and its value is strictly above \(B_M(a/2)\).
+\end{lemma}
+
+We use two charts for the compact part:
+\begin{align}
+u&=\frac{1-C+2Ct}{1+C},&&0<t<1,\label{eq:tchart}\\
+\theta&=4\rho/u^2,\qquad
+(1+C)u-\theta u^3/2=1-C,&&0<\theta<1.\label{eq:thetachart}
+\end{align}
+On \(C\in[1/60,53/100]\), \(u>3/10\), \(g(u^2)<2\), and
+\(g(y)<16/3\). Since \(g(y)\ge\frac12\ln(1/y)\), every root has
+\(y>2^{-16}\), and \(y=Ctu\le t\) permits the closed covering \(t\in[2^{-16},1]\).
+
+For \(53/100\le C\le24/25\), the cubic in~\eqref{eq:thetachart} has exactly one root \(1/49\le u<1/3\). Its derivative in \(u\) is positive.
+A sharper uniform restriction is \(\theta>1/20\).
+Indeed \(E(z)=g(z)-\frac12\ln(4/z)\) increases from zero because
+\(E'(z)=(g(z)-1)/(2(1-z))>0\).
+The checked constants \(g(1/49^2)<5\) and \(E(1/9)<2/25\), together with \(M<47/400\), give
+\[
+g(y)-2g(x)=(M-\rho)g(y)<470/353.
+\]
+But \(g(y)-2g(x)=-\frac12\ln\theta+E(y)-2E(x)\).
+Therefore
+\[
+-\tfrac12\ln\theta<470/353+4/25<\tfrac12\ln20,
+\]
+proving the restriction used by the high-strip cover.
+
+\begin{lemma}\label{lem:covers}
+The complete compact covers have the properties in Table~\ref{tab:covers}. At \(C=53/100\) there are exactly two simple physical roots.
+\end{lemma}
+\begin{proof}
+Each initial rational rectangle is subdivided into two closed children with the same union. On a terminal box, interval evaluation either excludes a physical root, excludes the relevant simultaneous zero, or proves the sign specified in the table.
+For a fold, the simultaneous system is \(F=F_t=0\); a positive birth is certified by \(F_CF_{tt}<0\).
+For a distance critical point it is \(F=J=0\); the curvature numerator
+\[
+\mathcal N=J_CF_t-J_tF_C,\qquad a''(C)=\mathcal N/F_t^2
+\quad(J=0)
+\]
+uses the selected chart consistently.
+The lower strip certifies \(F_t>0,\mathcal N<0\) whenever a critical point is not excluded.
+The two high-strip covers exclude the simultaneous zeros outright.
+Section~\ref{sec:verification} specifies the enclosure arithmetic and replay.
+Every terminal box is recomputed, and exact rational adjacency verifies the complete domain.
+
+At \(C=53/100\), two disjoint brackets have opposite residual signs and nonzero derivatives; a 705-node one-dimensional cover excludes all other physical roots. The exact bracket endpoints are included in the same material.
+\end{proof}
+
+\begin{table}[t]
+\centering
+\caption{Complete compact covers. Counts refer to the recomputed certificates.}
+\label{tab:covers}
+\begin{tabular}{llll}
+\toprule
+\(C\)-range & Chart & Nodes / leaves & Conclusion at a possible joint zero\\
+\midrule
+\([1/60,53/100]\)&\(t\)&\(59\,321/29\,661\)&\(F_CF_{tt}<0\) at folds\\
+\([53/100,24/25]\)&\(\theta\)&\(6\,287/3\,144\)&No fold\\
+\([1/60,53/100]\)&\(t\)&\(281\,021/140\,511\)&Upper strict distance maximum\\
+\([53/100,4/5]\)&\(\theta\)&\(97\,773/48\,887\)&No distance critical point\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{proposition}\label{prop:branches}
+There is a unique birth \(C_b=0.252377348047093926\ldots\).
+No stationary root exists below it; above it there are exactly two ordered analytic roots \(u_-(C)<u_+(C)\), with \(F_u(C,u_-)<0<F_u(C,u_+)\).
+The upper branch has one distance critical point, a strict maximum at
+\(C_{\rm sp}=0.419045869150680921\ldots\).
+Its distance decreases bijectively from
+\(a_{\rm sp}=0.436686321489221978\ldots\) to zero on \(C_{\rm sp}<C<1\).
+\end{proposition}
+\begin{proof}
+For \(0<C\le1/60\),
+\[
+M\ge1-\frac{2g((59/61)^2)}{g(1/60)}
+>0.2589403965>1/4,
+\]
+so no root is physical.
+At a fold in the low strip, the Jacobian of \((F,F_t)\) is nonzero and the Taylor expansion
+\[
+F=F_C(C-C_0)+\tfrac12F_{tt}(t-t_0)^2+o(|C-C_0|+|t-t_0|^2)
+\]
+places both nearby roots on \(C>C_0\).
+Properness from Lemma~\ref{lem:proper} prevents boundary entry.
+Every fold therefore increases the count by two; the endpoint counts zero and two force exactly one fold.
+A local interval contraction for \((F,F_u)\) encloses \(C_b\), with \(F_C<0,F_{uu}>0\), giving the two derivative signs.
+The high-strip cover continues these two simple graphs to \(24/25\).
+Lemma~\ref{lem:tail}, overlapping on \([19/20,24/25]\), continues the same branches to one.
+
+Every distance critical point on the low strip is on the upper branch and is a simple downward crossing of \(a'\).
+A local contraction for \((F,J)\) supplies the stated one. Two downward crossings would require an intervening zero of another type, so it is unique.
+The high distance-critical cover continues the signs to \(C=4/5\).
+The upper-root intervals in Section~\ref{sec:comparison} certify \(a'<0\) on \([4/5,19/20]\), and Lemma~\ref{lem:tail} gives \(da/dd>7/100\) beyond it.
+Its bound \(a<5d/4\) gives the limit zero.
+\end{proof}
+
+\section{Value Exchange and the Global Minimum}\label{sec:comparison}
+For \(C>C_{\rm sp}\), let \(w(C)\) be the unique face optimizer at the recovered distance and set
+\[
+\Delta(C)=V_{a(C)}(u_+(C),\rho_+(C))-B_M(a(C)/2).
+\]
+At an interior face point, the envelope derivative is
+\begin{equation}\label{eq:gapderivative}
+\Delta'(C)=\frac{a'(C)\mathcal L(C)}{2\ln2},\qquad
+\mathcal L=w\,g(w(w-1+a))-\frac{g(\lambda)}K.
+\end{equation}
+This follows by differentiating the original objectives in \(a\):
+their derivatives are respectively \(-g(\lambda)/(2K\ln2)\) and
+\(-wg(w(w-1+a))/(2\ln2)\).
+The formula extends through the endpoint face by its explicit value.
+
+\begin{lemma}\label{lem:values}
+The same-distance comparison has exactly one zero,
+\[
+0.52734600028746<C_*<0.52734600028748.
+\]
+It is positive on \(C_{\rm sp}<C<C_*\) and negative on \(C_*<C<1\).
+\end{lemma}
+\begin{proof}
+The recomputed upper-root cover on \([0.41904,0.41905]\), containing the spinodal, gives
+\(\Delta>0.00102288236\) bits.
+On \([0.41905,0.55]\), 832 contiguous root/face intervals certify
+\(\mathcal L>0\). Proposition~\ref{prop:branches} gives \(a'<0\), so~\eqref{eq:gapderivative} makes the gap strictly decreasing there.
+A local contraction for the three equations
+\[
+F(C,u)=0,\quad
+2wg(w^2)-(2w-1+a)g(w(w-1+a))=0,\quad
+\Delta=0
+\]
+encloses \(C_*\); its face coordinate is interior and its strict root has \(F_u>0\).
+Thus it is the unique zero on the monotone interval.
+The 29,824 negative-gap intervals cover \([0.53,0.95]\) without gaps.
+Lemma~\ref{lem:tail} supplies strict negativity on \([0.95,1)\).
+These overlaps complete the sign classification.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+At \(C=53/100\), interval evaluation gives \(J>0\) on the lower root.
+The distance-critical covers and~\eqref{eq:distance-J} preserve that sign on the lower branch up to \(C=4/5\), so all those points are saddles.
+The lower-root part of Lemma~\ref{lem:tail} excludes the rest by a strict same-distance face improvement.
+At the birth itself \(J>0\), as verified in its local contraction box, so it too is a saddle.
+
+On the upper branch \(a'>0\) before its unique maximum and \(F_u>0\), hence \(J>0\) there.
+The spinodal has positive face gap and is excluded from minimization.
+After the spinodal the distance map is a bijection onto \((0,a_{\rm sp})\), so at each physical distance there is at most one remaining interior candidate.
+Lemma~\ref{lem:candidates} and existence of a compact minimum now leave only that candidate and the unique face minimizer.
+Lemma~\ref{lem:values} decides between them. The decreasing distance map reverses the \(C\)-ordering, yielding exactly the three cases in the theorem, including both minimizers at equality.
+
+The proof uses the global value comparison together with the Hessian determinant; a positive determinant alone is not used as a local-minimum criterion.
+Where the strict candidate wins it is a global minimum, and its nonzero determinant makes the Hessian positive definite.
+Continuity and the nonvanishing determinant on the connected post-spinodal branch then give positive definiteness everywhere on that branch.
+
+The local coexistence box gives the stated \(\delta_*\), mask separation and
+\[
+B_s'(\delta_*)-B_M'(\delta_*)=\mathcal L(C_*)/\ln2.
+\]
+The face coordinate is interior since \(2\delta_*>0.40045>\rho_0\).
+Both winning families are analytic by the implicit function theorem; their equal values at coexistence give continuity, while the nonzero slope difference gives nondifferentiability.
+\end{proof}
+
+\section{Reproducible Interval Proofs}\label{sec:verification}
+The directory \texttt{verification/} contains exact rational covering boxes, the local contraction data, rational-sign certificates, and their independently runnable verification code. The interval method follows the inclusion principles in~\cite{MooreKearfottCloud2009}. Its output distinguishes verification of the computational lemmas from the analytic reductions proved here.
+
+With Python, python-flint 0.9.0, mpmath 1.3.0 and SymPy 1.14.0 installed, run
+\texttt{python -B verification/verify.py --work replay}
+from the repository root. The specified work directory must be empty; it receives the recomputed reports and logs.
+
+Scalar interval operations are outward rounded. Near \(z=1\), \(g\) and its derivatives are enclosed by
+\(g(z)=\sum_{j\ge0}(1-z)^j/(2j+1)\) with geometric tail bounds. Elsewhere~\eqref{eq:g} gives stable derivatives. In the high chart, the exact identity
+\begin{gather*}
+g(y)-2g(x)=-\tfrac12\ln\theta+E(y)-2E(x),\\
+E(z)=\frac{z\ln(4/z)}{2r(1+r)}
++\frac{\ln(1-z/[2(1+r)])}{r},\quad r=\sqrt{1-z},
+\end{gather*}
+retains the small-argument cancellation.
+
+An affine enclosure represents \(c+\sum_i a_i\varepsilon_i+R\), with
+\(|\varepsilon_i|\le1\) and interval remainder \(R\).
+Writing \(L=\sum_i|a_i|_{\max}\), its range is \(c+R+[-L,L]\).
+For a product of two such forms, the retained linear coefficients are
+\(c_1a_{2i}+c_2a_{1i}\), and a valid remainder is
+\[
+c_1R_2+c_2R_1+
+[-(L_1+|R_1|_{\max})(L_2+|R_2|_{\max}),
+  (L_1+|R_1|_{\max})(L_2+|R_2|_{\max})].
+\]
+This includes every linear/remainder cross term.
+A second-order Taylor bound gives the corresponding outward unary remainders.
+Midpoint--radius software constructors are supplied center zero for a symmetric remainder; lower and upper endpoints are never passed as midpoint and radius.
+
+On rectangular covers, value intervals may be contracted using necessary root conditions, with derivative intervals retained for the original analytic functions.
+A centered mean-value refinement is used only when the formula is defined on the entire convex rectangle.
+In the high chart the cubic is enclosed first; implicit differentiation then propagates its first two derivatives.
+
+For a slanted root tube \(u=c(C)+\varepsilon\), strict residual signs on its two sides and a nonzero \(F_u\) give a unique root for every \(C\) in the slab.
+The face is enclosed at the \emph{same} recovered distance, retaining its affine dependence on that distance.
+Near the face endpoint, a bracket \(w\in[0.999,1]\) follows from the negative face derivative at \(0.999\); monotone entropy bounds then cover the switching slab.
+The 30,577 resulting slabs have exact adjacent endpoints. Of these, 28,013 additionally certify upper distance monotonicity on \([0.8,0.95]\).
+
+For local events, a rational-decimal center \(z_0\) and approximate inverse \(Y\) define
+\[
+\mathcal K(Z)=z_0-YG(z_0)+(I-YG'(Z))(Z-z_0).
+\]
+Strict inclusion in the box interior and \(\|I-YG'(Z)\|_\infty<1\) prove existence and uniqueness.
+The birth, spinodal and coexistence boxes have radius \(10^{-24}\), with contraction norms below
+\(2\cdot10^{-19}\), \(4\cdot10^{-16}\), and \(8\cdot10^{-17}\), respectively.
+Numerical root finders only propose centers; these inequalities are recomputed with outward arithmetic.
+Likewise, the replay re-evaluates the functions on the supplied boxes and uses file hashes for provenance.
+
+\section{Uniform Endpoint Proof}\label{sec:tail}
+We prove Lemma~\ref{lem:tail}, including the open limit \(C\uparrow1\).
+Put \(d=1-C\) and
+\[
+u_L=\frac d{2-d},\qquad U=\frac{d(2+d+d^2)}4.
+\]
+For \(0<d\le1/5\), substitution into the increasing cubic gives
+\(u_L\le u\le U\le14/125\).
+The polynomial inequality
+\((2-d)U-U^3/2-d>0\) is one of the exact rational checks below.
+
+\subsection{The algebraic section exists uniquely}
+On an algebraic level \(M=m\in[0,d/4]\), define
+\[
+q_0=1+\rho-m=\frac{2g(x)}{g(y)},\qquad
+D_c=2-d-\tfrac32\theta u^2,\qquad
+u_\theta=\frac{u^3}{2D_c},\qquad e(z)=-zg'(z)/g(z).
+\]
+Write \(h_1=\partial_u(uK)\), and set
+\[
+V_0=e(y)(1/\theta+4u_\theta/u),\quad
+T_0=\rho_\theta/q_0+2e(x)u_\theta/u,\quad
+U_0=h_1u_\theta/(uK).
+\]
+Differentiation before imposing the residual equation gives
+\begin{equation}\label{eq:leveldiff}
+M_\theta=q_0(T_0-V_0),\qquad
+\partial_\theta\ln(uKg(y))=U_0-V_0.
+\end{equation}
+For \(d\le1/5\),
+\[
+x<1/75,\ y<1/25000,\ \rho<49/15625,\quad
+D_c>89/50,\ K>89/100,\ q_0\ge19/20.
+\]
+Equation~\eqref{eq:g} gives \(e(x)<1/5\).
+Also \(e(y)>y^{1/4}\): use
+\(g(z)<\ln(4/z)/(2\sqrt{1-z})\), the increase of
+\(z^{1/4}\ln(4/z)\) on this interval, and the endpoint bound
+\(z^{1/4}g(z)<7/15\).
+Consequently \(V_0>u/2\).
+Since
+\(\rho_\theta=u^2(1/4+\rho/D_c)\), substitution gives
+\[
+T_0/V_0<1/10,\qquad U_0/V_0<2/25.
+\]
+All constants are verified as strict rational or outward elementary-function inequalities by the supplied code.
+
+Every crossing of a level \(M=m\) is therefore simple and downward.
+As \(\theta\downarrow0\), \(M\to1\); at \(\theta=1\), \(M<0\) by~\eqref{eq:quarter}.
+Existence follows, and two downward crossings would require a non-downward one between them.
+Thus every level has exactly one solution.
+For fixed \(d>0\), this defines an analytic section \(u(C,\lambda),\theta(C,\lambda)\) for \(0\le\lambda\le1\).
+Along it put
+\[
+H_\lambda=(d+C\lambda)g(\lambda),\qquad
+R_\lambda=uKg(y).
+\]
+Since \(m_C'(\lambda)=-d^2/(4Q^2)\),~\eqref{eq:leveldiff} gives
+\begin{equation}\label{eq:B}
+B_\lambda:=-\partial_\lambda\ln R_\lambda
+=\frac{d^2(V_0-U_0)}{4Q^2q_0(V_0-T_0)}>0.
+\end{equation}
+It is less than \(50/171<1/3\) on the larger interval.
+For \(d\le1/20\), the stronger constants
+\[
+u<3/100,\quad D_c>3897/2000,\quad K>19/20,\quad
+q_0\ge79/80,\quad e(x)<1/6,\quad e(y)<1/16
+\]
+give
+\begin{equation}\label{eq:ratios}
+T_0/V_0<1/40,\quad U_0/V_0<1/50,\quad
+49/50<\zeta:=\frac{V_0-U_0}{V_0-T_0}<40/39.
+\end{equation}
+In particular \(B_\lambda<40/79\).
+
+\subsection{Two crossings, with an explicit upper bracket}
+The derivative of \(QA'-CA\) is \(QA''<0\), so \(H_\lambda=Q/A(\lambda)\) has at most one critical point, a minimum.
+At \(\lambda=d\), \(g(d)\ge3/(2+d)\) implies \(H_\lambda'>0\).
+For \(d\le1/20\), the double-angle identity and~\eqref{eq:g} give
+\[
+(2-d)g(d)-g(d^2)\ge(1-d)\ln(2-d)>(1-d)/2,
+\]
+and \(dg(d^2)<1/4\). Thus \(H_{d^2}<H_d\).
+
+We next prove \(H_d<R_d\).
+Define
+\[
+m_d=\frac{d(1-d)}{4(2-d)},\quad z=U^2,\quad
+t=(d+d^2)/2,\quad
+B_0=\frac{2K(C,U)}{(2-d)^2(1+U^2/4-m_d)},
+\]
+\[
+R_c=B_0(1-t),\qquad
+r_0=2(t-t^2/2+t^3/3)+z+\frac{z^2}{2(1-z)}.
+\]
+The support bounds imply
+\(R_d/H_d\ge B_0g(U^2)/g(d)\).
+For \(\ell=-\ln d\), elementary logarithm bounds give
+\[
+g(U^2)\ge\ell+\ln4-r_0/2,\qquad
+g(d)\le\frac{\ell+\ln4-d/2}{2(1-t)}.
+\]
+Hence it suffices that
+\((2R_c-1)(\ell+\ln4)+d/2-R_cr_0>0\).
+Both rational inequalities
+\begin{equation}\label{eq:centralcert}
+2R_c-1>0,\qquad
+(2R_c-1)\frac{69}{50}+\frac d2-R_cr_0>0
+\end{equation}
+hold on \(0<d\le1/20\), by the exact Bernstein certificates.
+Since \(\ln4>69/50\), this proves \(H_d<R_d\).
+As \(R_\lambda\) decreases and \(H_\lambda\) has no interior maximum,
+\(H_\lambda<R_\lambda\) throughout \(d^2\le\lambda\le d\).
+
+The function \(k=-g'/g\) decreases, by \(gg''>2g'^2\).
+For \(\lambda\le d^2\), \(dg(d^2)<1/4\) gives
+\[
+k(\lambda)-C/Q>1/d-1/2\ge39/2.
+\]
+At every zero of \(H-R\),
+\[
+\frac{\partial_\lambda(H-R)}H=-k+C/Q+B_\lambda
+<-39/2+40/79<0.
+\]
+The residual tends to \(+\infty\) at zero and is negative at \(d^2\), so it has exactly one low crossing.
+On \([d,1]\), \(H\) increases and \(R\) decreases. The negative sign at \(d\) and the positive boundary sign at one from Lemma~\ref{lem:proper} give exactly one upper crossing.
+
+To locate the latter, put \(\beta=5/4\) and
+\[
+\bar q=1+\beta C,\quad
+m_\beta=\frac{d(1-\beta d)}{4\bar q},\quad
+s_x=1-U^2/2-U^4/2,\quad
+P_\beta=\frac{2UK(C,u_L)}{d\bar q(1-m_\beta)s_x}.
+\]
+At \(\lambda=\beta d\),
+\[
+\frac{R_{\beta d}}{H_{\beta d}}
+\le P_\beta
+\frac{2\ell+2\ln4-d}
+{\ell+\ln(16/5)-\beta d/(1-\beta d)}.
+\]
+The rational certificates give
+\begin{align}
+2P_\beta-1&<0,\notag\\
+(2P_\beta-1)\frac{299}{100}
++P_\beta(139/50-d)
+-\left(29/25-\frac{\beta d}{1-\beta d}\right)&<0.\label{eq:uppercert}
+\end{align}
+Using \(\ell>299/100\), \(\ln4<139/100\), and \(\ln(16/5)>29/25\) proves \(R_{\beta d}<H_{\beta d}\).
+Thus \(d<\lambda_+<5d/4\).
+
+\subsection{Upper-root distance and value}
+Let \(b=u_d/u=(1+u)/(uD_c)\) at fixed \(\theta\), \(k_e=-C(1+u)/2\), and \(Z=\zeta/q_0\).
+At fixed \(\lambda\), differentiation of the algebraic section gives
+\[
+G_d:=\partial_d\ln R_\lambda
+=b\left\{\frac{h_1}{K}-2\zeta e(x)-\frac{2\zeta\rho}{q_0}
++4e(y)(\zeta-1)\right\}
++\frac{k_e}{K}+Z\,\partial_dm_C(\lambda).
+\]
+Here \(\partial_dm_C(\lambda)=(1-(\lambda/Q)^2)/4>0\).
+The braces exceed \(16/25\), \(b\ge800/(821d)\), and
+\(k_e/K>-103/190\). Therefore \(G_d>59/(100d)\).
+On the upper root,
+\[
+\frac{\partial_dH_\lambda}{H_\lambda}\le\frac{20}{39d},\qquad
+0<\frac{\partial_\lambda(H_\lambda-R_\lambda)}{H_\lambda}
+\le\frac{20}{39d}+\frac{40}{79}.
+\]
+Implicit differentiation yields
+\[
+\frac{d\lambda}{dd}>
+\frac{59/100-20/39}{20/39+2/79}>\frac7{50}.
+\]
+
+For completeness, the section derivatives obey
+\[
+u_d^{\rm sec}=ub+
+u_\theta\frac{2\rho b+2q_0(e(x)-2e(y))b-\partial_dm_C}
+{q_0(V_0-T_0)},\qquad
+u_\lambda^{\rm sec}
+=\frac{u_\theta d^2}{4Q^2q_0(V_0-T_0)}.
+\]
+Equations~\eqref{eq:ratios} and \(0<\partial_dm_C<1/4\) give
+\[
+0<u_d^{\rm sec}<3/5,\qquad
+0<u_\lambda^{\rm sec}<
+\frac{(40/39)(3/100)^2}{4(3897/2000)(79/80)}.
+\]
+With \(P_d=d\{d+(2-d)\lambda\}/4<7d^2/8\), the total derivative is
+\[
+\frac{da}{dd}
+=(K-P_du_\lambda^{\rm sec})\frac{d\lambda}{dd}
++k_e\lambda-\frac{d(1+u)}2-P_du_d^{\rm sec}.
+\]
+Its lower bound is
+\[
+\frac{949}{1000}\frac7{50}
+-\frac{103}{3200}-\frac{103}{4000}-\frac{21}{16000}
+>\frac7{100}.
+\]
+This proves the asserted distance monotonicity without confusing section partial derivatives with total derivatives along a stationary root.
+
+The upper bracket gives \(a<\lambda<1/16<\rho_0\), so the optimized face is \(1-s(a)\).
+Concavity gives
+\[
+\Delta\le s(x)-\frac{(\lambda-a)g(\lambda)}{2\ln2}.
+\]
+Define
+\[
+P_e=\frac{U^2}{4-U^2-U^4},\qquad
+D_g=\frac{d^2(1+d/(2-d))(3-d)}4,\qquad G_s=D_g/2-4P_e.
+\]
+The entropy bound \(h_2(p)\le p\ln(e/p)/\ln2\) and
+\(\sqrt{1-x}\ge1-x/2-x^2/2\) give
+\[
+s(x)\le \frac{P_e(2\ell+189/50)}{\ln2},\qquad
+\lambda-a\ge D_g,\qquad
+g(\lambda)>\frac12\left(\ell+\frac{29}{25}
+-\frac{\beta d}{1-\beta d}\right).
+\]
+The two certified rational signs are
+\begin{equation}\label{eq:valuecert}
+G_s>0,\qquad
+G_s\frac{299}{100}
++\frac{D_g}{2}\left(\frac{29}{25}-\frac{\beta d}{1-\beta d}\right)
+-\frac{189}{25}P_e>0.
+\end{equation}
+They prove \(\Delta<0\) for the whole open tail.
+
+\subsection{The lower root on the larger tail}
+For \(d\le1/5\), \(dg(d^2)<1/2\) and \(B_\lambda<1/3\).
+Thus every crossing below \(d^2\) is downward, since
+\(\partial_\lambda(H-R)/H<-1/2+1/3\).
+Put
+\[
+m_2=\frac{d(1-d^2)}{4(1+Cd)},\qquad
+B_2=\frac{2K(C,U)}{(2-d)(1+Cd)(1+U^2/4-m_2)}.
+\]
+A rational certificate gives \(B_2>1-3d/4\ge17/20\).
+Integration of \(-g'(z)\ge1/[2z(1+\sqrt z)]\), using \(U/d\le14/25\), gives
+\[
+g(U^2)-g(d^2)>\frac56\ln(25/14)>19/40.
+\]
+Consequently
+\[
+B_2g(U^2)-g(d^2)>
+\frac{17}{20}\frac{19}{40}-\frac34\frac12
+=\frac{23}{800}>0.
+\]
+As \(R_{d^2}/H_{d^2}\ge B_2g(U^2)/g(d^2)\), the residual is negative there and positive near zero. It has exactly one low root.
+
+For that root, freeze \(u,\rho\) and use \(\Phi=Q_1g\) from Proposition~\ref{prop:stationarity}.
+For \(w\le d^2\),
+\[
+\frac{Q_1'}{Q_1(w)}
+\le\frac{(1-d/2)^2}{d(1-d/4)}
+<1/d-1/2<k(d^2)\le k(w),
+\]
+so \(\Phi\) decreases.
+The geometric inequality
+\begin{equation}\label{eq:lowergeometry}
+\frac{Q_1(x)-2uK+Q_1'x/4}{2uK}<9d/100
+\end{equation}
+is certified after substituting \(u=d/(2-d-2d^2\gamma)\),
+\(\rho=d^2\gamma\), on the rational box
+\(0\le d\le1/5,\ 0\le\gamma\le49/625\).
+This box contains every physical point by the upper support \(U\).
+Also
+\[
+dg(x)<5/8,\qquad
+g(x)-g(5x/4)\ge\frac{250}{563}\ln(5/4)>9/100.
+\]
+Combining these inequalities shows
+\(\Phi(5x/4)<2uKg(x)=\Phi(\lambda_-)\), hence
+\(x<\lambda_-<5x/4\).
+
+Now \(a_0=y\{1+(1-u)(1-\rho)\}>y\), and
+\(a_0/x<2\rho<1/100\). Thus \(a<13x/50<1/16\).
+The same entropy-derivative estimate gives
+\[
+g(a)-g(x)\ge\frac{125}{278}\ln(50/13)>59/100.
+\]
+Since \(K>89/100\), \(1-K\le139d/250\), and \(dg(x)<5/8\),
+\[
+Kg(a)-g(x)>\frac{89}{100}\frac{59}{100}
+-\frac{139}{250}\frac58=\frac{111}{625}.
+\]
+Writing \(\varepsilon=\lambda_--x>0\), concavity finally gives
+\[
+V_a-B_M(a/2)\ge
+\frac{(a_0-y)g(a)+\varepsilon\{Kg(a)-g(x)\}}{2\ln2}>0.
+\]
+This proves the remaining claims of Lemma~\ref{lem:tail}.
+
+\subsection{Exact verification of the rational signs}
+The rational expressions in~\eqref{eq:centralcert}, \eqref{eq:uppercert}, \eqref{eq:valuecert}, and~\eqref{eq:lowergeometry}, together with the support and boundary expressions used above, are defined explicitly in the verification script.
+After cancellation, the denominator is proved positive and only positive powers of \(d\) are removed from the numerator.
+On a rational interval or rectangle, write the resulting polynomial in the Bernstein basis. The basis functions are nonnegative and sum to one, so a positive minimum coefficient proves positivity on the entire closed box.
+All ten rational checks pass; the boundary entropy polynomial uses two intervals, and the remaining numerators need one box each.
+This exact calculation treats the endpoint powers analytically and evaluates the open limit \(d=0\) through the endpoint expansion.
+
+The proof thus separates the three global tasks: complete stationary counting, fixed-distance exclusion, and comparison with the actual optimized face. Their combination proves the optimizer transition in Theorem~\ref{thm:main}.
+
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@samestyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
+\providecommand{\BIBentryALTinterwordstretchfactor}{4}
+\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand{\BIBforeignlanguage}[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+\providecommand{\BIBdecl}{\relax}
+\BIBdecl
+
+
+\bibitem{AlrabiahGuruswami2026}
+\BIBentryALTinterwordspacing
+O.~Alrabiah and V.~Guruswami, ``{Binary Code Rate Bounds via Classical--Quantum
+  Channels},'' arXiv preprint arXiv:2608.09347, 2026. [Online]. Available:
+  \url{https://arxiv.org/abs/2608.09347}
+\BIBentrySTDinterwordspacing
+
+\bibitem{MooreKearfottCloud2009}
+\BIBentryALTinterwordspacing
+R.~E. Moore, R.~B. Kearfott, and M.~J. Cloud, \emph{{Introduction to Interval
+  Analysis}}.\hskip 1em plus 0.5em minus 0.4em\relax Philadelphia, PA, USA:
+  Society for Industrial and Applied Mathematics, 2009. [Online]. Available:
+  \url{https://doi.org/10.1137/1.9780898717716}
+\BIBentrySTDinterwordspacing
+\end{thebibliography}
+
+\end{document}

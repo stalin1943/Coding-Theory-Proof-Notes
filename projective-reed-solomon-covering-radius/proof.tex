@@ -1,0 +1,358 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{bm}
+\usepackage{array,booktabs}
+\usepackage{microtype}
+\usepackage{cite}
+\usepackage{placeins}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[unicode,bookmarksnumbered,breaklinks,colorlinks=false,
+ citebordercolor={0 1 0},linkbordercolor={1 0 0},urlbordercolor={0 1 0},
+ pdfborder={0 0 0.65}]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Pj}{\mathbb P}
+\newcommand{\C}{\mathcal C}
+\newcommand{\PRS}{\operatorname{PRS}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\dH}{d_{\mathrm H}}
+\newcommand{\HH}{\mathfrak h}
+\newcommand{\pair}[2]{\langle #1,#2\rangle}
+\newcommand{\diff}{\mathbin{\backslash}}
+\DeclareMathOperator{\PG}{PG}
+\DeclareMathOperator{\diag}{diag}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{arXiv:\nolinkurl{#1}}}
+\allowdisplaybreaks[1]
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{10pt plus 2pt minus 2pt}
+
+
+\usepackage[margin=1in]{geometry}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries The Covering-Radius Formula for Projective Reed--Solomon Codes\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 8, 2026\par\bigskip
+\hypersetup{pdftitle={The Covering-Radius Formula for Projective Reed-Solomon Codes}}
+\section*{Result overview}
+The covering radius of a projective Reed--Solomon code is governed by whether its dual normal rational curve admits one further point. We prove the radius formula for every prime power $q\ge4$ and every dimension $2\le k\le q-2$: the radius is $q-k$, except that it is $q+1-k$ for even $q$ and $k\in\{2,q-2\}$. The proof combines a finite-field complement identity with a selected root replacement. Two degree-bounded interpolation polynomials agree on too many nodes, while their highest coefficients differ. A projective involution treats the complementary dimension range. The argument includes both exceptional endpoints and gives the complete proof of the stated radius formula.
+\section{Context}
+Reed--Solomon codes connect polynomial evaluation, maximum distance separable (MDS) coding, and finite geometry~\cite{reed1960}. Their covering radii measure worst-case approximation of ambient words by codewords~\cite{huffman2003}. For projective Reed--Solomon (PRS) codes, a syndrome requiring the full redundancy corresponds to a point extending the normal rational curve of a parity-check matrix. This relation underlies the extension results of Seroussi and Roth~\cite{seroussi1986}, D\"ur's covering-radius formulation~\cite{dur1994}, and subsequent deep-hole classifications~\cite{zhang2020}.
+
+We prove the exact radius formula using a complete-homogeneous-polynomial identity. A selected root replacement forces two interpolants to agree on too many nodes despite different highest coefficients. A two-root projective involution covers the remaining dimensions.
+
+\section{Codes, Syndromes, and the Main Result}
+Let $q\ge4$ be a prime power, and fix
+\begin{equation}
+ 2\le k\le q-2,\qquad N=q-k,\qquad d=k-2=q-N-2.
+ \label{eq:params}
+\end{equation}
+With an ordering of $\F_q$ fixed, define
+\begin{equation}
+ \PRS_q(k)=\left\{\bigl((f(t))_{t\in\F_q},[X^{k-1}]f\bigr):\deg f<k\right\}.
+ \label{eq:prs}
+\end{equation}
+The last coordinate is indexed by $\infty$. Write $\rho(C)=\max_u\min_{c\in C}\wt(u-c)$.
+
+\begin{theorem}\label{thm:main}
+For all parameters in \eqref{eq:params},
+\begin{equation}
+ \rho(\PRS_q(k))=
+ \begin{cases}
+ q+1-k,&q\text{ even},\ k\in\{2,q-2\},\\
+ q-k,&\text{otherwise}.
+ \end{cases}
+ \label{eq:radius}
+\end{equation}
+\end{theorem}
+
+For $t\in\F_q$, put $\nu_N(t)=(1,t,\ldots,t^N)^{\mathsf T}$ and $\nu_N(\infty)=e_N$. Let $H_N$ have these $q+1$ columns. Every $N+1$ columns are independent by a Vandermonde determinant, including a determinant expansion along $e_N$ when infinity is present. The power sums
+\begin{equation}
+ \sum_{t\in\F_q}t^j=0\ (0\le j<q-1),\qquad
+ \sum_{t\in\F_q}t^{q-1}=-1
+ \label{eq:sums}
+\end{equation}
+give $H_N\operatorname{ev}_k(f)=0$: the only nonzero finite-coordinate sum is the last one, and the coefficient at infinity cancels it. Thus $\PRS_q(k)=\ker H_N$ and has parameters $[q+1,k,N+2]_q$.
+
+For $s\in\F_q^{N+1}$ and $F\in\F_q[X]$ of degree at most $N$, set
+\begin{equation}
+ L_s(F)=\sum_{j=0}^N s_j[X^j]F.
+ \label{eq:functional}
+\end{equation}
+If $T\subseteq\F_q\cup\{\infty\}$ has $N$ elements, write $F_T=\prod_{t\in T\setminus\{\infty\}}(X-t)$. Its coefficient vector annihilates the $N$ columns indexed by $T$, so
+\begin{equation}
+ s\in\Span\{\nu_N(t):t\in T\}\quad\Longleftrightarrow\quad L_s(F_T)=0.
+ \label{eq:span}
+\end{equation}
+For any ambient word $u$, its distance to the code is the minimum number of parity-check columns spanning $H_Nu$. Consequently $\rho\le N+1$. The word $((t^k)_{t\in\F_q},0)$ has at most $k$ finite agreements with any degree-less-than-$k$ evaluation word, and at most one further agreement at infinity. Hence $\rho\ge N$. We have therefore reduced the theorem to
+\begin{equation}
+ \rho=N+1\quad\Longleftrightarrow\quad
+ \exists s:\ L_s(F_T)\ne0\text{ for every }T.
+ \label{eq:extension}
+\end{equation}
+This is also the one-coordinate MDS-extension criterion for the dual code: every $N+1$ columns of $[H_N\mid s]$ must be independent.
+
+\section{A Finite-Field Complement Identity}
+For a list $z_1,\ldots,z_m$, including multiplicities, define the complete homogeneous polynomial
+\begin{equation}
+ \HH_j(z_1,\ldots,z_m)=\sum_{a_1+\cdots+a_m=j}\prod_i z_i^{a_i},
+ \qquad \HH_0=1.
+ \label{eq:h}
+\end{equation}
+A zero entry does not change it. Its generating series is $\prod_i(1-z_it)^{-1}$. In particular, $\HH_d$ of affine functions of $X$ has degree at most $d$, with highest coefficient obtained by applying $\HH_d$ to their slopes.
+
+\begin{lemma}\label{lem:complement}
+Let $S\subseteq\F_q$, $M=\F_q\setminus S$, and $|M|=d<q-1$. With $Q_A(Z)=\prod_{a\in A}(Z-a)$,
+\begin{equation}
+ \HH_d((s)_{s\in S},Z)=Q_M(Z).
+ \label{eq:complement}
+\end{equation}
+At $z\in S$, this is $\HH_d((s)_{s\in S},z)=-1/Q_S'(z)$.
+\end{lemma}
+\begin{proof}
+The field factorization gives $\prod_{a\in\F_q}(1-at)=1-t^{q-1}$. Therefore
+\[
+ \frac1{(1-Zt)\prod_{s\in S}(1-st)}
+ =\frac{\prod_{m\in M}(1-mt)}{(1-t^{q-1})(1-Zt)}.
+\]
+Since $d<q-1$, comparison of the coefficients of $t^d$ gives \eqref{eq:complement}. Differentiating $Q_SQ_M=Z^q-Z$ at $z\in S$ gives $Q_S'(z)Q_M(z)=-1$.
+\end{proof}
+
+\begin{lemma}\label{lem:boundary}
+Let $E\subseteq\F_q$ have size $N$ and $w_e\ne0$. Suppose $0,-1,((e-a)w_e)_{e\in E}$ are distinct for each $a\notin E$. Then
+\begin{align}
+ S_E(X)&=\prod_{e\in E}(1+(e-X)w_e),\notag\\
+ \Phi_{E,w}(X)&=(-1)^N\HH_d(-1,-1,((e-X)w_e)_{e\in E})
+ \label{eq:phi}
+\end{align}
+satisfy $\deg\Phi_{E,w}\le d$ and $\Phi_{E,w}(a)=1/S_E(a)$ at every $a\notin E$.
+\end{lemma}
+\begin{proof}
+The distinct values form a set $S_a$ of size $N+2=q-d$. Its derivative at $-1$ is $Q_{S_a}'(-1)=(-1)^{N+1}S_E(a)$. Lemma~\ref{lem:complement}, evaluated with $-1$ repeated, gives the node value. The affine-entry degree bound gives $\deg\Phi\le d$.
+\end{proof}
+
+\section{Selected Root Replacement}
+\begin{proposition}\label{prop:large}
+If $N>d$ and either $d\ge1$ or $q$ is odd, no vector in \eqref{eq:extension} exists.
+\end{proposition}
+\begin{proof}
+Suppose such a vector exists, and write $L=L_s$. Choose $D=\{d_1,\ldots,d_N\}\subseteq\F_q^\times$, normalize $L(Q_D)=1$, and put
+\[
+ \begin{aligned}
+ Q_i&=Q_D/(X-d_i),\quad u_i=L(Q_i),\\
+ Q_{ij}&=Q_D/((X-d_i)(X-d_j)).
+ \end{aligned}
+\]
+Polynomial identities give
+\begin{align}
+ &L((X-a)Q_i)=1+(d_i-a)u_i,\label{eq:single}\\
+ &(d_i-d_j)L((X-b)Q_{ij})\notag\\
+ &\quad=(d_i-b)u_i-(d_j-b)u_j,\label{eq:pair}\\
+ &(d_i-d_j)L((X-a)(X-b)Q_{ij})\notag\\
+ &\quad=d_i-d_j+(d_i-a)(d_i-b)u_i\notag\\
+ &\qquad-(d_j-a)(d_j-b)u_j.\label{eq:double}
+\end{align}
+Indeed, subtracting the cofactors yields \eqref{eq:pair}; adding $(d_i-d_j)Q_D$ to the corresponding quadratic remainder yields \eqref{eq:double}.
+
+Deleting $d_i$ and adding infinity shows $u_i\ne0$. Set
+\[
+ \beta_i=d_iu_i,\quad v_i=1+\beta_i,\quad
+ f_i(X)=d_iv_i-\beta_iX.
+\]
+The single replacement at zero and the infinity-pair replacement at zero show that the $\beta_i$ are distinct and avoid $0,-1$. For $a\in B=\F_q\setminus(D\cup\{0\})$, the values $0,a,f_1(a),\ldots,f_N(a)$ are distinct: \eqref{eq:single} gives $f_i(a)\ne0$, the identity $f_i(a)-a=(d_i-a)v_i$ gives $f_i(a)\ne a$, and \eqref{eq:double} at $b=0$ gives $f_i(a)\ne f_j(a)$.
+
+Let $\mathcal M=\F_q\setminus\{0,1,-\beta_1,\ldots,-\beta_N\}$ and $g=Q_{\mathcal M}$. Then $g$ is monic of degree $d$, and differentiation at $1$ gives
+\begin{equation}
+ g(1)\prod_i v_i=-1.
+ \label{eq:g1}
+\end{equation}
+For $d\ge1$, the degree-$d$ polynomial $g(Z)+g(1)$ cannot vanish at all $N>d$ distinct values $-\beta_i$. For $d=0$ and odd $q$, its value is $2\ne0$. Thus choose $j$ such that
+\begin{equation}
+ g(-\beta_j)+g(1)\ne0.
+ \label{eq:selected}
+\end{equation}
+Write $x=d_j$, $v=v_j$, and replace $x$ by zero:
+\[
+ E=(D\setminus\{x\})\cup\{0\},\qquad
+ \F_q\setminus E=B\cup\{x\},\quad |B|=d+1.
+\]
+Now $L(Q_E)=v$, so $L'=L/v$ is normalized on $E$. Its cofactor values, from \eqref{eq:pair}, are
+\begin{equation}
+ w_0=u_j/v,\qquad
+ w_{d_i}=\frac{\beta_i-\beta_j}{(d_i-x)v}\quad(i\ne j).
+ \label{eq:w}
+\end{equation}
+For every external $a$, nonvanishing on root sets with one replacement, or with one replacement and infinity, makes $0,-1,((e-a)w_e)_{e\in E}$ distinct. Lemma~\ref{lem:boundary} gives $\Phi=\Phi_{E,w}$ with degree at most $d$ and values $1/S_E$ on $B\cup\{x\}$.
+
+Independently, put
+\begin{equation}
+ R(X)=\HH_d(X,f_1(X),\ldots,f_N(X),f_j(X)).
+ \label{eq:R}
+\end{equation}
+The last entry repeats $f_j$. The slopes are $1,-\beta_1,\ldots,-\beta_N,-\beta_j$, so Lemma~\ref{lem:complement} gives
+\begin{equation}
+ \deg R\le d,\qquad [X^d]R=g(-\beta_j).
+ \label{eq:Rtop}
+\end{equation}
+For $a\in B$, repeated-node evaluation on the distinct set $\{0,a,f_1(a),\ldots,f_N(a)\}$ gives
+\begin{equation}
+ \begin{aligned}
+ R(a)&=-\frac1{(f_j(a)-a)f_j(a)\Pi_j(a)},\\
+ \Pi_j(a)&=\prod_{i\ne j}(f_j(a)-f_i(a)).
+ \end{aligned}
+ \label{eq:Rnodes}
+\end{equation}
+All these factors are nonzero. Let $\eta(a)=1+(x-a)u_j$ and $K=v^{N+1}Q_D'(x)x\ne0$. The transport formulas \eqref{eq:w} give
+\begin{align}
+ 1-aw_0&=\eta(a)/v,\notag\\
+ 1+(d_i-a)w_{d_i}&=\frac{f_i(a)-f_j(a)}{(d_i-x)v}.\notag
+\end{align}
+Thus $S_E(a)=\eta(a)\Pi_j(a)/(v^NQ_D'(x))$. Since $f_j(a)-a=(x-a)v$ and $f_j(a)=x\eta(a)$, \eqref{eq:Rnodes} implies
+\begin{equation}
+ K^{-1}\Phi(a)=(a-x)R(a)\qquad(a\in B).
+ \label{eq:oldnodes}
+\end{equation}
+At $x$, multiplying \eqref{eq:w} gives $S_E(x)=\prod_i v_i/v^{N+1}$. Differentiating $Q_D(X)XQ_B(X)=X^q-X$ at $x$ gives $Q_D'(x)xQ_B(x)=-1$. Together with \eqref{eq:g1}, this yields
+\begin{equation}
+ K^{-1}\Phi(x)=g(1)Q_B(x).
+ \label{eq:newnode}
+\end{equation}
+The polynomials
+\[
+ \Psi=K^{-1}\Phi,\qquad P=(X-x)R+g(1)Q_B
+\]
+therefore agree on $d+2$ nodes, while $\deg(P-\Psi)\le d+1$. Hence $P=\Psi$. Also $\deg\Psi\le d$, while
+\[
+ [X^{d+1}]P=g(-\beta_j)+g(1)\ne0
+\]
+by \eqref{eq:selected}, a contradiction.
+\end{proof}
+
+\section{Complementary Dimensions and Exceptions}
+\begin{proposition}\label{prop:small}
+If $N\ge3$ and $2k+3>q$, no vector in \eqref{eq:extension} exists. The same holds for $N=2$ and odd $q$.
+\end{proposition}
+\begin{proof}
+Assume all $N$-root values are nonzero. For a finite core $C$ of size $N-2$, put
+\[
+ \gamma=L(Q_C),\quad\beta=L(XQ_C),\quad\alpha=L(X^2Q_C).
+\]
+The values for two distinct parameters outside $C$ are
+\begin{align}
+ E(a,b)&=\alpha-(a+b)\beta+ab\gamma,\notag\\
+ E(a,\infty)&=\beta-a\gamma.\label{eq:E}
+\end{align}
+If $\Delta=\alpha\gamma-\beta^2\ne0$, the matrix
+\[
+ M=\begin{pmatrix}\beta&-\alpha\\\gamma&-\beta\end{pmatrix},
+ \qquad M^2=-\Delta I
+\]
+defines a projective involution $\tau(a)=(\beta a-\alpha)/(\gamma a-\beta)$. When it is nonidentity, it has at most two fixed points. A subset of the projective line containing no nontrivial two-element orbit consequently has size at most $(q+3)/2$. The allowed set has $k+3>(q+3)/2$ elements, so it contains a pair $a,\tau(a)$, and \eqref{eq:E} vanishes. For $N=2$, the allowed set is the entire projective line and the same conclusion holds for any nonidentity involution.
+
+We show that a core with a nondegenerate, nonidentity involution can always be obtained. If $\Delta=0$ and $\gamma=0$, then $\beta=0$ and the infinity value in \eqref{eq:E} already vanishes. Otherwise a degenerate triple has $\gamma=\lambda\ne0$, $c=\beta/\gamma$, and
+\[
+ E(a,b)=\lambda(c-a)(c-b),\qquad E(a,\infty)=\lambda(c-a).
+\]
+Nonvanishing forces $c\in C$. Put $D_0=C\setminus\{c\}$ and $u=L(Q_{D_0})$. The relations
+\[
+ L(X^{j+1}Q_{D_0})-cL(X^jQ_{D_0})=\lambda c^j,
+ \quad j=0,1,2,
+\]
+give, on replacing $c$ by $y\notin C$ and writing $t=c-y$,
+\begin{align}
+ \gamma_y&=tu+\lambda,\notag\\
+ \beta_y&=c\gamma_y+t\lambda,\notag\\
+ \alpha_y&=c^2\gamma_y+2ct\lambda,\quad
+ \Delta_y=-t^2\lambda^2\ne0.\label{eq:degchange}
+\end{align}
+An invertible matrix of the displayed form is projectively scalar only in characteristic two with $\alpha=\gamma=0$. In odd characteristic, \eqref{eq:degchange} is already nonidentity; in characteristic two, at most one external $y$ makes $\gamma_y=0$.
+
+For an initial nondegenerate identity map, the characteristic is two and $(\alpha,\beta,\gamma)=(0,v,0)$ with $v\ne0$. If $N\ge3$, choose $c\in C$ and put $u=L(Q_{C\setminus\{c\}})$. The same moment recurrence yields
+\begin{align}
+ \gamma_y&=tu,\quad\beta_y=ctu+v,\notag\\
+ \alpha_y&=t(c^2u+v),\quad\Delta_y=v^2+uvt^2.\label{eq:idchange}
+\end{align}
+Here $\alpha_y-c^2\gamma_y=tv\ne0$, and squaring is injective, so at most one external $y$ makes $\Delta_y=0$. There are $k+2\ge4$ finite choices outside $C$; an admissible replacement exists in both cases. The resulting involution gives the contradiction above. When $N=2$ and $q$ is odd, $C$ is empty, a rank-one center is itself allowed, and a nondegenerate identity map is impossible.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+For even $q$ and $N\in\{2,q-2\}$, take $s=e_{N-1}$. A root polynomial has coefficient $[X^{N-1}]F_T=1$ when infinity is a root, and $-\sum_{t\in T}t$ otherwise. For $N=2$, the latter is nonzero because two distinct elements cannot sum to zero in characteristic two. For $N=q-2$, \eqref{eq:sums} shows that it equals the sum of the two distinct missing elements, also nonzero. Equation~\eqref{eq:extension} gives $\rho=N+1$.
+
+For all other parameters, Proposition~\ref{prop:large} applies when $N>d$, including $d=0$ in odd characteristic. If $N\le d$, then $k\ge N+2$ and $N+k=q$, which imply $2k+3>q$. Proposition~\ref{prop:small} applies for $N\ge3$ and for the nonexceptional endpoint $N=2$. Every syndrome therefore has a spanning set of at most $N$ columns. The already proved lower bound $\rho\ge N$ completes the proof. The case $q=4$, $k=N=2$ is included in the exceptional formula.
+\end{proof}
+
+\section{Result summary}
+The complement identity and root replacements determine the complete PRS covering-radius formula and its dual extension criterion. One coefficient vector witnesses both even-field exceptions.
+
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@samestyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
+\providecommand{\BIBentryALTinterwordstretchfactor}{4}
+\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand{\BIBforeignlanguage}[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+\providecommand{\BIBdecl}{\relax}
+\BIBdecl
+
+
+\bibitem{reed1960}
+I.~S. Reed and G.~Solomon, ``Polynomial codes over certain finite fields,''
+  \emph{Journal of the Society for Industrial and Applied Mathematics}, vol.~8,
+  no.~2, pp. 300--304, Jun. 1960, doi: \doi{10.1137/0108018}.
+
+\bibitem{huffman2003}
+W.~C. Huffman and V.~Pless, \emph{Fundamentals of Error-Correcting
+  Codes}.\hskip 1em plus 0.5em minus 0.4em\relax Cambridge, U.K.: Cambridge
+  University Press, 2003, doi: \doi{10.1017/CBO9780511807077}.
+
+\bibitem{seroussi1986}
+G.~Seroussi and R.~M. Roth, ``On {MDS} extensions of generalized
+  {Reed--Solomon} codes,'' \emph{IEEE Transactions on Information Theory},
+  vol.~32, no.~3, pp. 349--354, May 1986, doi: \doi{10.1109/TIT.1986.1057188}.
+
+\bibitem{dur1994}
+A.~D{\"u}r, ``On the covering radius of {Reed--Solomon} codes,'' \emph{Discrete
+  Mathematics}, vol. 126, no. 1--3, pp. 99--105, Mar. 1994, doi:
+  \doi{10.1016/0012-365X(94)90256-9}.
+
+\bibitem{zhang2020}
+J.~Zhang, D.~Wan, and K.~Kaipa, ``Deep holes of projective {Reed--Solomon}
+  codes,'' \emph{IEEE Transactions on Information Theory}, vol.~66, no.~4, pp.
+  2392--2401, Apr. 2020, doi: \doi{10.1109/TIT.2019.2940962}.
+\end{thebibliography}
+
+\end{document}

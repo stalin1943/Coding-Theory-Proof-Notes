@@ -1,0 +1,276 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+
+\usepackage[OT1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{array,booktabs,makecell,multirow,threeparttable}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{cite}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{etoolbox}
+\usepackage{url}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\usepackage[unicode,bookmarksnumbered,breaklinks,colorlinks=false,
+ citebordercolor={0 1 0},linkbordercolor={1 0 0},urlbordercolor={0 1 0},
+ pdfborder={0 0 0.65}]{hyperref}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\bal}{\operatorname{bal}}
+\newcommand{\ew}{\operatorname{ew}}
+\newcommand{\wtH}{\operatorname{wt}_{\mathrm H}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\vp}{\nu_p}
+\newcommand{\gcdop}{\operatorname{gcd}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\cwe}{\operatorname{cwe}}
+
+
+\usepackage[margin=1in]{geometry}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries The Euclidean-Weight GCD of Self-Dual Codes over Odd Residue Rings\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 8, 2026\par\bigskip
+\hypersetup{pdftitle={The Euclidean-Weight GCD of Self-Dual Codes over Odd Residue Rings}}
+\section*{Result overview}
+For a self-dual code over an integer residue ring, self-orthogonality makes the modulus a common divisor of the Euclidean weights. We prove that, for every odd modulus $m\ge3$, the greatest common divisor of all nonzero Euclidean weights is exactly $m$. The proof applies to nonfree codes as well as free codes. A finite-field character coefficient isolates coordinate lines and excludes every prime different from the characteristic. Residue--top-torsion duality transfers this exclusion to prime-power rings. A saturation argument and scalar-orbit sum rule out one additional factor of the characteristic. Exact scaling of balanced representatives then assembles the result over composite odd moduli.
+\section{Context and Main Theorem}
+Euclidean-weight divisibility connects self-dual ring codes to Construction A and unimodular lattices. It concerns the entire integer weight spectrum together with its minimum. The corresponding divisibility questions are discussed in \cite{JoynerKim2011}; the published even-modulus alternative is recorded in \cite{BannaiDoughertyHaradaOura1999}. The odd case must accommodate nonfree modules and exact integer representatives, which require the full residue-ring module structure and the Chinese remainder theorem (CRT).
+
+Let $\Z_m=\Z/m\Z$. For odd $m$, write $\bal_m(a)$ for the unique integer congruent to $a$ in $[-(m-1)/2,(m-1)/2]$, and define
+\begin{equation}
+ \ew_m(a)=\bal_m(a)^2,\qquad w_m(c)=\sum_{j=1}^n\ew_m(c_j).
+ \label{eq:weights}
+\end{equation}
+For a nonzero code $C\le\Z_m^n$, let
+\begin{equation}
+ D_m(C)=\gcd\{w_m(c):c\in C\setminus\{0\}\}.
+ \label{eq:gcd}
+\end{equation}
+Duality uses the standard dot product modulo $m$. The pairing is nondegenerate and $|C||C^\perp|=m^n$~\cite{DoughertyHaradaSole1999}. A positive-length self-dual code is therefore nonzero. Self-orthogonality gives
+\begin{equation}
+ w_m(c)\equiv c\cdot c\equiv0\pmod m,
+ \qquad m\mid D_m(C).
+ \label{eq:baseline}
+\end{equation}
+
+\begin{theorem}\label{thm:main}
+For every odd $m\ge3$, every $n\ge1$, and every self-dual code $C\le\Z_m^n$,
+\begin{equation}
+ D_m(C)=m.
+ \label{eq:main}
+\end{equation}
+No freeness assumption is needed.
+\end{theorem}
+
+The proof separates prime support from prime-adic valuation. Section 2 establishes a field obstruction for dual-containing codes. Section 3 transfers it through the top-torsion layer and excludes an extra characteristic factor. Section 4 uses an exact CRT weight identity.
+
+\section{A Foreign-Prime Obstruction over the Field}
+Let $p$ be an odd prime and $\ell\ne p$ another prime. In an algebraic closure $K$ of $\F_\ell$, choose a primitive $p$th root $\zeta$ and put $\chi(t)=\zeta^t$ for $t\in\F_p$. For $f:\F_p\to K$ with $f(0)=0$, define
+\begin{equation}
+ \widehat f(\lambda)=\sum_{t\in\F_p}f(t)\chi(-\lambda t).
+ \label{eq:transform}
+\end{equation}
+The character transform is invertible because $p$ is nonzero in $K$. If $f$ is nonconstant, some $s\ne0$ has $\widehat f(s)\ne0$.
+
+\begin{lemma}\label{lem:line}
+Let $G$ have nonzero columns $\gamma_r\in\F_p^k$, with zero columns omitted. For $F(x)=\sum_r f(x\cdot\gamma_r)$ and $y\in\F_p^k$,
+\begin{equation}
+ \sum_x F(x)\chi(-x\cdot y)
+ =p^{k-1}\sum_r\sum_{y=\lambda\gamma_r}\widehat f(\lambda).
+ \label{eq:lines}
+\end{equation}
+Each coordinate contributes only on its coefficient line.
+\end{lemma}
+\begin{proof}
+For a nonzero $\gamma_r$, the map $x\mapsto x\cdot\gamma_r$ is onto, with fibres of size $p^{k-1}$. On a fibre with value $t$, the character sum is zero unless $y\in\F_p\gamma_r$. If $y=\lambda\gamma_r$, the sum equals $p^{k-1}\chi(-\lambda t)$. Summing over $t$ and then over the coordinates proves \eqref{eq:lines}. A zero column contributes $f(0)=0$.
+\end{proof}
+
+This line-support calculation is the coordinate-retaining coefficient form underlying the complete weight enumerator MacWilliams transform~\cite{Wood2009}. Here it is proved directly, so the needed rigidity follows from the coordinate-retaining coefficient identity.
+
+\begin{proposition}\label{prop:foreign}
+If $U\le\F_p^n$ has positive length and $U^\perp\le U$, no prime $\ell\ne p$ divides every Euclidean weight $w_p(u)$.
+\end{proposition}
+\begin{proof}
+Suppose such an $\ell$ exists. Put $k=\dim U\ge n/2$ and, after a coordinate permutation, choose $G=[I_k\mid A]$. Denote the columns of $A$ by $a_j$. Reduce $f(t)=\ew_p(t)$ modulo $\ell$, viewing the result in $K$. Since $f(0)=0$ and $f(1)=1$, choose $s\ne0$ with $\widehat f(s)\ne0$. The assumed divisibility says
+\[
+ F(x)=\sum_{i=1}^k f(x_i)+\sum_{j=1}^{n-k}f(x\cdot a_j)=0.
+\]
+The coefficient at $y=se_i$ in \eqref{eq:lines} contains the nonzero systematic contribution $p^{k-1}\widehat f(s)$. Hence some parity column lies on $\F_p^*e_i$. Distinct systematic lines require distinct parity columns, giving $n-k\ge k$. Therefore $n=2k$ and $A$ is monomial. Dual containment becomes self-duality, so
+\begin{equation}
+ AA^{\mathsf T}=-I_k.
+ \label{eq:monomial}
+\end{equation}
+Each nonzero entry $\alpha$ satisfies $\alpha^2=-1$. This is impossible for $p\equiv3\pmod4$.
+
+For $p\equiv1\pmod4$, fix such an entry and put $r=\lfloor\sqrt p\rfloor$. Among the $(r+1)^2>p$ residues $a+\alpha b$ with $0\le a,b\le r$, two coincide. Their difference gives integers $u,v$, not both zero, with $|u|,|v|\le r$ and $u+\alpha v\equiv0\pmod p$. Thus $v\equiv\alpha u$ and $p\mid u^2+v^2$. Since
+\[
+ 0<u^2+v^2\le2r^2<2p,
+\]
+we have $u^2+v^2=p$. Moreover $r<p/2$ for $p\ge5$, so $u,v$ are balanced representatives. The information vector $ue_i$ gives a codeword whose two nonzero coordinates are $u$ and $\alpha u$, with weight exactly $p$. This contradicts divisibility by $\ell$.
+\end{proof}
+
+\section{Prime-Power Rings without Freeness}
+Fix $R_e=\Z/p^e\Z$, and let $C\le R_e^n$ be self-dual. Define its residue and top-torsion codes by
+\begin{equation}
+ B=C\bmod p,\qquad T=\{x\in\F_p^n:p^{e-1}x\in C\}.
+ \label{eq:layers}
+\end{equation}
+The condition defining $T$ is independent of the lift of $x$.
+
+\begin{lemma}\label{lem:duality}
+$T=B^\perp$, and $B=T^\perp\le T$. Every prime divisor of $D_{p^e}(C)$ is $p$.
+\end{lemma}
+\begin{proof}
+The condition $x\in B^\perp$ is equivalent to $p^{e-1}x$ being orthogonal over $R_e$ to every word of $C$, and hence, by self-duality, to $p^{e-1}x\in C$. Reduction of self-orthogonality gives $B\le B^\perp=T$, so $T$ is dual-containing. Exact balanced-representative scaling gives
+\begin{equation}
+ w_{p^e}(p^{e-1}x)=p^{2e-2}w_p(x).
+ \label{eq:tops}
+\end{equation}
+If $\ell\ne p$ divided every weight of $C$, \eqref{eq:tops} would make it divide every weight of $T$, contrary to Proposition~\ref{prop:foreign}.
+\end{proof}
+
+\begin{lemma}\label{lem:saturation}
+If $e\ge2$ and every weight of $C$ is divisible by $p^{e+1}$, then $B$ is self-dual over $\F_p$.
+\end{lemma}
+\begin{proof}
+Let $K_1=\{x\in R_{e-1}^n:px\in C\}$. The integer identity $w_{p^e}(px)=p^2w_{p^{e-1}}(x)$ implies $x\cdot x=0$ in $R_{e-1}$ for every $x\in K_1$. Since $p$ is odd, polarization gives $K_1\le K_1^\perp$, so $|K_1|\le p^{(e-1)n/2}$. Reduction gives an exact sequence
+\[
+ 0\longrightarrow K_1\xrightarrow{x\mapsto px}C\longrightarrow B\longrightarrow0.
+\]
+Since $|C|=p^{en/2}$, we get $|B|\ge p^{n/2}$. But $B$ is self-orthogonal, whence $|B|\le p^{n/2}$. Equality forces $B=B^\perp$; in particular, its dimension is $n/2$.
+\end{proof}
+
+\begin{lemma}\label{lem:orbit}
+For odd $M$, let $S_M=\sum_{a\in\Z_M}\ew_M(a)$. Then
+\begin{equation}
+ S_M=\frac{M(M^2-1)}{12},\qquad
+ \sum_{t\in R_e}\ew_{p^e}(ta)=p^{3v}S_{p^{e-v}}
+ \label{eq:orbit}
+\end{equation}
+for nonzero $a\in R_e$ of valuation $v<e$.
+\end{lemma}
+\begin{proof}
+The first identity is $2\sum_{j=1}^{(M-1)/2}j^2$. Multiplication by $a=p^vu$ maps $R_e$ onto $p^vR_e$ with each image occurring $p^v$ times. Balanced representatives in the image scale by $p^v$, which proves the second identity.
+\end{proof}
+
+\begin{proposition}\label{prop:pp}
+For every positive-length self-dual $C\le R_e^n$, $D_{p^e}(C)=p^e$.
+\end{proposition}
+\begin{proof}
+By \eqref{eq:baseline} and Lemma~\ref{lem:duality}, the gcd is a power of $p$ divisible by $p^e$. Suppose every weight were divisible by $p^{e+1}$. The residue code $B$ is self-dual, directly if $e=1$ and by Lemma~\ref{lem:saturation} otherwise.
+
+For $c\in C$, put $N_v(c)=\#\{j:\nu_p(c_j)=v\}$, omitting zero coordinates. Sum the assumed divisibility over all scalar multiples of $c$. Lemma~\ref{lem:orbit} yields
+\begin{equation}
+ \sum_{v=0}^{e-1}N_v(c)p^{3v}S_{p^{e-v}}\equiv0\pmod{p^{e+1}}.
+ \label{eq:sumorbit}
+\end{equation}
+For $p\ge5$, division by $p^e$ and reduction modulo $p$ leave $-N_0(c)/12=0$. Thus every Hamming weight of $B$ is divisible by $p$. For $p=3$, division by $3^{e-1}$ gives
+\[
+ \sum_{v=0}^{e-1}N_v(c)3^{2v}
+ \frac{3^{2(e-v)}-1}{4}\equiv0\pmod9.
+\]
+All terms with $v\ge1$ vanish modulo $9$, and the $v=0$ factor is a unit modulo $9$. Hence every Hamming weight of $B$ is divisible by $9$.
+
+Both conclusions contradict the Gleason--Pierce Hamming-divisor classification for positive-length self-dual field codes~\cite{NebeRainsSloane2006,Ward1999}: for odd prime $p\ge5$, a Hamming divisor $p$ is impossible; the ternary case permits divisor $3$ and excludes $9$. This rules out $p^{e+1}$ and proves the proposition.
+\end{proof}
+
+\section{Exact Chinese Remainder Assembly}
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Write $m=\prod_{i=1}^s q_i$ as a product of coprime odd prime powers, and let $M_i=m/q_i$. Under CRT, $C$ decomposes into self-dual component codes $C_i\le\Z_{q_i}^n$~\cite{DoughertyHaradaSole1999}. Choose $u_i$ with $M_iu_i\equiv1\pmod{q_i}$. The idempotent $\varepsilon_i=M_iu_i\pmod m$ embeds $C_i$ into $C$ with every other component zero.
+
+For $y\in\Z_{q_i}$, the integer $M_i\bal_{q_i}(y)$ has absolute value strictly below $m/2$. Therefore
+\begin{equation}
+ \bal_m(M_i y)=M_i\bal_{q_i}(y),\qquad
+ \ew_m(M_i y)=M_i^2\ew_{q_i}(y).
+ \label{eq:crtweight}
+\end{equation}
+Applying this to $\varepsilon_i x=M_i(u_ix)$ gives $w_m(\varepsilon_i x)=M_i^2w_{q_i}(u_ix)$. Since multiplication by the unit $u_i$ permutes $C_i$, Proposition~\ref{prop:pp} implies
+\begin{equation}
+ D_m(C)\mid M_i^2D_{q_i}(C_i)=M_i^2q_i=mM_i
+ \label{eq:upperdivisor}
+\end{equation}
+for every $i$. Write $D_m(C)=md$ using \eqref{eq:baseline}. Then $d\mid M_i$ for all $i$. No prime divides all the complementary factors $M_i$, so $d=1$.
+\end{proof}
+
+
+\section{A Nonfree Example and the Result}
+The length-one code $C=3\Z_9\le\Z_9$ is self-dual: orthogonality to $3$ requires a residue to be divisible by $3$. Its two nonzero words have balanced representatives $3,-3$ and Euclidean weight $9$, so $D_9(C)=9$. This example lies outside the free-code setting.
+
+The general theorem follows by excluding foreign primes through coordinate-line rigidity, excluding excess characteristic valuation through saturation and scalar orbits, and assembling exact integer weights under CRT. These three steps establish the Euclidean-weight gcd for every self-dual module type over every odd modulus.
+
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@samestyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
+\providecommand{\BIBentryALTinterwordstretchfactor}{4}
+\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand{\BIBforeignlanguage}[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+\providecommand{\BIBdecl}{\relax}
+\BIBdecl
+
+
+\bibitem{JoynerKim2011}
+D.~Joyner and J.-L. Kim, \emph{Selected Unsolved Problems in Coding Theory},
+  ser. Applied and Numerical Harmonic Analysis.\hskip 1em plus 0.5em minus
+  0.4em\relax Boston: Birkh{\"a}user Boston, 2011, doi: \doi{10.1007/978-0-8176-8256-9}.
+
+\bibitem{BannaiDoughertyHaradaOura1999}
+E.~Bannai, S.~T. Dougherty, M.~Harada, and M.~Oura, ``Type {II} codes, even
+  unimodular lattices, and invariant rings,'' \emph{IEEE Transactions on
+  Information Theory}, vol.~45, no.~4, pp. 1194--1205, May 1999, doi: \doi{10.1109/18.761269}.
+
+\bibitem{DoughertyHaradaSole1999}
+S.~T. Dougherty, M.~Harada, and P.~Sol{\'e}, ``Self-dual codes over rings and
+  the {Chinese Remainder Theorem},'' \emph{Hokkaido Mathematical Journal},
+  vol.~28, no.~2, pp. 253--283, 1999, doi: \doi{10.14492/hokmj/1351001213}.
+
+\bibitem{Wood2009}
+J.~A. Wood, ``Foundations of linear codes defined over finite modules: The
+  extension theorem and the {MacWilliams} identities,'' in \emph{Codes over
+  Rings}.\hskip 1em plus 0.5em minus 0.4em\relax Singapore: World Scientific,
+  2009, pp. 124--190, doi: \doi{10.1142/9789812837691_0004}.
+
+\bibitem{NebeRainsSloane2006}
+G.~Nebe, E.~M. Rains, and N.~J.~A. Sloane, \emph{Self-Dual Codes and Invariant
+  Theory}, ser. Algorithms and Computation in Mathematics.\hskip 1em plus 0.5em
+  minus 0.4em\relax Berlin: Springer, 2006, vol.~17, doi: \doi{10.1007/3-540-30731-1}.
+
+\bibitem{Ward1999}
+H.~N. Ward, ``An introduction to divisible codes,'' \emph{Designs, Codes and
+  Cryptography}, vol.~17, no. 1--3, pp. 73--79, Sep. 1999, doi: \doi{10.1023/A:1008302520762}.
+\end{thebibliography}
+
+\end{document}

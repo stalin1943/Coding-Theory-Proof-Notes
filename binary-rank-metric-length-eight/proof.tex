@@ -1,0 +1,370 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{newtxtext,newtxmath}
+\usepackage{microtype}
+
+\usepackage{booktabs,tabularx,array}
+\usepackage{algorithm,algpseudocode}
+\usepackage{xcolor}
+\usepackage{cite}
+\usepackage{hyperref}
+
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\newcommand{\F}{\mathbb F}
+\newcommand{\FF}{\mathbb F_{64}}
+\newcommand{\Ftwo}{\mathbb F_2}
+\newcommand{\C}{\mathcal C}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\PG}{\operatorname{PG}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\rowsp}{\operatorname{rowsp}}
+\newcommand{\Stab}{\operatorname{Stab}}
+\newcommand{\supp}{\operatorname{supp}_{\rm rk}}
+\newcommand{\wt}{\operatorname{wt}_{\rm rk}}
+\newcommand{\spanF}[1]{\langle #1\rangle_F}
+\newcommand{\spantwo}[1]{\langle #1\rangle_2}
+\newcommand{\dimtwo}{\dim_{\Ftwo}}
+\newcommand{\perptr}{\perp_{\Tr}}
+\newcommand{\gbinom}[3]{\genfrac{[}{]}{0pt}{}{#1}{#2}_{\!#3}}
+\newcommand{\set}[1]{\{#1\}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\End}{End}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\allowdisplaybreaks[1]
+\interdisplaylinepenalty=2500
+\hyphenation{rank-metric non-de-gen-er-ate hy-per-plane pa-ram-e-tri-za-tion}
+
+\usepackage[margin=1in]{geometry}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries Rank-Support Lifting and the Nonexistence of $[8,3]_{64/2}$ Intersecting Codes\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 8, 2026\par\bigskip
+\hypersetup{pdftitle={Rank-Support Lifting and the Nonexistence of [8,3]64/2 Intersecting Codes}}
+\section*{Result overview}
+Rank-support intersections depend on compatibility between codewords together with their individual ranks. We express common support through a section--quotient exact sequence and a canonical compatibility map. For independent selected message restrictions, graph extensions with prescribed quotient maps realize every compatibility matrix uniformly. This gives an exact intersection distribution and a sharp affine-family dimension bound. We then prove that no nondegenerate $[8,3]_{64/2}$ rank-metric intersecting code exists. Trace-dual incidence forces a four-dimensional section; normalization and coordinate shears reduce every prospective code to one of 10,032 twenty-dimensional binary parameter spaces. An exhaustive calculation leaves 12,160 parameters satisfying the individual rank conditions, and each has two rank-four codewords with disjoint supports. The classification, both complete enumerations, and all final obstructions are reproducible from the accompanying programs and data.
+\section{Rank Supports and the Two Main Results}
+Let $K=\F_q$ and $F=\F_{q^m}$. An $[n,k]_{q^m/q}$ code is a $k$-dimensional $F$-linear subspace of $F^n$. Expanding a word over a $K$-basis of $F$ gives an $m\times n$ matrix; its row space $S(c)\le K^n$ is the rank support and its rank is the rank weight. These quantities are invariant under the field basis. A code is rank-metric intersecting if $S(c)\cap S(c')\ne0$ for all nonzero codewords.
+
+If a generator matrix $G$ has $K$-independent columns, the code is nondegenerate. Their $K$-span $U\le F^k$ has dimension $n$ and spans $F^k$ over $F$. This geometric representation is standard~\cite{randrianarisoa2020,alfarano2022}. The column-basis map $\theta:K^n\to U$ identifies
+\begin{equation}
+ S(hG)^\perp=\theta^{-1}(U\cap\ker h),\qquad
+ \operatorname{rk}_K(hG)=n-\dim_K(U\cap\ker h).
+ \label{eq:support-kernel}
+\end{equation}
+It follows, by taking orthogonal complements of two supports, that
+\begin{equation}
+ C\text{ intersecting}\quad\Longleftrightarrow\quad
+ U\ne(U\cap H_0)+(U\cap H_1)
+ \label{eq:two-span}
+\end{equation}
+for all distinct $F$-hyperplanes $H_0,H_1$~\cite{bbms2025}. Proportional messages already have the same nonzero support.
+
+Our structural result identifies exactly the compatibility lost when support data are separated into a section and a quotient. Under independent message restrictions, that compatibility takes all possible values. Our finite application settles the binary degree-six gap:
+\begin{theorem}\label{thm:binary}
+No nondegenerate $[8,3]_{64/2}$ rank-metric intersecting code exists.
+\end{theorem}
+The previous length bounds and constructions~\cite[Remark 4.5]{bpz2026}, combined with this theorem, give the admissible dimension-three lengths $\{5,6,7,9\}$ over $\F_{64}/\F_2$.
+
+\section{Exact Lifting of Common Supports}
+For a $K$-linear map $f:U\to E$, its support in $U^*$ is $\mathcal S(f)=\operatorname{im}f^*=(\ker f)^\circ$. Several rows of an extension-field message map give the total support of their generated subcode~\cite{gorla2020}. Fix $T\le U$, let $Z=U/T$, and write $\pi:U\to Z$. For maps $f_i:U\to E_i$, set
+\begin{align}
+ N_i&=\ker f_i,&P_i&=N_i\cap T,&Z_i&=\pi(N_i),\notag\\
+ P&=\sum_iP_i,&Z_0&=\sum_iZ_i,&N&=\sum_iN_i.\notag
+\end{align}
+The induced quotient map $A_i:Z\to E_i/f_i(T)$ has kernel $Z_i$. Define
+\begin{equation}
+ \mathcal R=\ker\left(\bigoplus_i Z_i\xrightarrow{\Sigma}Z\right).
+ \label{eq:relation}
+\end{equation}
+For a relation $(z_i)_i$, choose lifts $u_i\in N_i$ and set
+\begin{equation}
+ \kappa((z_i)_i)=\sum_i u_i+P\in T/P.
+ \label{eq:kappa}
+\end{equation}
+Changing a lift adds an element of $P_i$, so this map is well-defined and linear.
+
+\begin{theorem}\label{thm:lifting}
+Put $j_T=\dim_K(T/P)$ and $j_Z=\dim_K(Z/Z_0)$. Then
+\begin{equation}
+ \dim_K\bigcap_i\mathcal S(f_i)
+ =j_T+j_Z-\operatorname{rk}_K\kappa.
+ \label{eq:lift-dim}
+\end{equation}
+More precisely, there is a canonical exact sequence
+\begin{equation}
+ \mathcal R\xrightarrow{\kappa}T/P\longrightarrow U/N
+ \longrightarrow Z/Z_0\longrightarrow0.
+ \label{eq:exact}
+\end{equation}
+\end{theorem}
+\begin{proof}
+The image of $\kappa$ is $(T\cap N)/P$: lifted relations give this containment, and decomposing any vector in $T\cap N$ as $\sum_i u_i$ gives the reverse inclusion. This is exactly the kernel of $T/P\to U/N$. Projection has image $Z/Z_0$ because $\pi(N)=Z_0$. If $u+N$ projects to zero, subtract an $n\in N$ with $\pi(n)=\pi(u)$ to obtain a representative in $T$. This proves exactness. Finally, $\bigcap_i\mathcal S(f_i)=N^\circ$ has dimension $\dim_K(U/N)$, yielding \eqref{eq:lift-dim}.
+\end{proof}
+
+For two maps, choose a splitting $U=T\oplus Z$ and write $f_i(t,z)=B_i(t)+C_i(z)$. Let $r_i=\operatorname{rk}B_i$, $r_{12}=\operatorname{rk}(B_1,B_2)$, and let $\nu_i$ be the rank of $C_i$ modulo $B_i(T)$. Let $\nu_{12}$ be the rank of $(C_1,C_2)$ modulo the \emph{coupled} image $(B_1,B_2)(T)$. Since the individual and joint ranks on $U$ are respectively $r_i+\nu_i$ and $r_{12}+\nu_{12}$,
+\begin{equation}
+ \dim(\mathcal S(f_1)\cap\mathcal S(f_2))
+ =r_1+r_2-r_{12}+\nu_1+\nu_2-\nu_{12}.
+ \label{eq:joint}
+\end{equation}
+The coupled image must not be replaced by $B_1(T)\times B_2(T)$; their difference is precisely the compatibility contribution in \eqref{eq:lift-dim}.
+
+\subsection{Uniform realization and sharp preservation bounds}
+Let $E=F^{k-1}$, let $T\le_K E$ span $E$ over $F$, and let $Z\le_K F$ be nonzero. Write $a=\dim_KT$, $b=\dim_KZ$. A graph parameter $\varphi:Z\to E/T$ defines
+\begin{equation}
+ U_\varphi=\{(t+\widetilde\varphi(z),z):t\in T,z\in Z\},
+ \label{eq:general-graph}
+\end{equation}
+independently of the lift $\widetilde\varphi$. Choose independent $F$-linear forms $\ell_1,\ldots,\ell_s:E\to F$ and constants $c_i$. Fix quotient maps $A_i:Z\to F/\ell_i(T)$ for the selected messages $h_i(x,z)=\ell_i(x)+c_i z$. Let $\mathscr F$ be all graph parameters inducing these maps. Put $r_i=\dim_K\ell_i(T)$ and
+\begin{align}
+ D&=b\bigl((k-1-s)m-a+\sum_i r_i\bigr),\notag\\
+ P&=\sum_i(T\cap\ker\ell_i),\quad Q=T/P,\notag\\
+ h&=\dim_KQ,\quad \rho=\dim_K\mathcal R,\quad
+ j_Z=b-\dim_K\sum_i\ker A_i.\notag
+\end{align}
+Here $\mathcal R$ is \eqref{eq:relation} with $Z_i=\ker A_i$.
+
+\begin{theorem}\label{thm:realize}
+$\mathscr F$ is a nonempty affine space of dimension $D$, and $\varphi\mapsto\kappa_\varphi$ is an affine surjection onto $\operatorname{Hom}_K(\mathcal R,Q)$. Each compatibility matrix has $q^{D-h\rho}$ preimages.
+\end{theorem}
+\begin{proof}
+Independence makes $\ell=(\ell_1,\ldots,\ell_s):E\to F^s$ onto. The induced map $E/T\to\bigoplus_i F/\ell_i(T)$ is onto with kernel dimension $(k-1-s)m-a+\sum_i r_i$. Applying $\operatorname{Hom}_K(Z,-)$ gives the nonempty affine fibre and its dimension $D$.
+
+Kernel lifts can be chosen affinely in $\varphi$ by fixed linear sections, so $\kappa_\varphi$ is affine. Given $\eta:\mathcal R\to Q$, extend it to $\bigoplus_iZ_i$ as $\sum_i\eta_i(z_i)$, lift each $\eta_i$ to $g_i:Z_i\to T$, and extend to $\widehat g_i:Z\to T$. Surjectivity of $\ell$ supplies a $K$-linear $v:Z\to E$ such that $\ell_i(v(z))=-\ell_i(\widehat g_i(z))$ for every $i$. Replacing $\varphi$ by $\varphi+(v+T)$ preserves the prescribed quotient maps. A kernel lift changes by $(g_i(z_i)+v(z_i),0)$. On a relation, $\sum_i v(z_i)=0$, so $\kappa$ changes by $\eta$. This proves surjectivity; rank--nullity gives the fibre size.
+\end{proof}
+
+Let $\iota(\varphi)$ be the common-support dimension of these selected codewords. Theorems~\ref{thm:lifting} and~\ref{thm:realize} give $\iota=h+j_Z-\operatorname{rk}\kappa$. Consequently the exact number with $\iota=h+j_Z-r$ is
+\begin{equation}
+ q^{D-h\rho}\prod_{j=0}^{r-1}
+ \frac{(q^h-q^j)(q^\rho-q^j)}{q^r-q^j},
+ \qquad 0\le r\le\min(h,\rho).
+ \label{eq:distribution}
+\end{equation}
+The empty product is one. Indeed, factoring a rank-$r$ matrix into full-column-rank and full-row-rank matrices and dividing by $|\GL(r,q)|$ counts its possible values.
+
+\begin{corollary}\label{cor:affine}
+Put $\iota_{\min}=j_Z+\max(0,h-\rho)$. For $\iota_{\min}\le\tau\le j_Z+h$, the largest dimension of an affine subfamily preserving $\iota(\varphi)\ge\tau$ is
+\begin{equation}
+ D-\max(h,\rho)(\tau-\iota_{\min}).
+ \label{eq:affine-bound}
+\end{equation}
+\end{corollary}
+\begin{proof}
+Set $u=h+j_Z-\tau$. The compatibility image is an affine matrix space of rank at most $u$, whose dimension is at most $\max(h,\rho)u$ by the finite-field affine Flanders theorem~\cite[Theorem 2]{deSeguinsPazzis2016Flanders}; see also~\cite{flanders1962}. Adding the kernel dimension $D-h\rho$ gives \eqref{eq:affine-bound}. Attainment follows by taking all maps into a fixed $u$-dimensional subspace of $Q$ when $\rho\ge h$, or all maps vanishing on a fixed $(\rho-u)$-dimensional subspace of $\mathcal R$ when $h\ge\rho$, and taking their full inverse image under the surjection.
+\end{proof}
+
+\section{A Four-Dimensional Section Is Necessary}
+Now specialize to $F=\F_{64}$ and $K=\F_2$. Suppose an intersecting code as in Theorem~\ref{thm:binary} exists, with an eight-dimensional binary column space $U\le F^3$. Put $W=U^{\perptr}$ under the trace pairing, so $\dim_2W=10$. For every $F$-subspace $X$,
+\begin{equation}
+ \dim_2(U\cap X)=6\dim_FX-10+\dim_2(W\cap X^\perp).
+ \label{eq:trace}
+\end{equation}
+This follows by taking the trace orthogonal complement of $U+X$; the trace orthogonal complement of an $F$-space equals its ordinary $F$-orthogonal complement. If $w_W(P)=\dim_2(W\cap P)$, condition~\eqref{eq:two-span} becomes
+\begin{equation}
+ \dim_2(W\cap(P+Q))>w_W(P)+w_W(Q),\quad P\ne Q.
+ \label{eq:strictdual}
+\end{equation}
+
+\begin{lemma}\label{lem:entrance}
+Every point of $U$ has binary weight at most two, every hyperplane section has dimension two, three or four, and a four-dimensional section exists.
+\end{lemma}
+\begin{proof}
+Fix a point $P$ of weight $h$ in $W$. Every projective line through it has intersection dimension at least $h+2$: dimension $h$ contradicts \eqref{eq:strictdual}, and dimension $h+1$ supplies another occupied point that also contradicts it. There are 65 lines through $P$, whose sets of vectors outside $P$ are disjoint. Hence
+\[
+ 2^{10}\ge2^h[1+65(4-1)]=196\,2^h,
+\]
+which forces $h\le2$. Equation~\eqref{eq:trace} therefore gives hyperplane dimensions in $\{2,3,4\}$.
+
+Let $M_j$ count the hyperplanes of section dimension $j$, and set $\mu=\sum_P {w_U(P)\brack2}_2$. Counting respectively hyperplanes, nonzero vectors, and binary planes gives
+\begin{align}
+ M_2+M_3+M_4&=4161,\notag\\
+ 3M_2+7M_3+15M_4&=65(2^8-1),\notag\\
+ M_2+7M_3+35M_4&={8\brack2}_2+64\mu.\notag
+\end{align}
+A binary plane spanning an $F$-line lies in one hyperplane, while one contained in an $F$-point lies in 65; this explains the last correction term. Elimination gives $M_4=31+4\mu>0$.
+
+A point of $U$ cannot have weight at least four, since adjoining a vector outside it would yield a section of dimension at least five. Suppose a point $A$ has weight three. Its projection has binary dimension five and point weights at most one, giving exactly 31 four-dimensional sections through $A$. But $\mu\ge{3\brack2}_2=7$, so $M_4\ge59$. Choose a four-dimensional section not through $A$. By \eqref{eq:two-span}, it meets each of those 31 sections nontrivially; their intersections determine 31 distinct projective points. A binary four-space supports at most 15 points, a contradiction.
+\end{proof}
+
+Fix such a section at $H_\infty=F^2\times\{0\}$ and write $T=U\cap H_\infty\le F^2$. It has binary dimension four, spans $F^2$, and has point weights at most two. The third-coordinate projection $Z$ also has dimension four.
+
+\section{A Complete Finite Covering}
+\subsection{Section and projection normalization}
+Two $F$-independent vectors in $T$ can be sent to $(1,0),(0,1)$. Thus every section is equivalent to a four-space containing $Y=\langle(1,0),(0,1)\rangle_2$. Such spaces correspond to binary planes in $F^2/Y$, a ten-dimensional space. There are ${10\brack2}_2=174251$ of them.
+
+For a normalized $T$, all members of its $\GL(2,F)$-orbit that contain $Y$ are precisely $[u\ v]^{-1}T$, with $u,v\in T$ $F$-independent: the converse follows by taking the inverse images of the two coordinate vectors. Enumerating the complete pool, checking its 15 nonzero vectors, and partitioning by these complete normalized orbits gives Table~\ref{tab:classification}. These operations are implemented by \texttt{classify\_plane4.cpp} and independently by \texttt{independent\_complete.cpp}.
+
+\begin{table}[t]
+\centering
+\caption{Complete section normalization and subsequent exclusions. $a$ is the number of weight-two points in $T$.}
+\label{tab:classification}
+\begin{tabular}{@{}crrrr@{}}
+\toprule
+$a$ & Pool & Classes & After rank 3,4 & After rank 2\\
+\midrule
+0 & 97510 & 481 & 1035 & 1035\\
+1 & 66385 & 365 & 3394 & 319\\
+2 & 9570 & 55 & 728 & 6\\
+3 & 320 & 10 & 159 & 0\\
+5 & 1 & 1 & 28800 & 10800\\
+\midrule
+Total & 173786 & 912 & 34116 & 12160\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Projection spaces can be normalized independently by scalar multiplication. Trace duality identifies their classes with binary planes $B\le F$. The stabilizer ring $\{c:cB\subseteq B\}$ is a subfield whose degree divides both two and six. Thus one scalar orbit consists of the spaces $b\F_4$ and has size 21; all others have size 63. Since ${6\brack2}_2=651=21+10\cdot63$, there are eleven projection classes. Block-diagonal changes $(v,z)\mapsto(Av,cz)$ normalize $T$ and $Z$ independently, giving all $912\cdot11=10032$ pairs.
+
+\subsection{Twenty-dimensional graph quotients}
+For each pair, all extensions are \eqref{eq:general-graph} with $\varphi\in\operatorname{Hom}_2(Z,F^2/T)$, a 32-dimensional binary space. The shear $(x,y,z)\mapsto(x+az,y+bz,z)$ adds $s_{a,b}(z)=(az,bz)+T$. This 12-dimensional action is faithful: if $(a,b)\ne0$ and $(aZ,bZ)\subseteq T$, equality follows by dimension, forcing $T$ to lie in one $F$-point, contrary to its spanning property. Therefore
+\begin{equation}
+ \mathcal Q_{T,Z}=\operatorname{Hom}_2(Z,F^2/T)/\{s_{a,b}\},
+ \qquad\dim_2\mathcal Q_{T,Z}=20.
+ \label{eq:20}
+\end{equation}
+Choosing a linear complement by binary elimination covers every extension with $2^{20}$ representatives per pair, or 10,519,314,432 representatives in total. A basis $t_1,\ldots,t_4$ of $T$ and $z_1,\ldots,z_4$ of $Z$ reconstruct the generator columns as
+\begin{equation}
+ (t_i,0),\quad (\widetilde\varphi(z_i),z_i),\qquad1\le i\le4.
+ \label{eq:columns}
+\end{equation}
+These are binary independent by projection to $Z$ and then to $T$, and span $F^3$.
+
+\section{Exact Exclusion and Its Verification}
+For each of the 65 projective forms $\ell:F^2\to F$, put $S_\ell=\ell(T)$ and $r_\ell=\dim_2S_\ell\in\{2,3,4\}$. All hyperplanes other than $H_\infty$ have form $(\ell,c)$, $c\in F$. Set
+\begin{equation}
+ A_{\ell,c}(z)=\ell(\widetilde\varphi(z))+cz+S_\ell.
+ \label{eq:singlemap}
+\end{equation}
+Rank--nullity gives
+\begin{equation}
+ \dim_2(U_\varphi\cap\ker(\ell,c))=8-r_\ell-\operatorname{rk}_2A_{\ell,c}.
+ \label{eq:hyperrank}
+\end{equation}
+The support intersection of the third-coordinate word with $(\ell,c)$ has dimension $\operatorname{rk}_2A_{\ell,c}$, since their individual ranks are $4,r_\ell+\operatorname{rk}A_{\ell,c}$ and joint rank is $4+r_\ell$. Hence every prospective code requires
+\begin{equation}
+ \operatorname{rk}_2A_{\ell,c}\ge\max(1,4-r_\ell)
+ \quad\text{for every }\ell,c.
+ \label{eq:necessary}
+\end{equation}
+
+To test all $c$ at once, quotient $\operatorname{Hom}_2(Z,F/S_\ell)$ by the multiplication maps $z\mapsto cz+S_\ell$, and let $L_\ell$ be the induced linear map from $\mathcal Q_{T,Z}$. Shears disappear in this quotient because $\ell(az,bz)=\ell(a,b)z$. For $r_\ell=3,4$, condition~\eqref{eq:necessary} says $L_\ell(\varphi)\ne0$. For $r_\ell=2$, its class must avoid the image of every rank-at-most-one map. The latter are exactly zero and the 225 maps $z\mapsto v f(z)$ with $0\ne v\in\F_2^4$, $0\ne f\in(\F_2^4)^*$.
+
+Thus the excluded sets are kernels or affine fibres of explicit binary linear maps on a twenty-dimensional space. Enumerating their complement gives the last two columns of Table~\ref{tab:classification}. For each of the 12,160 remaining parameters, enumerate the 4161 projective hyperplanes from the reconstructed columns and retain sections of dimension four. Testing their pairwise common kernels always finds two with zero intersection. Their direct sum is $U_\varphi$, contradicting \eqref{eq:two-span}.
+
+\begin{proof}[Computer-assisted proof of Theorem~\ref{thm:binary}]
+Lemma~\ref{lem:entrance} and the normalization proof put every prospective code in the complete covering \eqref{eq:20}. Condition~\eqref{eq:necessary} is necessary and is tested on every quotient assignment. The accompanying programs generate the full section pool and projection classes, exhaust all $2^{20}$ assignments for every pair, and reconstruct every retained system. They yield Table~\ref{tab:classification} and a disjoint-support pair for every retained parameter.
+
+The two implementations use respectively $\F_2[\alpha]/(\alpha^6+\alpha^4+\alpha^3+\alpha+1)$ and $\F_2[\beta]/(\beta^6+\beta+1)$, related by $\alpha\mapsto1+\beta+\beta^2$. They independently generate the covering, use opposite binary-pivot and projective-chart orders, and test the final obstruction by point incidence or common binary kernels. All 10032 case-count rows agree. The final Python checker expands the two explicit codewords and verifies, independently of these quotient routines,
+\begin{equation}
+ \operatorname{rk}_2\Gamma(c_0)=\operatorname{rk}_2\Gamma(c_1)=4,
+ \quad\operatorname{rk}_2\begin{pmatrix}\Gamma(c_0)\\\Gamma(c_1)\end{pmatrix}=8.
+ \label{eq:448}
+\end{equation}
+It checks all 12160 obstructions in each field. Equation~\eqref{eq:448} gives support-intersection dimension $4+4-8=0$, proving the theorem.
+\end{proof}
+
+
+\subsection{Reproducing the computation}
+The folder \texttt{verification/} contains the three C++ sources, two complete case-count tables and witness files, the section catalogue and covering, and the Python checkers. The default command \texttt{python verification/verify\_bundle.py} checks data integrity, table agreement, projection coverage and every final obstruction. Adding \texttt{--recompute} regenerates both complete enumerations using a C++17 compiler. The programs use integer arithmetic, finite-field operations and binary elimination; no floating-point comparisons enter the proof. The default data check validates the stored covering, while \texttt{--recompute} rebuilds it.
+
+For one explicit obstruction in the first field representation, integer labels denote polynomial-basis coefficients. Take
+\[
+ G=\begin{pmatrix}
+ 1&0&4&16&38&34&0&0\\
+ 0&1&2&4&32&48&16&0\\
+ 0&0&0&0&1&6&18&32
+ \end{pmatrix}.
+\]
+The messages $(1,0,0)$ and $(1,2,53)$ give respectively
+\[
+c_0=(1,0,4,16,38,34,0,0),\qquad
+c_1=(1,2,0,24,8,17,24,18).
+\]
+Their expanded ranks satisfy \eqref{eq:448}. The full witness files supply the corresponding pair for every retained parameter.
+
+\section{Result summary}
+The compatibility map determines common-support dimensions and, when selected message restrictions are independent, every matrix value is attained uniformly. Bounded-rank matrix theory then yields a sharp preservation-dimension bound. For the binary degree-six existence problem, the section, projection and shear reductions give an exhaustive finite domain; individual rank exclusions and explicit disjoint-support pairs eliminate every member. This proves the length-eight gap and, together with the existing constructions, the exact length set $\{5,6,7,9\}$.
+
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@samestyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
+\providecommand{\BIBentryALTinterwordstretchfactor}{4}
+\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand{\BIBforeignlanguage}[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+\providecommand{\BIBdecl}{\relax}
+\BIBdecl
+
+
+\bibitem{randrianarisoa2020}
+T.~H. Randrianarisoa, ``A geometric approach to rank metric codes and a
+  classification of constant weight codes,'' \emph{Des. Codes Cryptogr.},
+  vol.~88, no.~7, pp. 1331--1348, 2020, doi: \doi{10.1007/s10623-020-00750-x}.
+
+\bibitem{alfarano2022}
+G.~N. Alfarano, M.~Borello, A.~Neri, and A.~Ravagnani, ``Linear cutting
+  blocking sets and minimal codes in the rank metric,'' \emph{J. Combin. Theory
+  Ser. A}, vol. 192, 2022, art. no. 105658, doi:
+  \doi{10.1016/j.jcta.2022.105658}.
+
+\bibitem{bbms2025}
+D.~Bartoli, M.~Borello, G.~Marino, and M.~Scotti, ``Linear rank-metric
+  intersecting codes,'' arXiv preprint arXiv:2507.00569, 2025, doi:
+  \doi{10.48550/arXiv.2507.00569}.
+
+\bibitem{bpz2026}
+M.~Borello, O.~Polverino, and F.~Zullo, ``On the existence of linear
+  rank-metric intersecting codes,'' arXiv preprint arXiv:2604.02004, 2026, doi:
+  \doi{10.48550/arXiv.2604.02004}.
+
+\bibitem{gorla2020}
+E.~Gorla, R.~Jurrius, H.~H. L{\'o}pez, and A.~Ravagnani, ``Rank-metric codes
+  and {$q$}-polymatroids,'' \emph{J. Algebraic Combin.}, vol.~52, pp. 1--19,
+  2020, doi: \doi{10.1007/s10801-019-00889-4}.
+
+\bibitem{deSeguinsPazzis2016Flanders}
+\BIBentryALTinterwordspacing
+C.~{de Seguins Pazzis}, ``The {Flanders} theorem over division rings,''
+  \emph{Linear Algebra Appl.}, vol. 493, pp. 313--322, 2016. [Online].
+  Available: \url{https://arxiv.org/abs/1504.01986}
+\BIBentrySTDinterwordspacing
+
+\bibitem{flanders1962}
+H.~Flanders, ``On spaces of linear transformations with bounded rank,''
+  \emph{J. London Math. Soc.}, vol. s1-37, no.~1, pp. 10--16, 1962, doi:
+  \doi{10.1112/jlms/s1-37.1.10}.
+\end{thebibliography}
+
+\end{document}

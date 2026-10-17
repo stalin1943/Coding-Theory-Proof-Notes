@@ -1,0 +1,697 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{array,booktabs,makecell,multirow,threeparttable}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{cite}
+\usepackage{placeins}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[margin=1in]{geometry}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\usepackage[unicode,bookmarksnumbered,breaklinks,colorlinks=false,
+ citebordercolor={0 1 0},linkbordercolor={1 0 0},urlbordercolor={0 1 0},
+ pdfborder={0 0 0.65}]{hyperref}
+\hypersetup{
+ colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,
+ pdftitle={Nonexistence of Perfect Two-Error-Correcting Lee Codes},
+ pdfauthor={Yang Shifu},
+ pdfsubject={Mathematical proof note},
+ pdfkeywords={Lee metric, perfect codes, Golomb--Welch conjecture, nonlinear codes, nonperiodic codes},
+ pdfcreator={LaTeX}
+}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prb}{\mathbb{P}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\norm}[1]{\lVert #1\rVert_1}
+\newcommand{\card}[1]{\lvert #1\rvert}
+\DeclareMathOperator{\supp}{supp}
+\allowdisplaybreaks[1]
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries Nonexistence of Perfect Two-Error-Correcting Lee Codes\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 16, 2026\par\bigskip
+
+\section*{Result overview}
+Perfect Lee codes attain the sphere-packing bound for additive errors of bounded total symbol magnitude. This note resolves the radius-two case of the Golomb--Welch conjecture for arbitrary code subsets. No perfect two-error-correcting Lee code exists in the integer lattice $\mathbb Z^n$ for any $n\ge3$, without assumptions of linearity, periodicity, or lattice structure. The proof places all local counts on one translation-invariant binary codeword process. Exact convolution moments and congruences modulo three and five determine the admissible local distributions. In the remaining dimension classes, a codeword-anchored deficit grows by a factor of three under successive dyadic dilations while remaining uniformly bounded, which yields a contradiction after finitely many scales. The result also gives the complete radius-two existence classification over cyclic alphabets of size at least five and a uniform relative gap below the sphere-packing bound at every fixed length $n\ge3$.
+
+\section*{Proof architecture}
+The argument has four load-bearing stages. First, the same codeword set tiles every integer dilation of the radius-two Lee sphere whose scale is coprime to the sphere cardinality. Second, symmetric convolution masks give three exact second-moment identities; the moment at scale $2^j$ retains a conditional term from scale $2^{j+1}$. Third, reduction modulo three either gives an immediate contradiction or fixes one of two five-state distributions, after which reduction modulo five excludes every dimension class with $5\nmid n$. Finally, when $5\mid n$, the conditional-moment deficit satisfies
+\[
+\Delta_{j+1}\ge3\Delta_j,
+\qquad
+\Delta_j\ge\frac{s-1}{s+1},
+\qquad
+\Delta_j\le s-1.
+\]
+A finite number of dyadic scales is therefore sufficient. Every variable appearing below is evaluated on the same probability space, and no periodicity reduction is used.
+
+\section{Introduction}\label{sec:introduction}
+Lee-metric codes measure an error by its total symbol magnitude and provide a natural model for nonbinary error correction \cite{Lee1958}. Their algebraic constructions and decoding methods have been applied to constrained and partial-response channels, where the magnitudes of symbol changes carry information about the error mechanism \cite{RothSiegel1994}. For a code over the integer alphabet, a decoding sphere of radius two contains all additive error vectors with total absolute magnitude at most two. Perfectness requires these spheres to be disjoint and to cover every received word. The existence question therefore concerns equality in the sphere-packing bound and the joint compatibility of all decoding regions.
+
+Golomb and Welch \cite{GolombWelch1970} formulated the conjecture that perfect Lee codes over $\Z^n$ do not exist when the dimension is at least three and the error-correcting radius is at least two. Their constructions establish perfect codes in dimensions one and two for every radius, and in every dimension for radius one. They also established nonexistence for sufficiently large radii at each fixed dimension. Radius two is the first case beyond single-error correction and requires a result uniform in the dimension. Horak and Kim \cite{HorakKim2018} surveyed the conjecture, developed explicit large-radius bounds, and described algebraic conditions for translational Lee-sphere tilings.
+
+Geometric arguments resolved several low-dimensional cases. Horak \cite{Horak2009Tilings} proved nonexistence in dimensions three through five for every radius at least two, and established the radius-two result in dimension six in \cite{Horak2009Perfect}. Algebraic methods provided a second direction. Horak and Gro\v{s}ek \cite{HorakGrosek2014} excluded linear radius-two codes through dimension twelve by studying homomorphisms from the integer lattice to finite abelian groups. Kim \cite{Kim2017} obtained a number-theoretic criterion for arbitrary radius-two codes in dimensions for which the sphere cardinality is prime. These results connected the existence problem to both local geometric restrictions and the arithmetic of $2n^2+2n+1$.
+
+Leung and Zhou \cite{LeungZhou2020} subsequently proved the nonexistence of lattice radius-two Lee tilings in every dimension $n\ge3$. Their result also excludes arbitrary tilings when $2n^2+2n+1$ is prime. A central feature of their proof is the study of multiplicities in two group-ring products, first modulo three and then modulo five. The resulting residue-class analysis supplies strong restrictions on the possible local counts. Closely related work has considered codes near the sphere-packing bound: Camarero and Mart\'inez \cite{CamareroMartinez2016} constructed quasi-perfect radius-two Lee codes in arbitrarily large dimensions, while Zhou and Zhou \cite{ZhouZhou2024} restricted almost perfect linear radius-two codes to a finite set of dimensions. These developments sharpen the distinction between correcting every error of Lee weight at most two and attaining perfect coverage.
+
+For an arbitrary subset of $\Z^n$, the counting argument must accommodate spatial dependence and retain a common codeword indicator at all scales. Translation averaging provides such a setting: local codeword counts become integer-valued random variables on one probability space, and symmetric convolutions remain self-adjoint. The critical additional quantity is a codeword-conditioned moment linking scales $a$ and $4a$. Its value can depend on $a$, so the second moment at one scale involves a quantity at the next scale. This dependence becomes the mechanism that completes the proof. Our formulation uses the same-code dilation principle of Horak and Kim \cite[Theorem~24 and Corollary~25]{HorakKim2018} and develops the modular counting approach of Leung and Zhou \cite[Section~3]{LeungZhou2020} for this translation-invariant setting.
+
+In this note, we prove the nonexistence of perfect two-error-correcting Lee codes over $\Z^n$ for every $n\ge3$. A common translation average retains the binary codeword indicator and all exact decoding relations. Three second-moment identities then determine two five-state distributions after reduction modulo three, and reduction modulo five excludes eight further dimension classes. These distributions are derived explicitly from the coverage equations and their integer-valued counts.
+
+For the remaining dimensions, we introduce a conditional-moment deficit that is bounded at every scale. Its second-moment relation forces a factor-of-three increase whenever the scale doubles. We prove a strictly positive lower bound by conditioning a directional sum on a codeword; translation averaging counts each resulting mismatch exactly once. The two estimates complete the argument after finitely many scales and extend the modular method to arbitrary code subsets.
+
+The coding consequences include a complete radius-two existence classification for cyclic alphabets of size at least five. We also obtain, at each fixed length at least three, a positive relative gap below the sphere-packing bound that is uniform in the alphabet size. A finite-alphabet approximation relates the normalized maximum code size to the optimal packing density on the integer alphabet, with an explicit boundary-loss estimate. These consequences follow from the main theorem, periodic lifting, and compactness of the space of codeword indicators.
+
+Section~\ref{sec:model} states the main theorem and develops the common translation model. Section~\ref{sec:moments} derives the local counts, exact moments, and modular relations. Sections~\ref{sec:residues} and~\ref{sec:dyadic} complete the dimension analysis. Section~\ref{sec:coding} gives the finite-alphabet classification and packing-density consequences, and Section~\ref{sec:conclusion} concludes the note.
+
+ \section{Code Model and Main Result}\label{sec:model}
+In this section, we formulate perfect Lee decoding over the integer alphabet and introduce a translation-invariant representation of a hypothetical perfect code. This representation allows all subsequent expectations to be evaluated with respect to one probability measure.
+
+\subsection{Perfect Radius-Two Lee Codes}
+For $x,y\in\Z^n$, define the Lee distance by
+\begin{equation}\label{eq:distance}
+ d_{\rm L}(x,y)=\sum_{i=1}^n|x_i-y_i|.
+\end{equation}
+For a nonnegative integer $r$, the corresponding Lee sphere is
+\begin{equation}\label{eq:spheres}
+ B_r^n=\{x\in\Z^n:\norm{x}\le r\},\qquad r\ge0.
+\end{equation}
+Throughout the proof, let
+\begin{align}
+ B&=B_2^n,& M&=\card{B}=2n^2+2n+1,\label{eq:volume}\\
+ V&=\{0,\pm e_1,\ldots,\pm e_n\},&s&=\card{V}=2n+1,\label{eq:unit}
+\end{align}
+where $e_i$ is the $i$th coordinate vector. A code $\C\subseteq\Z^n$ corrects every error in $B$ when its distinct codewords have Lee distance at least five. It is perfect when, in addition, every $x\in\Z^n$ is within Lee distance two of a codeword. Thus its binary indicator $f=\mathbf1_\C$ satisfies
+\begin{equation}\label{eq:tiling}
+ \sum_{b\in B}f(x-b)=1\qquad(x\in\Z^n).
+\end{equation}
+The main result determines the existence of such a code in every dimension at least three.
+
+\begin{theorem}\label{thm:main}
+For every integer $n\ge3$, there is no perfect two-error-correcting Lee code in $\Z^n$.
+\end{theorem}
+
+\subsection{Dilations and a Common Translation Average}
+For a function $h$ on $\Z^n$, let $(S^vh)(x)=h(x-v)$ and define
+\begin{equation}\label{eq:operators}
+ Q_a=\sum_{b\in B}S^{ab},\qquad
+ T_a=\sum_{u\in V}S^{au},\qquad a\ge1.
+\end{equation}
+A dilation has the form $aB=\{ab:b\in B\}$ and retains exactly $M$ points. Operator powers such as $T_a^2$ denote repeated convolution. We first establish the dilation relation that supplies the required codeword separation at several scales.
+
+\begin{lemma}\label{lem:dilation}
+If $f:\Z^n\to\{0,1\}$ satisfies $Q_1f=\one$, then
+\begin{equation}\label{eq:dilation}
+ Q_af=\one\qquad\text{whenever }\gcd(a,M)=1.
+\end{equation}
+Consequently, distinct codewords have no difference in $a(B_4^n\setminus\{0\})$ for any such $a$.
+\end{lemma}
+\begin{proof}
+For a prime $p\nmid M$, the integer Laurent-polynomial identity modulo $p$ gives $Q_p\equiv Q_1^p\pmod p$. Applying this identity to $f$ yields
+\begin{equation}\label{eq:frobenius-q}
+ Q_pf\equiv M^{p-1}\equiv1\pmod p.
+\end{equation}
+Every value of $Q_pf$ is a nonnegative integer, and hence is at least one. Since all shifts commute,
+\[
+ Q_1(Q_pf)=Q_p(Q_1f)=M\one.
+\]
+Each value on the left is the sum of $M$ integers that are at least one. All summands equal one. As $0\in B$, this determines $Q_pf$ at every point.
+
+For composite $a$, apply the prime argument successively to $bB$ after the relation has been established for $b$. Each intermediate set has cardinality $M$. Finally, $B_2^n-B_2^n=B_4^n$; a nonzero codeword difference in $aB_4^n$ would produce an overlap between two translates of $aB$ and contradict \eqref{eq:dilation}.
+\end{proof}
+
+We next average translates of one hypothetical code. This step preserves the binary values of the indicator and every pointwise coverage relation.
+
+\begin{lemma}\label{lem:stationary}
+If \eqref{eq:tiling} has a solution, its binary solution space supports a translation-invariant probability measure $\mu$. For the origin indicator $F(\omega)=\omega(0)$,
+\begin{equation}\label{eq:density}
+ \E F=\rho:=M^{-1}.
+\end{equation}
+Finite symmetric sums of shifts are commuting self-adjoint operators on $L^2(\mu)$.
+\end{lemma}
+\begin{proof}
+Let $\Omega\subseteq\{0,1\}^{\Z^n}$ be the solution space of \eqref{eq:tiling}. It is compact because each covering equation is a closed condition involving finitely many coordinates. It is also invariant under $\tau_v\omega(x)=\omega(x-v)$. Starting from a solution $\omega_*$, take a weakly convergent subsequence of the probability measures
+\begin{equation}\label{eq:spatial-average}
+ \frac{1}{(2R+1)^n}
+ \sum_{v\in[-R,R]^n\cap\Z^n}\delta_{\tau_v\omega_*}.
+\end{equation}
+For every fixed translation, the relative size of the symmetric difference of the original and translated averaging boxes tends to zero. The limit $\mu$ is therefore translation invariant and remains supported on $\Omega$. Taking expectation in $Q_1F=1$ gives \eqref{eq:density}.
+
+On observables, $S^vH=H\circ\tau_v$ is unitary and has adjoint $S^{-v}$. Symmetric finite sums are consequently self-adjoint. Commutation follows from commutation of the coordinate shifts.
+\end{proof}
+
+Fix this measure for the rest of the proof, and write $f(x)=\omega(x)$ for an individual configuration, so $F=f(0)$. For $a=2^j$, $j\ge0$, define the origin counts
+\begin{align}
+ A_a&=T_aF,& B_a&=T_{3a}F,&D_a&=T_{5a}F,\label{eq:counts-1}\\
+ X_a&=T_{2a}T_aF,&Y_a&=T_{4a}T_aF.&&\label{eq:counts-2}
+\end{align}
+Each count also defines a field by evaluating the same expression at $x\in\Z^n$. Since $M$ is odd and $3\nmid M$, all dyadic scales and their triples satisfy Lemma~\ref{lem:dilation}. The count $D_a$ is always an integer in $[0,s]$, and it is binary when $5\nmid M$.
+
+ \section{Convolution Counts and Exact Moments}\label{sec:moments}
+In this section, we derive the identities shared by the counts in \eqref{eq:counts-1}--\eqref{eq:counts-2}. The local separation conditions determine several indicator products exactly, which makes it possible to evaluate second moments while retaining the dependence between scales.
+
+\subsection{Local Counting Relations}
+\begin{lemma}\label{lem:geometry}
+For every dyadic $a$,
+\begin{align}
+ T_a^2+T_{2a}&=2Q_a+2nI,\label{eq:mask}\\
+ A_aB_a&=F,\qquad FX_a=F,\label{eq:products1}\\
+ F(T_{2a}T_{4a}F)&=F,\label{eq:products2}\\
+ 0\le X_a&\le n+1,\qquad F\le A_a\le Y_a\le s.\label{eq:bounds}
+\end{align}
+Moreover,
+\begin{align}
+ \E A_a=\E B_a=\E D_a&=s\rho,\label{eq:means1}\\
+ \E X_a=\E Y_a&=s^2\rho.\label{eq:means2}
+\end{align}
+\end{lemma}
+\begin{proof}
+At displacement zero, the coefficients of $T_a^2$ and $T_{2a}$ are $s$ and one. At $\pm2ae_i$, they are one and one. At $\pm ae_i$ and $\pm ae_i\pm ae_k$ with $i\ne k$, they are two and zero. These are all possible displacements, proving \eqref{eq:mask}.
+
+For every admissible scale $b$, the count $T_bF$ is binary because $bV\subseteq bB$. If $A_a(x)=B_a(x)=1$, the corresponding codewords lie in $x+aV$ and $x+3aV$. Their difference belongs to $aB_4^n$, so Lemma~\ref{lem:dilation} requires them to coincide. The intersection of the two sets is $\{x\}$, and hence $A_aB_a=F$.
+
+After displacements are divided by $a$, the support of $T_{2a}T_a$ consists of
+\begin{equation}\label{eq:x-support}
+ 0,\quad\pm e_i,\quad\pm2e_i,\quad\pm3e_i,
+ \quad\pm2e_i\pm e_k\quad(i\ne k).
+\end{equation}
+Only the displacements $\pm e_i$ have coefficient two; all other coefficients are one. Every nonzero displacement lies in $B_3^n$. If the origin is a codeword, separation excludes every other contributing position, which proves $FX_a=F$. Similarly, $T_{2a}T_{4a}$ has support $2a(V+2V)\subseteq2aB_3^n$ and constant coefficient one. Separation at scale $2a$ proves \eqref{eq:products2}.
+
+If $A_a(x)=1$, its codeword excludes every other codeword contributing to $X_a(x)$ because the difference lies in $aB_4^n$. Thus $X_a(x)\le2$. If $A_a(x)=0$, at most one contributing codeword lies in $x+aB_2^n$. Every remaining contributing codeword has displacement type $(3)$ or $(2,1)$ after division by $a$, with exactly one odd coordinate. Two candidates with the same odd coordinate differ by $2aw$ with $\norm{w}\le3$. Lemma~\ref{lem:dilation} excludes such a pair at scale $2a$. There are $n$ odd-coordinate classes, so $X_a\le n+1$.
+
+Finally, $Y_a$ is the sum of $s$ translates of the binary field $A_a$, including $A_a$ itself. This gives the remaining bounds in \eqref{eq:bounds}. Translation invariance and the sums of the convolution coefficients give \eqref{eq:means1}--\eqref{eq:means2}.
+\end{proof}
+
+\subsection{Moments Coupling Adjacent Dyadic Scales}
+We retain the conditional moment at each scale by defining
+\begin{equation}\label{eq:Z}
+ Z_j=M\E[FY_{2^j}],\qquad \Delta_j=s-Z_j.
+\end{equation}
+Since $\Prb(F=1)=M^{-1}$, the quantity $Z_j$ equals $\E[Y_{2^j}\mid F=1]$. Thus $\Delta_j$ measures the difference between the largest possible count $s$ and its mean at a codeword.
+
+\begin{lemma}\label{lem:moments}
+For every $j\ge0$ and $a=2^j$,
+\begin{align}
+ 1\le Z_j&\le s,\label{eq:zbound}\\
+ M\E X_a^2&=12n^2+4n+1,\label{eq:xmoment}\\
+ M\E[A_aY_a]&=6n+1,\label{eq:aymoment}\\
+ M\E Y_a^2&=12n^2+4n+Z_{j+1}.\label{eq:ymoment}
+\end{align}
+\end{lemma}
+\begin{proof}
+The bounds on $Z_j$ follow from $F\le Y_a\le s$ and $F^2=F$. Applying \eqref{eq:mask} to the indicator gives
+\begin{equation}\label{eq:squared}
+ T_a^2F=2+2nF-T_{2a}F.
+\end{equation}
+Commutation and self-adjointness imply
+\begin{align*}
+ \E X_a^2&=\ip{T_a^2F}{T_{2a}^2F},\\
+ \E Y_a^2&=\ip{T_a^2F}{T_{4a}^2F},
+\end{align*}
+where $\ip{H}{J}=\E[HJ]$. If $U,W$ are the corresponding binary $T$ counts, then $FU=FW=F$ and $\E U=\E W=s\rho$. Hence
+\begin{align}\label{eq:product-expansion}
+ &\E[(2+2nF-U)(2+2nF-W)]\nonumber\\
+ &\hspace{7mm}=4+(4n^2-4n-4)\rho+\E[UW].
+\end{align}
+For $X_a$, relation \eqref{eq:products2} gives $\E[UW]=\rho$. For $Y_a$, the mixed term is
+\begin{align}\label{eq:next-scale}
+ \E[(T_{2a}F)(T_{8a}F)]
+ &=\E[F(T_{2a}T_{8a}F)]\nonumber\\
+ &=\rho Z_{j+1}.
+\end{align}
+Using $4M+4n^2-4n-4=12n^2+4n$ in \eqref{eq:product-expansion} proves \eqref{eq:xmoment} and \eqref{eq:ymoment}. Also,
+\begin{align*}
+ \E[A_aY_a]
+ &=\ip{F}{T_{4a}T_a^2F}\\
+ &=2s\rho-\ip{F}{T_{4a}T_{2a}F}+2n\rho\\
+ &=(6n+1)\rho,
+\end{align*}
+which proves \eqref{eq:aymoment}.
+\end{proof}
+
+Equation~\eqref{eq:next-scale} identifies the term that connects consecutive scales. All its factors are evaluated in the same process, while $Z_j$ and $Z_{j+1}$ retain their separate values. The recurrence in Section~\ref{sec:dyadic} follows from comparing this exact mixed term with an integer upper bound for $Y_a^2$.
+
+\subsection{Congruences of the Convolution Counts}
+\begin{lemma}\label{lem:congruences}
+For every dyadic $a$, the following congruences hold pointwise:
+\begin{align}
+ X_a&\equiv2s+2nA_a-B_a\pmod3,\label{eq:mod3}\\
+ Y_a+D_a&\equiv2s^3-4nX_a+(4n^2+2n)A_a\pmod5.
+ \label{eq:mod5}
+\end{align}
+\end{lemma}
+\begin{proof}
+Applying $T_a$ to \eqref{eq:squared} gives
+\[
+ T_a^3F=2s-X_a+2nA_a.
+\]
+Applying it once more, and using the squared relations at $a$ and $2a$, yields
+\begin{align*}
+ T_a^4F={}&2s^2-T_{4a}F-4nT_{2a}F\\
+ &+(4n^2+2n)F.
+\end{align*}
+Consequently,
+\[
+ T_a^5F=2s^3-Y_a-4nX_a+(4n^2+2n)A_a.
+\]
+For integer-coefficient convolutions, $T_a^3\equiv T_{3a}\pmod3$ and $T_a^5\equiv T_{5a}\pmod5$. Substitution gives \eqref{eq:mod3}--\eqref{eq:mod5}, with $D_a$ treated as a nonnegative integer throughout.
+\end{proof}
+
+ \section{Dimensions Determined by Modular Counts}\label{sec:residues}
+In this section, we combine the congruences with the exact moments. Reduction modulo three first restricts $X_a$ to a small set of values. The resulting probability distributions then determine explicit positive gaps for eight residue classes modulo fifteen.
+
+\subsection{Reduction Modulo Three}
+\begin{lemma}\label{lem:mod3}
+A perfect code satisfying \eqref{eq:tiling} cannot exist if $n\ge3$ and $3\mid n$. In the other two residue classes, the joint distribution of $(F,A_a,B_a,X_a)$ is given in Table~\ref{tab:states}, where each probability is $\rho$ times the displayed value.
+\end{lemma}
+\begin{proof}
+If $3\mid n$, \eqref{eq:mod3} gives $X_a\equiv2-B_a\pmod3$. Therefore $L=X_a-2+B_a\ge0$, and \eqref{eq:means1}--\eqref{eq:means2} give $\E L=2n\rho$. Since
+\[
+ X_a^2=(2-B_a)^2+L(X_a+2-B_a),
+\]
+we obtain
+\begin{align}\label{eq:mod3-upper}
+ \E X_a^2
+ &\le4-3s\rho+(n+3)2n\rho\nonumber\\
+ &=(10n^2+8n+1)\rho.
+\end{align}
+This conflicts with \eqref{eq:xmoment}, whose value exceeds the right-hand side by $2n(n-2)\rho>0$.
+
+For $n\equiv1\pmod3$, define
+\[
+ P_1=X_a^2-3X_a+2(A_a+B_a-F),
+\]
+and for $n\equiv2\pmod3$, define
+\[
+ P_2=X_a^2-5X_a+4+2(A_a+B_a-2F).
+\]
+These expressions are nonnegative in their respective residue classes. Indeed, when $A_a=B_a=0$, congruence \eqref{eq:mod3} restricts $X_a$ to $0,3,6,\ldots$ in the first case and $1,4,7,\ldots$ in the second. The relevant factors are $X_a(X_a-3)$ and $(X_a-1)(X_a-4)$. When exactly one of $A_a,B_a$ equals one, the factors are $(X_a-1)(X_a-2)$ and $(X_a-2)(X_a-3)$, which are nonnegative for integer $X_a$. If $F=1$, \eqref{eq:products1} gives $A_a=B_a=X_a=1$, and both expressions vanish.
+
+The exact moments give, in the respective classes,
+\begin{align*}
+ M\E P_1&=12n^2+4n+1-3s^2+2(2s-1)=0,\\
+ M\E P_2&=12n^2+4n+1-5s^2+4M+4s-4=0.
+\end{align*}
+A nonnegative random variable with mean zero vanishes almost surely, so only the corresponding roots can occur. The event $F=1$ has probability $\rho$, and $A_aB_a=F$ gives probability $(s-1)\rho=2n\rho$ for each event on which exactly one of $A_a,B_a$ equals one.
+
+To determine the two remaining masses, normalize probabilities by $\rho$. In the class $n\equiv1\pmod3$, write them as $p_0,p_3$ according to the value of $X_a$. Normalization and the first moment give
+\[
+ p_0+p_3=M-1-4n=2n(n-1),\qquad
+ 1+8n+3p_3=s^2.
+\]
+Thus $p_3=4n(n-1)/3$ and $p_0=2n(n-1)/3$. In the class $n\equiv2\pmod3$, the analogous masses satisfy
+\[
+ p_1+p_4=2n(n-1),\qquad
+ 1+10n+p_1+4p_4=s^2.
+\]
+Solving gives $p_4=2n(n-2)/3$ and $p_1=(4n^2-2n)/3$, proving every entry in Table~\ref{tab:states}.
+\end{proof}
+
+\begin{table}[t]
+\caption{Joint count distributions; each displayed probability is normalized by $\rho$.}
+\label{tab:states}
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{cccc}
+\toprule
+$n\bmod3$ & $(F,A_a,B_a)$ & $X_a$ & Probability$/\rho$\\
+\midrule
+\multirow{5}{*}{1}&$(1,1,1)$&1&$1$\\
+&$(0,1,0)$&2&$2n$\\
+&$(0,0,1)$&2&$2n$\\
+&$(0,0,0)$&0&$2n(n-1)/3$\\
+&$(0,0,0)$&3&$4n(n-1)/3$\\
+\midrule
+\multirow{5}{*}{2}&$(1,1,1)$&1&$1$\\
+&$(0,1,0)$&2&$2n$\\
+&$(0,0,1)$&3&$2n$\\
+&$(0,0,0)$&1&$(4n^2-2n)/3$\\
+&$(0,0,0)$&4&$2n(n-2)/3$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Reduction Modulo Five}
+We now use the same five-state distribution to evaluate the right-hand side of \eqref{eq:mod5}. The argument needs only the mean and nonnegative integrality of $D_a$, so it applies uniformly across the eight classes considered below.
+
+\begin{lemma}\label{lem:mod15}
+A perfect code satisfying \eqref{eq:tiling} cannot exist if $n\ge3$, $3\nmid n$, and $5\nmid n$.
+\end{lemma}
+\begin{proof}
+Fix $a=1$ and suppress this subscript. Let $r$ be the least nonnegative residue of $2s^3-4nX+(4n^2+2n)A$ modulo five. Define
+\[
+ w(0),\ldots,w(4)=(0,2,3,3,2),\qquad
+ H(y)=\frac{5y-y^2}{2}.
+\]
+For any nonnegative integer $y$, $H(y)\le w(y\bmod5)$. Reducing a residue by one increases $w$ by at most two. Since $Y+D\equiv r\pmod5$ and $D\ge0$, these observations imply
+\begin{align}
+ Y+D&\ge r,\label{eq:test1}\\
+ H(Y)&\le w(r)+2D.\label{eq:test2}
+\end{align}
+Also, \eqref{eq:means2}, \eqref{eq:ymoment}, and $Z_1\le s$ yield
+\begin{align}\label{eq:Hlower}
+ M\E H(Y)
+ &=4n^2+8n+\frac{5-Z_1}{2}\nonumber\\
+ &\ge4n^2+7n+2.
+\end{align}
+Taking expectations in \eqref{eq:test1} requires
+\begin{equation}\label{eq:gap1}
+ \Gamma_{\rm I}(n):=M\E r-s^2-s\le0,
+\end{equation}
+whereas \eqref{eq:test2} and \eqref{eq:Hlower} require
+\begin{equation}\label{eq:gap2}
+ \Gamma_{\rm II}(n):=4n^2+7n+2-M\E w(r)-2s\le0.
+\end{equation}
+The probabilities in Table~\ref{tab:states} evaluate these quantities exactly. Table~\ref{tab:gaps} lists all five values of $r$ in the order of the corresponding rows of Table~\ref{tab:states}. Their weighted sums give the displayed gaps, using test~I from \eqref{eq:gap1} or test~II from \eqref{eq:gap2}.
+
+For example, if $n\equiv1\pmod3$ and $n\equiv1\pmod5$, then $r\equiv4+X+A\pmod5$. Its values on the five rows of Table~\ref{tab:states} are $1,2,1,4,2$, respectively. Hence
+\[
+ M\E r=1+6n+\frac{16n(n-1)}3,
+\]
+which gives $\Gamma_{\rm I}(n)=(4n^2-16n-3)/3$. The other rows follow by the same finite substitution.
+
+For every row in Table~\ref{tab:gaps}, the quadratic gap has positive leading coefficient, positive value at the smallest admissible dimension $n_0$, and positive derivative at $n_0$. It remains positive for all $n\ge n_0$, contradicting the required inequality in \eqref{eq:gap1} or \eqref{eq:gap2}.
+\end{proof}
+
+\begin{table}[t]
+\caption{Modulo-five residues in the order of Table~\ref{tab:states}, the resulting positive gaps, and the smallest admissible dimensions.}
+\label{tab:gaps}
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.14}
+\begin{tabular}{cccccc}
+\toprule
+$n\bmod3$&$n\bmod5$&$(r_1,r_2,r_3,r_4,r_5)$&Test&$\Gamma(n)$&$n_0$\\
+\midrule
+1&1&$(1,2,1,4,2)$&I&$(4n^2-16n-3)/3$&16\\
+1&2&$(2,4,4,0,1)$&II&$(4n^2-7n-9)/3$&7\\
+1&3&$(1,4,2,1,0)$&II&$(8n^2-17n-6)/3$&13\\
+1&4&$(4,3,1,3,0)$&II&$2n^2-5n-2$&4\\
+2&1&$(1,2,2,0,3)$&II&$2n^2-5n-2$&11\\
+2&2&$(2,4,1,2,3)$&I&$2n(n-2)/3$&17\\
+2&3&$(1,4,0,4,3)$&I&$(10n^2-14n-3)/3$&8\\
+2&4&$(4,3,0,2,4)$&I&$(4n^2-20n+6)/3$&14\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+ \section{A Finite-Scale Contradiction for the Remaining Dimensions}\label{sec:dyadic}
+In this section, we treat the multiples of five by retaining the whole sequence of conditional moments in \eqref{eq:Z}. The moment comparison forces the deficits to grow, and a directional counting argument gives a uniform positive lower bound. Their combination completes the proof of Theorem~\ref{thm:main}.
+
+\subsection{Growth of the Conditional-Moment Deficit}
+If $5\mid n$, then $M\equiv1\pmod5$. Thus $5a$ is an admissible scale for every dyadic $a$, and $D_a$ is binary. This additional separation is used in both lemmas below.
+
+\begin{lemma}\label{lem:growth}
+If $5\mid n$, then
+\begin{equation}\label{eq:growth}
+ \Delta_{j+1}\ge3\Delta_j,\qquad0\le\Delta_j\le s-1
+ \qquad(j\ge0).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Fix $a=2^j$ and suppress the subscript on $A,D,Y$. Equation~\eqref{eq:mod5} reduces to $Y+D\equiv2\pmod5$. As $D$ is binary, the integer
+\[
+ L=Y-2+D
+\]
+is nonnegative. The means and the mixed moment give
+\begin{align}
+ \E L&=2n\rho,\label{eq:Lmean}\\
+ \E[AL]&=(2n-1)\rho+\E[AD].\label{eq:ALmean}
+\end{align}
+Since $AD\ge F$ and $AL\le L$, equations \eqref{eq:Lmean}--\eqref{eq:ALmean} imply equality in both comparisons. Therefore
+\begin{equation}\label{eq:saturation}
+ AD=F,\qquad AL=L\qquad\text{almost surely}.
+\end{equation}
+We use these equalities to bound the exact identity
+\[
+ Y^2=(2-D)^2+L(Y+2-D).
+\]
+If $A=0$, then $L=0$. If $A=D=1$, then $F=1$ and $Y+1\le s+1$. If $A=1,D=0$, then $F=0$ and $Y\equiv2\pmod5$. Since $s\equiv1\pmod5$ and $Y\le s$, it follows that $Y\le s-4$. Thus
+\begin{equation}\label{eq:integer-upper}
+ L(Y+2-D)\le(s-2)L+3FL.
+\end{equation}
+The identity $\E[FL]=\rho(Z_j-1)$ now yields
+\begin{align}\label{eq:second-upper}
+ M\E Y^2
+ &\le4M-3s+(s-2)2n+3(Z_j-1)\nonumber\\
+ &=12n^2-2+3Z_j.
+\end{align}
+Comparison with \eqref{eq:ymoment} gives
+\[
+ 3Z_j-Z_{j+1}\ge4n+2=2s,
+\]
+which is equivalent to the first inequality in \eqref{eq:growth}. The remaining bounds follow from \eqref{eq:zbound}.
+\end{proof}
+
+\subsection{A Positive Deficit From Codeword-Conditioned Counting}
+Growth alone permits an identically zero sequence. We next rule out that possibility by comparing the decoding counts at two nearby scaled locations. Conditioning the directional sum on a codeword prevents repeated counting of the same mismatch.
+
+\begin{lemma}\label{lem:charge}
+If $5\mid n$, then
+\begin{equation}\label{eq:seed}
+ \Delta_j\ge\frac{s-1}{s+1}\qquad(j\ge0).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Fix $a=2^j$ and define
+\begin{align*}
+ U&=T_{4a}F,&V_2&=T_{2a}F,&D&=T_{5a}F,\\
+ J&=U-A_a,&E_4&=U(1-A_a),&E_5&=D(1-V_2).
+\end{align*}
+Each of $E_4,E_5$ is binary and records a mismatch between two counts in the same configuration.
+
+Let $x$ be a codeword and $w\in V\setminus\{0\}$. Suppose both $E_4(x+4aw)$ and $E_5(x+5aw)$ vanish. The codeword at $x$ gives $U(x+4aw)=D(x+5aw)=1$. Hence there are codewords
+\begin{equation}\label{eq:two-codewords}
+ c=x+4aw-au,\qquad d=x+5aw-2av,
+ \qquad u,v\in V.
+\end{equation}
+Their difference lies in $aB_4^n$, so Lemma~\ref{lem:dilation} requires $c=d$, or $w+u=2v$. For $w\in\{\pm e_1,\ldots,\pm e_n\}$, the only solutions are $(u,v)=(w,w)$ and $(-w,0)$. The first produces the codeword $x+3aw$, violating separation at scale $a$. The second produces $x+5aw$, violating separation at scale $5a$. Consequently, for every configuration and every $x$,
+\begin{align}\label{eq:anchored-pointwise}
+ f(x)\le{}&f(x)E_4(x+4aw)\nonumber\\
+ &+f(x)E_5(x+5aw).
+\end{align}
+Sum over all $s-1$ nonzero directions while retaining the factor $f(x)$. Translation invariance gives
+\begin{align}\label{eq:count-once}
+ \sum_{w\ne0}\E[F E_4(4aw)]
+ &=\E\!\left[E_4\sum_{w\ne0}f(-4aw)\right]\nonumber\\
+ &=\E[E_4(U-F)]=\E E_4.
+\end{align}
+Indeed, $E_4=1$ implies $U=1$ and $A_a=F=0$. The corresponding calculation for $E_5$ gives
+\[
+ \sum_{w\ne0}\E[F E_5(5aw)]=\E[E_5(D-F)]=\E E_5.
+\]
+Thus \eqref{eq:anchored-pointwise} implies
+\begin{equation}\label{eq:anchored}
+ (s-1)\rho\le\E E_4+\E E_5.
+\end{equation}
+
+Since $U$ and $A_a$ are binary and have the same mean, self-adjointness yields
+\begin{align}\label{eq:mismatch}
+ \E E_4&=s\rho-\E[UA_a]=\Delta_j\rho,\nonumber\\
+ \E|J|&=2\E E_4.
+\end{align}
+Equations~\eqref{eq:squared} and \eqref{eq:mod5}, with $5\mid n$, imply
+\[
+ T_aJ=Y_a-T_a^2F\equiv V_2-D\pmod5.
+\]
+If the binary variables $V_2,D$ differ, the integer $T_aJ$ is nonzero. It follows pointwise that
+\[
+ |V_2-D|\le|T_aJ|\le T_a|J|.
+\]
+Their equal means then give
+\begin{equation}\label{eq:mismatch5}
+ \E E_5=\tfrac12\E|D-V_2|
+ \le\tfrac{s}{2}\E|J|=s\E E_4.
+\end{equation}
+Substituting \eqref{eq:mismatch}--\eqref{eq:mismatch5} into \eqref{eq:anchored} proves \eqref{eq:seed}.
+\end{proof}
+
+\subsection{Completion of the Main Proof}
+\begin{proof}
+Suppose \eqref{eq:tiling} holds for some $n\ge3$. Lemma~\ref{lem:mod3} excludes $3\mid n$, and Lemma~\ref{lem:mod15} excludes $3\nmid n$ with $5\nmid n$. The remaining dimensions satisfy $n\equiv5$ or $10\pmod{15}$. Choose an integer $K$ such that $3^K>s+1$. Lemmas~\ref{lem:growth} and~\ref{lem:charge} imply
+\begin{equation}\label{eq:final-contradiction}
+ s-1\ge\Delta_K\ge3^K\Delta_0
+ \ge\frac{3^K(s-1)}{s+1}>s-1,
+\end{equation}
+a contradiction. These cases exhaust all $n\ge3$.
+\end{proof}
+
+For the last branch, all required counts use the finite scale set
+\begin{equation}\label{eq:scales}
+ \mathcal A_K=\{c2^j:c\in\{1,3,5\},\ 0\le j\le K+3\},
+\end{equation}
+where $K=\lfloor\log_3(s+1)\rfloor+1$. For $5\mid n$, every member of \eqref{eq:scales} is coprime to $M$. Thus $O(\log n)$ successive dyadic levels suffice to complete this branch.
+
+ \section{Finite-Alphabet Codes and Packing Density}\label{sec:coding}
+In this section, we derive the coding consequences of Theorem~\ref{thm:main}. Periodic lifting first gives a strict finite-alphabet sphere-packing bound and an exact existence classification. A common limiting argument then gives a relative packing gap uniform in the alphabet size and a quantitative comparison between finite and integer alphabets.
+
+\subsection{Periodic Lifting and the Sphere-Packing Bound}
+For $q\ge5$, write $\pi_q:\Z^n\to\Z_q^n$ for coordinatewise reduction. For representatives $x_i,y_i\in\{0,\ldots,q-1\}$, the Lee distance is
+\begin{equation}\label{eq:qdistance}
+ d_{L,q}(x,y)=\sum_{i=1}^n\min\{|x_i-y_i|,q-|x_i-y_i|\}.
+\end{equation}
+The radius-two sphere consists of the reductions of the vectors in $B$. This reduction is injective: two such vectors differ by at most four in each coordinate, so their difference cannot be a nonzero element of $q\Z^n$. Surjectivity follows by choosing a minimum-magnitude representative for each symbol error. Thus every finite-alphabet decoding sphere has cardinality $M$.
+
+If $\C\subseteq\Z_q^n$ has minimum Lee distance at least five, its lift $\widetilde\C=\pi_q^{-1}(\C)$ has minimum integer Lee distance at least five. Distinct words reducing to different codewords are separated by \eqref{eq:qdistance}; distinct lifts of the same codeword differ by a nonzero vector in $q\Z^n$. Conversely, a $q\Z^n$-periodic integer code of minimum Lee distance at least five reduces to a finite-alphabet code with the same minimum-distance requirement. This gives the periodic correspondence used in the following consequence \cite[Proposition~1]{HorakKim2018}.
+
+\begin{corollary}\label{cor:finite}
+For $n\ge3$ and $q\ge5$, every code $\C\subseteq\Z_q^n$ with minimum Lee distance at least five satisfies
+\begin{equation}\label{eq:strict-packing}
+ \card{\C}(2n^2+2n+1)\le q^n-1.
+\end{equation}
+In particular, a perfect two-error-correcting Lee code does not exist for these parameters.
+\end{corollary}
+\begin{proof}
+Disjoint radius-two spheres give $M\card{\C}\le q^n$. Equality would make every received word have a unique representation $c+\pi_q(b)$ with $c\in\C$ and $b\in B$. Lifting this representation gives an exact cover of $\Z^n$ by the translates of $B$ centered at $\widetilde\C$, contradicting Theorem~\ref{thm:main}. Both sides are integers, which gives \eqref{eq:strict-packing}.
+\end{proof}
+
+The alphabet threshold also fixes the size of the decoding region: $q\ge5$ keeps the two opposite errors of magnitude two distinct. Within this range, the low-dimensional constructions and Theorem~\ref{thm:main} give a complete classification.
+
+\begin{corollary}\label{cor:classification}
+Let $q\ge5$ and $n\ge1$. A perfect two-error-correcting Lee code in $\Z_q^n$ exists if and only if
+\begin{equation}\label{eq:classification}
+ (n=1\text{ and }5\mid q)\quad\text{or}\quad(n=2\text{ and }13\mid q).
+\end{equation}
+\end{corollary}
+\begin{proof}
+For $n=1$, perfectness requires $5\card{\C}=q$, and the multiples of five give a perfect code whenever $5\mid q$. For $n=2$, perfectness requires $13\card{\C}=q^2$, so the primality of thirteen implies $13\mid q$.
+
+To prove sufficiency in dimension two, assume $13\mid q$ and define the homomorphism
+\[
+ \phi:\Z_q^2\to\Z_{13},\qquad \phi(x,y)=x+5y\pmod{13}.
+\]
+The images of the thirteen radius-two error vectors are
+\[
+ 0,\quad\pm1,\quad\pm5,\quad\pm2,\quad\pm10,
+ \quad\pm1\pm5,
+\]
+which are exactly the thirteen elements of $\Z_{13}$. Every received word therefore has a unique radius-two error vector with the same $\phi$-value, and subtracting that error places the word in $\ker\phi$. Thus $\ker\phi$ is perfect. Theorem~\ref{thm:main} and Corollary~\ref{cor:finite} exclude all $n\ge3$, proving \eqref{eq:classification}.
+\end{proof}
+
+\subsection{A Relative Gap Uniform in the Alphabet Size}
+Let $A_L(n,5;q)$ be the largest size of a code in $\Z_q^n$ with minimum Lee distance at least five. To compare these finite-alphabet codes, consider the compact space
+\begin{equation}\label{eq:packing-space}
+ \Omega_{\mathrm{pack}}=
+ \{\omega\in\{0,1\}^{\Z^n}:Q_1\omega(x)\le1\text{ for every }x\in\Z^n\}.
+\end{equation}
+Let $\mathcal M_n$ be its translation-invariant probability measures, and set
+\begin{equation}\label{eq:alpha}
+ \alpha_n=\max_{\mu\in\mathcal M_n}\E_\mu F.
+\end{equation}
+Compactness follows from the finite-coordinate inequalities in \eqref{eq:packing-space}. The translation-invariance equations define a closed set of probability measures, and $\mu\mapsto\E_\mu F$ is continuous. Hence the maximum in \eqref{eq:alpha} is attained. Averaging the translates of $5\Z^n$ gives $\alpha_n\ge5^{-n}$, whereas $Q_1F\le1$ gives $\alpha_n\le M^{-1}$.
+
+This density also bounds arbitrary integer-alphabet codes. For an integer code $\C$ of minimum Lee distance at least five, define its upper uniform density by
+\begin{equation}\label{eq:uniform-density}
+ \overline d(\C)=\limsup_{R\to\infty}\sup_{x\in\Z^n}
+ \frac{|\C\cap(x+[-R,R]^n)|}{(2R+1)^n}.
+\end{equation}
+Choose translated boxes whose densities converge to \eqref{eq:uniform-density} and average the indicator as viewed from the locations in each box. A convergent subsequence gives an element of $\mathcal M_n$ with origin mean $\overline d(\C)$, by the same boundary estimate as in Lemma~\ref{lem:stationary}. Consequently $\overline d(\C)\le\alpha_n$. The periodic construction below shows that these densities approach $\alpha_n$, identifying \eqref{eq:alpha} with the optimal integer-alphabet packing density.
+
+\begin{proposition}\label{prop:uniform-gap}
+For every fixed $n\ge3$, there exists $\epsilon_n>0$ such that
+\begin{equation}\label{eq:uniform-gap}
+ \frac{M A_L(n,5;q)}{q^n}\le1-\epsilon_n
+ \qquad\text{for every }q\ge5.
+\end{equation}
+One may take $\epsilon_n=1-M\alpha_n$.
+\end{proposition}
+\begin{proof}
+Suppose $\alpha_n=M^{-1}$, and choose a maximizing measure in \eqref{eq:alpha}. The nonnegative random variable $1-Q_1F$ has mean zero and therefore vanishes almost surely. Translation invariance gives the same equality at each $x\in\Z^n$. Since this set of locations is countable, all covering equalities hold simultaneously on a probability-one set of configurations. Each such configuration would be a perfect code, in contradiction to Theorem~\ref{thm:main}. It follows that $\epsilon_n=1-M\alpha_n>0$.
+
+For a finite-alphabet code, lift to a $q\Z^n$-periodic packing and average over its $q^n$ translates. This produces an element of $\mathcal M_n$ whose mean is $\card{\C}/q^n$. The definition of $\alpha_n$ now proves \eqref{eq:uniform-gap}.
+\end{proof}
+
+For fixed block length, Proposition~\ref{prop:uniform-gap} rules out approaching equality in the sphere-packing bound by increasing the alphabet size. Its constant is determined by the optimal packing density at that length. The next result makes the connection with finite alphabets quantitative.
+
+\begin{proposition}\label{prop:alphabet-limit}
+For every $n\ge1$ and $q\ge5$,
+\begin{equation}\label{eq:alphabet-sandwich}
+ \alpha_n\left(1-\frac4q\right)^n
+ \le\frac{A_L(n,5;q)}{q^n}\le\alpha_n.
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:alphabet-error}
+ 0\le\alpha_n-\frac{A_L(n,5;q)}{q^n}
+ \le\frac{4n\alpha_n}{q},\qquad
+ \lim_{q\to\infty}\frac{A_L(n,5;q)}{q^n}=\alpha_n.
+\end{equation}
+\end{proposition}
+\begin{proof}
+The upper bound is the periodic-lifting argument above. For the lower bound, take a measure attaining \eqref{eq:alpha} and consider the integer box
+\[
+ W_q=\{2,3,\ldots,q-3\}^n,
+\]
+which has $(q-4)^n$ points. The expected number of codewords in this box is $\alpha_n(q-4)^n$, so some configuration contains at least this many. Keep these codewords and repeat them with period $q$ in every coordinate.
+
+Words in the same copy remain separated by at least five. For two different copies, at least one coordinate receives a nonzero multiple of $q$; the two retained coordinate values differ by at most $q-5$. Their separation in that coordinate is therefore at least five. The periodic set is a valid radius-two packing, and its reduction modulo $q$ has at least $\alpha_n(q-4)^n$ codewords. This proves \eqref{eq:alphabet-sandwich}. Finally, $1-(1-x)^n\le nx$ for $0\le x\le1$ gives \eqref{eq:alphabet-error}.
+\end{proof}
+
+In dimensions one and two the perfect integer codes give $\alpha_1=1/5$ and $\alpha_2=1/13$; for every higher fixed dimension, Proposition~\ref{prop:uniform-gap} gives $M\alpha_n<1$.
+
+ \section{Conclusion}\label{sec:conclusion}
+In this note, we have proved the nonexistence of perfect two-error-correcting Lee codes in $\Z^n$ for every $n\ge3$. A common translation average preserves the codeword indicator and the exact coverage equations at every required scale. Local separation determines the convolution moments, and the modulo-three and modulo-five relations reduce the possible count distributions. For the remaining dimensions, codeword-conditioned directional counting gives a positive deficit whose dyadic growth contradicts its boundedness.
+
+The theorem completes the radius-two existence classification over the integer alphabet and, together with the low-dimensional constructions, over every cyclic alphabet of size at least five. At each fixed length at least three, compactness also gives a positive relative gap below the finite-alphabet sphere-packing bound, uniformly in the alphabet size. The finite-alphabet approximation shows that normalized optimal code sizes converge to the integer packing density with an explicit boundary-loss estimate.
+
+
+\begin{thebibliography}{11}
+\bibitem{Lee1958}
+C.~Y.~Lee, ``Some properties of nonbinary error-correcting codes,'' \emph{IRE Trans. Inf. Theory}, vol.~4, no.~2, pp.~77--82, Jun.~1958, doi: \doi{10.1109/TIT.1958.1057446}.
+
+\bibitem{RothSiegel1994}
+R.~M.~Roth and P.~H.~Siegel, ``Lee-metric BCH codes and their application to constrained and partial-response channels,'' \emph{IEEE Trans. Inf. Theory}, vol.~40, no.~4, pp.~1083--1096, Jul.~1994, doi: \doi{10.1109/18.335966}.
+
+\bibitem{GolombWelch1970}
+S.~W.~Golomb and L.~R.~Welch, ``Perfect codes in the Lee metric and the packing of polyominoes,'' \emph{SIAM J. Appl. Math.}, vol.~18, no.~2, pp.~302--317, Mar.~1970, doi: \doi{10.1137/0118025}.
+
+\bibitem{HorakKim2018}
+P.~Horak and D.~Kim, ``50 years of the Golomb--Welch conjecture,'' \emph{IEEE Trans. Inf. Theory}, vol.~64, no.~4, pp.~3048--3061, Apr.~2018, doi: \doi{10.1109/TIT.2017.2786675}.
+
+\bibitem{Horak2009Tilings}
+P.~Horak, ``Tilings in Lee metric,'' \emph{Eur. J. Combin.}, vol.~30, no.~2, pp.~480--489, Feb.~2009, doi: \doi{10.1016/j.ejc.2008.04.007}.
+
+\bibitem{Horak2009Perfect}
+P.~Horak, ``On perfect Lee codes,'' \emph{Discrete Math.}, vol.~309, no.~18, pp.~5551--5561, Sep.~2009, doi: \doi{10.1016/j.disc.2008.03.019}.
+
+\bibitem{HorakGrosek2014}
+P.~Horak and O.~Gro\v{s}ek, ``A new approach towards the Golomb--Welch conjecture,'' \emph{Eur. J. Combin.}, vol.~38, pp.~12--22, May~2014, doi: \doi{10.1016/j.ejc.2013.10.010}.
+
+\bibitem{Kim2017}
+D.~Kim, ``Nonexistence of perfect 2-error-correcting Lee codes in certain dimensions,'' \emph{Eur. J. Combin.}, vol.~63, pp.~1--5, Jun.~2017, doi: \doi{10.1016/j.ejc.2017.01.007}.
+
+\bibitem{LeungZhou2020}
+K.~H.~Leung and Y.~Zhou, ``No lattice tiling of $\mathbb Z^n$ by Lee sphere of radius 2,'' \emph{J. Combin. Theory, Ser. A}, vol.~171, Art.~no.~105157, Apr.~2020, doi: \doi{10.1016/j.jcta.2019.105157}.
+
+\bibitem{CamareroMartinez2016}
+C.~Camarero and C.~Mart\'inez, ``Quasi-perfect Lee codes of radius 2 and arbitrarily large dimension,'' \emph{IEEE Trans. Inf. Theory}, vol.~62, no.~3, pp.~1183--1192, Mar.~2016, doi: \doi{10.1109/TIT.2016.2517069}.
+
+\bibitem{ZhouZhou2024}
+Z.~Zhou and Y.~Zhou, ``Almost perfect linear Lee codes of packing radius 2 only exist for small dimensions,'' \emph{IEEE Trans. Inf. Theory}, vol.~70, no.~6, pp.~3965--3980, Jun.~2024, doi: \doi{10.1109/TIT.2023.3341954}.
+\end{thebibliography}
+ \end{document}

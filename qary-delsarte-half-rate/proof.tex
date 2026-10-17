@@ -1,0 +1,537 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{mathtools}
+\usepackage{booktabs,array,microtype}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{calc,patterns}
+\usepackage{cite}
+
+\usepackage{xcolor}
+\usepackage{etoolbox}
+\usepackage{url}
+\usepackage[unicode,bookmarksnumbered,breaklinks,colorlinks=false,
+ citebordercolor={0 1 0},linkbordercolor={1 0 0},urlbordercolor={0 1 1},
+ pdfborder={0 0 0.65}]{hyperref}
+
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\newcommand{\arxiv}[1]{\href{https://arxiv.org/abs/#1}{arXiv:\nolinkurl{#1}}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\spec}{spec}
+\DeclareMathOperator{\Rea}{Re}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\E}{\mathbb E}
+\newcommand{\K}{\mathcal K}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\Ent}{\mathsf S}
+\newcommand{\hamming}{d_{\mathrm H}}
+\newcommand{\thetap}{\theta_q}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left|#1\right|}
+\allowdisplaybreaks[2]
+\interdisplaylinepenalty=2500
+\hyphenation{Krawt-chouk semi-definite non-binary eigen-function eigen-functions}
+
+
+
+\usepackage[margin=1in]{geometry}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries Exact Half-Rate Points of the q-Ary Delsarte Bound\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 8, 2026\par\bigskip
+\hypersetup{pdftitle={Exact Half-Rate Points of the q-Ary Delsarte Bound}}
+\section*{Result overview}
+We determine the inverse half-rate distance of the complete Delsarte linear programming bound over every fixed integer alphabet. The same distance is the exact half-rate point of the optimization over all finite positive auxiliary matrices. Weighted Krawtchouk concentration gives the lower bound, with intersecting circles, tangent circles, and an annulus determining the nonbinary constants. A representation-theoretic transfer and finite positive-tensor constructions give the matching upper bound: Gram duality converts the self-dual Potts energy into auxiliary inputs with normalized information tending to one half.
+\section{The Exact Half-Rate Point}
+The complete Delsarte program optimizes over every radial dual polynomial~\cite{delsarte,macwilliams}. Salmon determined its binary half-rate point~\cite{salmon}. We extend this evaluation to every fixed alphabet and to a matching finite-matrix optimization. These are exact values for the two converse optimizations; the optimal code-rate function is a separate object.
+
+Fix an integer $q\ge2$, put $\theta_q=(q-1)/q$, and normalize the Krawtchouk polynomials by
+\begin{equation}\label{eq:kraw}
+\sum_{j=0}^nK_j(i)z^j=(1+(q-1)z)^{n-i}(1-z)^i.
+\end{equation}
+For $v_i=\binom ni(q-1)^i$, define
+\begin{equation}\label{eq:LP}
+\begin{aligned}
+L_q(n,d)=\max\ &\sum_i a_i,\\
+\text{subject to }&a_0=1,\quad a_i\ge0,\\
+&a_i=0\quad(0<i<d),\\
+&\sum_i a_iK_j(i)\ge0\quad(0\le j\le n).
+\end{aligned}
+\end{equation}
+Write $R_{D,q}(\delta)=\limsup_n n^{-1}\log_q L_q(n,\lceil\delta n\rceil)$. The ordinary coding exponent satisfies $R_q\le R_{D,q}$.
+
+A finite auxiliary input consists of positive semidefinite matrices $B_0,\ldots,B_{q-1}$ of any common finite order, with
+\begin{align}
+T&=\sum_aB_a^2,\qquad \Tr T=1,\notag\\
+\chi&=\sum_a\Ent(B_a^2)-\Ent(T),\qquad
+Z=\Tr\left(\sum_aB_a\right)^2,\label{eq:input}\\
+p&=1-Z/q,\qquad
+U_q(\delta)=\inf_{\boldsymbol B:\,p\le\delta}\chi/\ln q.\notag
+\end{align}
+Here $\Ent(A)=-\Tr A\ln A$, also for unnormalized positive matrices. Inverses below act on supports. A common nullspace can always be removed. Orthogonal input-independent flags make $p$ and $\chi$ affine.
+
+Set
+\begin{align}
+c_2&=\tfrac12-\tfrac1\pi,\quad
+c_3=\tfrac49-\tfrac{\sqrt3}{3\pi},\quad c_4=1-\ln2,\label{eq:csmall}\\
+s_q&=\frac2{q-2+\sqrt{q(q-4)}}\quad(q\ge5),\notag\\
+c_q&=\frac{1-s_q}{1+s_q}
+\left(\frac12+2\sum_{j\ge1}\frac{s_q^{2j}}{1+s_q^j}\right)
+\quad(q\ge5).\label{eq:cseries}
+\end{align}
+The sum after $j=K$ is between zero and $s_q^{2K+2}/(1-s_q^2)$.
+
+\begin{theorem}\label{thm:main}
+For every fixed integer $q\ge2$,
+\begin{equation}\label{eq:main}
+R_{D,q}(c_q)=U_q(c_q)=\frac12.
+\end{equation}
+For $c_q<\delta\le\theta_q$, both quantities are strictly smaller than $1/2$. Thus $\sup\{\delta:R_{D,q}(\delta)\ge1/2\}=c_q$, and the same inverse half-rate distance holds for $U_q$.
+\end{theorem}
+
+The proof establishes the complete chain
+$1/2\le R_{D,q}(c_q)\le U_q(c_q)\le1/2$.
+The first inequality uses the full dual of~\eqref{eq:LP}; the second holds for each fixed finite auxiliary order; the third follows by taking an infimum over such orders.
+
+\section{Concentration and the Complete-Dual Lower Bound}
+Define $(\K_ng)(j)=q^{-n/2}\sum_iK_i(j)g_i$. Weighted symmetry $v_iK_j(i)=v_jK_i(j)$ and orthogonality imply $\K_n^2=I$. If $\K_ng=\epsilon g$, $\epsilon=\pm1$, and $\sum_iv_i|g_i|=1$, its polynomial $P(z)=\sum_iv_ig_iz^i$ satisfies
+\begin{equation}\label{eq:functional}
+P(z)=\epsilon q^{-n/2}(1+(q-1)z)^n
+P\left(\frac{1-z}{1+(q-1)z}\right).
+\end{equation}
+Also $|P(z)|\le\max(1,|z|^n)$.
+
+\begin{lemma}\label{lem:concentration}
+For fixed $q$ and $0<c<c_q$, some $C,\gamma>0$ satisfy
+\begin{equation}\label{eq:mass}
+\sum_{i<\lceil cn\rceil}v_i|g_i|
+\le Ce^{-\gamma n}\sum_i v_i|g_i|
+\end{equation}
+for every length and both eigenspaces of $\K_n$.
+\end{lemma}
+\begin{proof}
+The binary statement is~\cite[Theorem~3.4]{salmon}. For $q>2$, the M\"obius map in~\eqref{eq:functional} sends
+$|z+1/(q-2)|=1/(q-2)$ to the unit circle. Hence $n^{-1}\ln|P|$ has boundary upper bounds zero on $|z|=1$ and
+\begin{equation}\label{eq:psi}
+\psi_q(z)=\ln|1+(q-1)z|-\tfrac12\ln q
+\end{equation}
+on the inner circle. We compute harmonic majorants $H$ whose smallest outer normal derivative is $c_q$. The boundary regularity details below ensure that, for every $c'<c_q$, a fixed $r<1$ sufficiently close to one satisfies
+\begin{equation}\label{eq:circle}
+\max_{|z|=r}|P(z)|\le r^{c'n}.
+\end{equation}
+Cauchy's formula then gives $v_i|g_i|\le r^{c'n-i}$. Choose $c<c'<c_q$ and sum to obtain
+$(n+1)r^{(c'-c)n-1}$, which proves~\eqref{eq:mass}.
+
+\emph{Three symbols.}
+The intersections are $\zeta=-1/2+i\sqrt3/2$ and $\bar\zeta$. The map $w=(z-\zeta)/(z-\bar\zeta)$ gives wedges of openings $\pi/3$ and $2\pi/3$ on the right and left of the inner arc. On that arc, $w=u e^{-2\pi i/3}$ and the data are $-g(u)$, where
+\[
+g(u)=\tfrac12\ln\frac{u^2+u+1}{u^2-u+1},\qquad
+g'(u)=\frac{1-u^2}{u^4+u^2+1}.
+\]
+The Poisson solution after the power map $w\mapsto w^\alpha$ has outer normal derivative
+\begin{equation}\label{eq:wedge}
+\frac{\alpha r^{\alpha-1}(r^2-2\kappa r+1)}{\sqrt3\pi}
+\int_0^\infty\frac{g'(u)}{u^\alpha+r^\alpha}\,du,
+\end{equation}
+with $(\alpha,\kappa)=(3,1/2)$ or $(3/2,-1/2)$. Partial fractions give
+\begin{align}
+\int_0^\infty\frac{g'(u)}{u^3+r^3}\,du
+&=\frac{2\pi(r^2+1)}{3\sqrt3r^2(r^4+r^2+1)}
+-\frac{2\ln r}{r^6-1},\notag\\
+\int_0^\infty\frac{g'(u)}{u^{3/2}+k^3}\,du
+&=-\frac\pi{k^6+1}
++\frac{4\pi(k^4+1)}{3\sqrt3k(k^8+k^4+1)}\notag\\
+&\hspace{8mm}+\frac{4k^3\ln k}{k^{12}-1},\label{eq:wedgeintegrals}
+\end{align}
+with continuous values at one. Substitute $r=e^x$ into~\eqref{eq:wedge} to obtain
+\begin{align}
+D_R(x)&=\frac{\frac43\cosh x-\frac{\sqrt3x}{\pi\sinh x}}
+{2\cosh x+1},\notag\\
+D_L(x)&=\frac{\frac43\cosh x-\frac{\sqrt3(2\cosh x+1)}{4\cosh(x/2)}
++\frac{\sqrt3x}{2\pi\sinh x}}{2\cosh x-1}.\label{eq:ternaryD}
+\end{align}
+Since $x/\sinh x\le1$, $D_R(x)\ge D_R(0)=c_3$. For $u=\cosh(x/2)\ge1$, $x/\sinh x\ge u^{-2}$, so
+\[
+D_L(x)\ge F(u):=
+\frac{\frac83u^2-\frac43-\sqrt3u+\frac{\sqrt3}{4u}
++\frac{\sqrt3}{2\pi u^2}}{4u^2-3}.
+\]
+Put $\ell=F(1)=4/3-3\sqrt3/4+\sqrt3/(2\pi)>c_3$.
+The polynomial $u^2(4u^2-3)(F(u)-\ell)=\sum_{j=1}^4a_j(u-1)^j$ has coefficients
+\begin{align*}
+a_1&=-16/3+19\sqrt3/4-5\sqrt3/\pi,\\
+a_2&=-40/3+51\sqrt3/4-21\sqrt3/(2\pi),\\
+a_3&=-32/3+11\sqrt3-8\sqrt3/\pi,\\
+a_4&=-8/3+3\sqrt3-2\sqrt3/\pi.
+\end{align*}
+All are positive, as follows already from
+$3.14159<\pi<3.14160$ and $1.73205<\sqrt3<1.73206$.
+
+At a corner use $H_0=(2/3)\ln|z|$. On the inner arc, writing $r=|z|$ gives
+\[
+\psi_3-H_0=\tfrac12\ln((1+2r^2)/3)-\tfrac23\ln r=O((1-r)^2).
+\]
+Write $w=Re^{-i\pi/3-i\vartheta}$ on the right and $w=Re^{2i\pi/3+i\vartheta}$ on the left, with outer ray $\vartheta=0$ and respective openings $\pi/3$ and $2\pi/3$. The harmonic remainder $H-H_0$ is bounded in both signs by $CR^{5/4}\sin(5\vartheta/4)$: this barrier dominates the $O(R^2)$ inner-ray data and the data on a fixed small outer arc, and vanishes on the outer ray. The maximum principle proves the assertion. The exact identities
+\[
+1-|z|^2=\frac{2\sqrt3R\sin\vartheta}{|1-w|^2},\qquad
+|z-\zeta|=\frac{\sqrt3R}{|1-w|}
+\]
+then give $|H-H_0|\le C(1-|z|)|z-\zeta|^{1/4}$. Since $2/3>c_3$, these corner estimates and the compact smooth arcs prove~\eqref{eq:circle} uniformly.
+
+\emph{Four symbols.}
+The Cayley map $w=(1-z)/(1+z)=x+iy$ sends the region between the circles to $0<x<1$. Its harmonic majorant is
+\begin{equation}\label{eq:strip}
+H(x,y)=\int_{\R}
+\frac{\sin(\pi x)f(t)}{2[\cosh(\pi(y-t))+\cos(\pi x)]}\,dt,
+\end{equation}
+where $f(t)=\tfrac12\ln((1+t^2)/(4+t^2))$.
+Fourier transformation of this Poisson kernel gives
+\[
+D_4(y)=(1+y^2)\int_0^\infty g(t)\cos(yt)\,dt,
+\quad g(t)=\frac{e^{-t}}{1+e^t}.
+\]
+Here $g'(0)=-3/4$ and, with $u=e^{-t}$,
+$g''-g=u^2(3+u)/(1+u)^3>0$. Two integrations by parts yield
+\[
+D_4(y)=\tfrac34-\int_0^\infty(g''-g)\cos(yt)\,dt
+\ge D_4(0)=1-\ln2.
+\]
+Uniformity at the tangency $z=-1$ needs both sides. Inside the inner circle,~\eqref{eq:functional} gives
+$|P(z)|\le((1+r)/2)^n$ on $|z|=r$, whose decay coefficient tends to $1/2$. On the strip side the kernel in~\eqref{eq:strip}, divided by $x$, is a symmetric probability kernel with uniformly bounded second moment and exponential tails. Since $f(y)=-3/(2y^2)+O(y^{-4})$, Taylor expansion gives
+$H(x,y)=x[-3/(2y^2)+O(y^{-4})]$ uniformly for $0<x\le1$.
+Use $1-r^2=4x/((1+x)^2+y^2)$ to get
+$H=-3(1-r)/4+o(1-r)$. Both coefficients exceed $c_4$, completing~\eqref{eq:circle}.
+
+\emph{Five or more symbols.}
+Write $s=s_q$, so $q=(1+s)^2/s$. The map
+$w=(z+s)/(1+sz)$ gives the annulus $s<|w|<1$; the inner data become
+\[
+\tfrac12\ln s-\sum_{j\ge1}\frac{s^j-s^{2j}}j\cos(jt).
+\]
+Its harmonic extension has outer derivative in the original coordinate
+\begin{equation}\label{eq:annulusD}
+D_z(t)=\frac{1+s^2-2s\cos t}{1-s^2}
+\left(\frac12+2\sum_{j\ge1}a_j\cos(jt)\right),
+\end{equation}
+where $a_j=s^{2j}/(1+s^j)$ and $a_0=1/2$.
+For $u=s^j$ its nonconstant Fourier numerator is
+\begin{align*}
+b_j&=(1+s^2)a_j-sa_{j-1}-sa_{j+1}\\
+&=-\frac{u^2(1-s)^2(s^2+su+s+1)}{(s+u)(1+u)(1+su)}<0.
+\end{align*}
+Absolute convergence implies
+$D_z(t)-D_z(0)=2\sum_{j\ge1}b_j(\cos(jt)-1)/(1-s^2)\ge0$.
+The minimum $D_z(0)$ equals~\eqref{eq:cseries}. Smoothness on a common outer collar gives~\eqref{eq:circle}, proving the lemma.
+\end{proof}
+
+\begin{proposition}\label{prop:lower}
+$R_{D,q}(c_q)\ge1/2$ for every fixed $q$.
+\end{proposition}
+\begin{proof}
+The full LP dual minimizes $F(0)$ over
+$F(i)=\sum_{j=0}^nb_jK_j(i)$ with $b_0=1$, $b_j\ge0$, and $F(i)\le0$ for $i\ge d$. If $F(0)<q^{n/2}$, let $f_i=F(i)$ and $g=f-\K_nf$. Orthogonality gives $\K_nf=q^{n/2}b$, so
+\begin{gather*}
+\K_ng=-g,\quad g_0<0,\quad g_i\le0\ (i\ge d),\\
+\sum_i v_ig_i=-q^{n/2}g_0>0.
+\end{gather*}
+Thus more than half of its weighted absolute mass lies below $d$. Lemma~\ref{lem:concentration} rules this out for $d=\lceil cn\rceil$, $c<c_q$, and sufficiently large $n$. Strong duality yields $L_q(n,\lceil cn\rceil)\ge q^{n/2}$.
+
+The complete program also obeys
+\begin{equation}\label{eq:shorten}
+L_q(N-k,d)\ge q^{-k}L_q(N,d).
+\end{equation}
+Indeed $f(x)=a_{|x|}/v_{|x|}$ on $(\Z/q\Z)^N$ is nonnegative, Fourier positive, and zero at forbidden weights. Restriction to the last $k$ coordinates zero gives
+$\widehat h(\xi)=q^{-k}\sum_\eta\widehat f(\xi,\eta)\ge0$ and mass at least $q^{-k}\widehat f(0)$. Radial averaging preserves feasibility and this mass. Take $n_N=\lfloor cN/c_q\rfloor$, use $\lceil c_qn_N\rceil\le\lceil cN\rceil$, and obtain
+$R_{D,q}(c_q)\ge1-c_q/(2c)$. Let $c\uparrow c_q$.
+\end{proof}
+
+\section{A Finite-Matrix Transfer to the Full Program}
+\begin{proposition}\label{prop:transfer}
+For $0<\delta<\theta_q$, every fixed finite input with $p<\delta$ satisfies $R_{D,q}(\delta)\le\chi/\ln q$. Consequently $R_{D,q}(\delta)\le U_q(\delta)$.
+\end{proposition}
+\begin{proof}
+Put $K_a=B_a^2$ and let $m$ be their fixed common order. On
+$\HH_n=\ell^2((\Z/q\Z)^n)\otimes(\C^m)^{\otimes n}$, use word translations and simultaneous coordinate permutations, namely the group $G=(\Z/q\Z)^n\rtimes S_n$. In the word Fourier basis set
+\[
+A=(\bigoplus_aK_a)^{\otimes n},\qquad X=\sqrt A,\qquad
+\Gamma=\frac{Z-1}{q-1}.
+\]
+Both operators commute with $G$. The Schur multiplier
+\[
+\Theta(Y)_{xy}=t_n(x,y)Y_{xy},\qquad
+t_n(x,y)=1-\frac{q\hamming(x,y)}{(q-1)n}
+\]
+is completely positive, self-adjoint, and Hilbert--Schmidt contractive. In Fourier coordinates it averages conjugations by the nonzero frequency shifts in one coordinate. Therefore
+\begin{equation}\label{eq:rayleigh}
+\Tr X^2=1,\qquad \Tr[X\Theta(X)]=\Gamma.
+\end{equation}
+
+We give both required representation compressions. The global types are $q$-tuples of partitions $\lambda^{(a)}$ with at most $m$ rows, total size $n$, and $n_a=|\lambda^{(a)}|$. Their irreducible dimensions and multiplicities are
+\[
+d_\lambda=\frac{n!}{\prod_an_a!}\prod_af^{\lambda^{(a)}},\qquad
+M_\lambda=\prod_a\dim W_{\lambda^{(a)}}^{(m)}.
+\]
+Here $f^\nu$ is a Specht-module dimension, $W_\nu^{(m)}$ is the corresponding Schur module, and $s_\nu$ below is its Schur polynomial. We use $H$ and $D$ for Shannon entropy and classical relative entropy. The multiplicities and number of types are polynomial in $n$. If $k$ concatenates the eigenvalues of the $K_a$ and $\beta_\lambda$ concatenates the normalized partition rows, their central projections satisfy
+\begin{equation}\label{eq:type}
+\Tr(Az_\lambda)
+=d_\lambda\prod_as_{\lambda^{(a)}}(K_a)
+\le(n+1)^{O_{q,m}(1)}e^{-nD(\beta_\lambda\Vert k)}.
+\end{equation}
+For completeness the estimates behind~\eqref{eq:type} are
+\begin{align*}
+f^\nu&=\frac{N!\prod_{i<j}(\nu_i-\nu_j+j-i)}
+{\prod_i(\nu_i+m-i)!},\\
+\ln f^\nu&=NH(\nu/N)+O_m(\ln(N+1)),\\
+\dim W_\nu^{(m)}&\le(N+m)^{m(m-1)/2},\\
+s_\nu(k_1,\ldots,k_m)&\le\dim W_\nu^{(m)}\prod_i k_i^{\nu_i}.
+\end{align*}
+These follow from the hook and Weyl formulas and highest-weight domination, and are uniform at zero rows and eigenvalues by restriction to spectral support; this is the spectrum-estimation argument of~\cite{keyl}.
+
+Retain the global window $\|\beta_\lambda-k\|_1\le n^{-1/4}$, with projection $z$. Pinsker's inequality and entropy continuity give
+\begin{equation}\label{eq:global}
+\Tr A(I-z)=o(1),\qquad
+\rank z\le e^{n\sum_a\Ent(K_a)+o(n)}.
+\end{equation}
+In each word fiber retain the central $S_n$ types within $n^{-1/4}$ of $\spec(T)$, with projection $q_n$. The same estimates give
+\begin{equation}\label{eq:fiber}
+\Tr T^{\otimes n}(I-q_n)=o(1),\qquad
+f^\mu\ge e^{n\Ent(T)-o(n)}
+\end{equation}
+for every retained type. Since $A_{xx}=q^{-n}T^{\otimes n}$ and $z$ is central, $P=z(I\otimes q_n)$ is a projection and
+$\|X-PXP\|_2\le2\sqrt{\Tr A(I-P)}=o(1)$.
+
+On the group commutant supported by $P$, the positive self-adjoint map $Y\mapsto P\Theta(Y)P$ has a positive eigenoperator $\rho\ne0$ at its largest eigenvalue $\Lambda\ge\Gamma-o(1)$. To see positivity, replacing a Hermitian Rayleigh maximizer by its absolute value preserves or increases the quadratic form of a positive map. Moreover,
+\begin{equation}\label{eq:fullpositive}
+\Theta(\rho)-\Lambda\rho\succeq0.
+\end{equation}
+Indeed $\Theta$ preserves the word-diagonal fiber support, and $\Theta(\rho)$ commutes with $G$, so its blocks between $z$ and $I-z$ vanish. The complementary diagonal block is positive.
+
+Translation invariance gives a common diagonal block $B=\rho_{xx}$. Its nonzero image is an $S_n$ submodule in the fiber window. With $r=\rank B$ and $D=\rank\rho$,~\eqref{eq:global}--\eqref{eq:fiber} imply
+\begin{equation}\label{eq:rankratio}
+D/r\le e^{n\chi+o(n)}.
+\end{equation}
+Conjugate by the block diagonal matrix with blocks $B^{-1/2}$ to get $F\succeq0$ of rank $D$, with $F_{xx}$ a projection of rank $r$. Positivity ensures that a null vector of a diagonal block annihilates its entire block row, so this normalization loses no rank.
+
+The scalar kernel $K(x,y)=\Tr(F_{xy}F_{yx})\ge0$ satisfies
+\[
+K\succeq0,\qquad(t_n-\Lambda)\circ K\succeq0.
+\]
+For positive block kernels $A_{xy}=V_x^*V_y$ and $B_{xy}=W_x^*W_y$, the matrix $\Tr(A_{xy}B_{yx})$ is the Gram matrix of $V_xW_x^*$, proving these implications. For $N=q^n$,
+\[
+k_0=N^{-2}\sum_{x,y}K(x,y)=N^{-2}\Tr F^2\ge r^2/D.
+\]
+The constant vector is an eigenvector by translation invariance, whence $K-k_0\one\one^*\succeq0$. Set $d=\lceil\delta n\rceil$, $s_n=1-qd/((q-1)n)$, and $L=(t_n-s_n)\circ K$. Then
+\[
+L-(\Lambda-s_n)k_0\one\one^*\succeq0.
+\]
+For any feasible distribution of~\eqref{eq:LP}, $Y_{xy}=a_{|y-x|}/v_{|y-x|}$ is nonnegative and positive semidefinite, since its Fourier eigenvalue at weight $j$ is $v_j^{-1}\sum_i a_iK_j(i)\ge0$. It has unit diagonal and vanishes at forbidden distances. Thus, for $M=\sum_i a_i$,
+\[
+(\Lambda-s_n)k_0NM\le\langle L,Y\rangle\le N(1-s_n)r.
+\]
+The right inequality uses $L_{xy}\le0$ on allowed off-diagonal distances. Since $p<\delta$, the denominator below is bounded away from zero, giving
+\begin{equation}\label{eq:finitebound}
+L_q(n,d)\le\frac{1-s_n}{\Lambda-s_n}\frac Dr
+\le e^{n\chi+o(n)}.
+\end{equation}
+This proves the strict-error assertion. If $p=\delta>0$, a noiseless flag of weight $\alpha$ gives error $(1-\alpha)p$ and information $(1-\alpha)\chi+\alpha\ln q$. Apply the result at each fixed $\alpha>0$, then let $\alpha\downarrow0$ and take the infimum over finite inputs.
+\end{proof}
+
+\section{Matching Positive Matrices}
+Let
+\begin{align}
+Q&=q\sum_a\Tr[(B_aT^{-1/2}B_a)^2],\notag\\
+F&=q|+\rangle\langle+|-I,\qquad
+J=q\sum_a|aa\rangle\langle aa|-I,\label{eq:operators}\\
+H_N&=\sum_{i=1}^NF_i+\sum_{i=1}^{N-1}J_{i,i+1},\qquad
+e_q=\lim_N\lambda_{\max}(H_N)/N,\notag
+\end{align}
+where $|+\rangle=q^{-1/2}\sum_a|a\rangle$. One bounded interaction joins two open chains, so the limit exists and equals the periodic-chain limit.
+
+\begin{lemma}\label{lem:energy}
+Over all finite positive inputs,
+\begin{equation}\label{eq:energysup}
+\sup(Z+Q)=e_q+2.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Set $L_a=B_aT^{-1/2}$. Then $\sum_aL_a^*L_a=I$ and $\sum_aL_aTL_a^*=T$. The consistent stationary matrix states~\cite{fannes}
+\[
+\rho_{a_1\cdots a_N,b_1\cdots b_N}
+=\Tr(L_{a_N}\cdots L_{a_1}T L_{b_1}^*\cdots L_{b_N}^*)
+\]
+satisfy $\langle F\rangle=Z-1$ and $\langle J\rangle=Q-1$. Their energy is at most $e_q$, proving $Z+Q\le e_q+2$.
+
+We prove attainability by finite matrices, including the two local-observable limits. Start with the periodic product state $|+\rangle^{\otimes N}$. A symmetric finite imaginary-time product for $e^{\beta H_N}$ gives real positive semidefinite tensors $C_a$: a one-site factor $e^{hF}$ forms nonnegative linear combinations of the tensors; a neighbor factor has positive definite matrix $g_{ab}=e^{h(q\delta_{ab}-1)}$, with real Gram vectors $v_a$, and acts by
+$C_a\mapsto C_a\otimes v_av_a^*$. The periodic amplitude $\Tr(C_{a_1}\cdots C_{a_N})$ is thereby multiplied by $\prod_i g_{a_i a_{i+1}}$. Every finite grid has a finite tensor order independent of $N$.
+
+The positive self-adjoint transfer map admits a positive Perron matrix $H\ne0$ with $\sum_aC_aHC_a=\lambda H$ and $\Tr H^2=1$. Its kernel is invariant under each $C_a$. On its support,
+\begin{equation}\label{eq:canonical}
+B_a=\lambda^{-1/2}H^{1/2}C_aH^{1/2},\qquad
+\sum_aB_a^2=H^2,
+\end{equation}
+so these tensors yield a finite input.
+
+The normalized state $e^{\beta H_N}|+\rangle^{\otimes N}$ has energy at least $\lambda_{\max}(H_N)-N\ln q/(2\beta)$. Indeed the nonnegative maximal eigenvector has squared overlap at least $q^{-N}$ with the uniform vector; convexity of the logarithmic moment-generating function gives this inequality.
+
+To pass to finite tensors uniformly in the chain length, fix $\beta$. Let $\mu$ be the law on $[0,2\beta]$ of a uniform-initial-color path whose nonzero cyclic increments each have rate one. The spatial transfer kernel is
+\begin{equation}\label{eq:pathkernel}
+k(\omega,\eta)=\exp\int_0^{2\beta}
+(q\one_{\omega(t)=\eta(t)}-1)\,dt.
+\end{equation}
+It is symmetric, positive semidefinite by the Schur-product expansion, and satisfies $0<a\le k\le b<\infty$. Its Hilbert--Schmidt operator has a simple isolated Perron eigenvalue $\lambda$ and normalized positive eigenfunction $\phi$. The integral equation
+\begin{equation}\label{eq:perronpath}
+\phi(\xi)=\lambda^{-1}\int k(\xi,\eta)\phi(\eta)\,d\mu(\eta)
+\end{equation}
+defines a bounded version on every path, with $\sup\phi/\inf\phi\le b/a$; the associated uniformly positive Markov kernel gives a spectral gap.
+
+The diagonal insertion is multiplication by
+$q\one_{\omega(\beta)=\eta(\beta)}-1$.
+For a transverse increment $c\ne0$, let $\mathcal R_c\omega$ add $c$ after the midpoint. Its expectation is
+\begin{align}
+\lambda^{-2}\int&\phi(\eta)k(\eta,\mathcal R_c\omega)
+k(\mathcal R_c\omega,\zeta)\phi(\zeta)\notag\\
+&\hspace{7mm}d\mu(\eta)d\mu(\omega)d\mu(\zeta)
+=\int\phi(\mathcal R_c\omega)^2d\mu(\omega).\label{eq:forced}
+\end{align}
+The two neighbor integrals reduce by~\eqref{eq:perronpath}; no change of the driving measure is used.
+
+Midpoint grids approximate both ordinary and forced kernels in Hilbert--Schmidt norm: their integration error is bounded by the mesh size times the number of jumps, which has finite second moment. The uniform kernel bounds and isolated Perron eigenvalue give convergence of the eigenfunctions in $L^2$ and, using~\eqref{eq:perronpath}, of both insertions in~\eqref{eq:forced}. The same finite tensors therefore approach both local expectations. Taking first the spatial limit and then the grid limit yields finite inputs with energy approaching $E_\beta\ge e_q-\ln q/(2\beta)$. Finally let $\beta\to\infty$. This proves~\eqref{eq:energysup} with finite matrix order at every approximation stage.
+\end{proof}
+
+\begin{lemma}\label{lem:gram}
+There are finite inputs with $\chi=(\ln q)/2$ and $p\downarrow 1-(e_q+2)/(2q)$ along an approximating sequence.
+\end{lemma}
+\begin{proof}
+Vertically concatenate the roots into $Y$ and set
+\begin{gather*}
+\rho_x=U^xYY^*U^{-x},\\
+U=\diag(I,\omega I,\ldots,\omega^{q-1}I),\qquad \omega=e^{2\pi i/q}.
+\end{gather*}
+Each $\rho_x$ has nonzero spectrum $\spec(T)$ and their average is $\bigoplus_aB_a^2$. The Gram-dual roots
+$B_x^\vee=q^{-1/2}\sqrt{\rho_x}$ consequently obey
+\begin{equation}\label{eq:gram}
+\chi(\boldsymbol B^\vee)=\ln q-\chi(\boldsymbol B),\qquad
+Z(\boldsymbol B^\vee)=Q(\boldsymbol B).
+\end{equation}
+The first identity follows from entropy of scaled direct sums. For the second use $\sqrt{YY^*}=YT^{-1/2}Y^*$; cyclic summation keeps only the diagonal blocks $B_aT^{-1/2}B_a$. An equal flag between the two inputs has information $(\ln q)/2$ and error $1-(Z+Q)/(2q)$. Apply Lemma~\ref{lem:energy} and choose a sequence with increasing $Z+Q$.
+\end{proof}
+
+\section{Evaluation of the Energy and Completion}
+For $q=2$, the critical Ising dispersion gives
+$e_2=(2\pi)^{-1}\int_{-\pi}^\pi\sqrt{2+2\cos t}\,dt=4/\pi$.
+For $q=3$, the clock operators obey $F=X+X^*$ and $J=Z\otimes Z^*+Z^*\otimes Z$. Thus our Hamiltonian is the negative of the $J=f=1$ Hamiltonian in~\cite[Sec.~2.1 and text after Eq.~(32)]{mong2014}, whose exact ground-state energy gives
+\begin{equation}\label{eq:smallenergy}
+e_3=\frac43+\frac{2\sqrt3}\pi,\qquad
+1-\frac{e_3+2}{6}=c_3.
+\end{equation}
+Changing the boundary condition alters one interaction of bounded norm, so the limiting energies remain unchanged.
+
+For $q\ge4$ we make the anisotropic limit explicit. Take classical horizontal coupling $k>0$, $v_1=e^k-1$, and vertical coupling $e^{K_2}-1=v_2=q/v_1$ on the self-dual curve. The symmetric open-width-$N$ row transfer matrix satisfies
+\[
+\mathsf T_N(k)/v_2^N
+=e^{h\mathsf B_N/2}e^{h\mathsf A_N}e^{h\mathsf B_N/2},\qquad h=k/q,
+\]
+where $\mathsf A_N=\sum_i(F_i+I)$ and $\mathsf B_N=\sum_i(J_{i,i+1}+I)$. This follows from the normalized vertical factor
+$I+(v_1/q)\one\one^*=e^{k|+\rangle\langle+|}$.
+If $\Lambda_N(k)$ is the largest transfer eigenvalue and
+$\mathcal P_q(k)=-f_{b,q}(k)-\ln v_2$ is the bulk pressure after normalization, cutting horizontal edges between width-$N$ strips gives
+\[
+0\le\mathcal P_q(k)-\frac{\ln\Lambda_N(k)-N\ln v_2}{N}\le k/N.
+\]
+At fixed $N$, differentiation at zero gives
+$(\lambda_{\max}(H_N)+2N-1)/N$ after division by $k/q$. The error is at most $q/N$ uniformly in $k$, so
+\begin{equation}\label{eq:slope}
+e_q+2=q\lim_{k\downarrow0}\mathcal P_q(k)/k.
+\end{equation}
+
+For $q>4$, put $s=s_q$ and $t=s(s+e^k)/(1+se^k)$. The self-dual bulk free energy~\cite[Eq.~(3.29)]{baxter} reads
+\begin{equation}\label{eq:baxter}
+f_{b,q}(k)=-k-K_2-\ln(1+s)
++\sum_{j\ge1}\frac{s^j(1-s^j)(t^j+s^jt^{-j})}{j(1+s^j)}.
+\end{equation}
+The series and first derivative converge uniformly near zero. At zero $t=s$, $t'=s(1-s)/(1+s)$, and $(K_2-\ln v_2)'=1/q$. Differentiate~\eqref{eq:baxter} and simplify to get
+\begin{align}
+e_q+2
+&=q+1+q\frac{1-s}{1+s}\sum_{j\ge1}\frac{s^j(1-s^j)^2}{1+s^j}\notag\\
+&=\sqrt{q(q-4)}\left(1+4\sum_{j\ge1}\frac{s^j}{1+s^j}\right)
+=2q(1-c_q).\label{eq:largeenergy}
+\end{align}
+The last equality uses $q=(1+s)^2/s$ and
+$s^{2j}/(1+s^j)=s^j-s^j/(1+s^j)$.
+
+For $q=4$, first take the classical cluster parameter $Q\downarrow4$ at fixed $k$. In the random-cluster expansion along $v_2=Q/v_1$, a configuration changes by $(Q/4)^r$, where $r$ is its cluster count plus its open vertical-edge count, at most twice the number of sites up to boundary terms. This bounds the change of bulk pressure and proves continuity. Let $s=e^{-\varepsilon}$ in~\eqref{eq:baxter}; then $\ln t/\ln s\to\nu=2/(1+e^k)$ and the sum converges to
+\[
+I(\nu)=\int_0^\infty
+\frac{e^{-x}(1-e^{-x})(e^{-\nu x}+e^{-(1-\nu)x})}{x(1+e^{-x})}\,dx.
+\]
+The integrand and its $\nu$ derivative have integrable common bounds near $\nu=1$. Therefore
+\begin{align*}
+\mathcal P_4(k)&=k+\ln(1+(e^k-1)/4)+\ln2-I(\nu),\\
+I(1)&=\ln2,\qquad
+I'(1)=\int_0^1\frac{(1-u)^2}{1+u}\,du=4\ln2-\tfrac52.
+\end{align*}
+Since $\nu'(0)=-1/2$,~\eqref{eq:slope} gives
+$e_4+2=8\ln2=8(1-c_4)$.
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+The energy calculations and Lemma~\ref{lem:gram} give finite inputs of normalized information $1/2$ and errors tending to $c_q$ from above. A noiseless flag of weight tending to zero reduces the error to $c_q$, proving $U_q(c_q)\le1/2$. Propositions~\ref{prop:lower} and~\ref{prop:transfer} complete~\eqref{eq:main}.
+The pairs $(p,\chi/\ln q)=(0,1)$ and $(\theta_q,0)$ are realized by noiseless and input-independent inputs. Flagging them with the approximating half-rate inputs gives
+\begin{equation}\label{eq:affine}
+\begin{gathered}
+R_q(\delta)\le R_{D,q}(\delta)\le U_q(\delta),\\
+U_q(\delta)\le
+\begin{cases}
+1-\delta/(2c_q),&0\le\delta\le c_q,\\
+(\theta_q-\delta)/(2(\theta_q-c_q)),&c_q\le\delta\le\theta_q.
+\end{cases}
+\end{gathered}
+\end{equation}
+Thus both optimized quantities are below one half beyond $c_q$ and, by monotonicity, at least one half below it. Every auxiliary input and flag was fixed before the ordinary code-length limit; only afterward was the infimum over finite orders taken.
+\end{proof}
+
+\begin{thebibliography}{99}
+
+
+\bibitem{delsarte}
+P.~Delsarte, ``An algebraic approach to the association schemes of coding theory,'' \emph{Philips Research Reports Supplements}, no.~10, pp.~1--97, 1973.
+
+\bibitem{macwilliams}
+F.~J. MacWilliams and N.~J.~A. Sloane, \emph{The Theory of Error-Correcting Codes}, ser. North-Holland Mathematical Library, vol.~16. Amsterdam, The Netherlands: North-Holland, 1977.
+
+\bibitem{salmon}
+A.~Salmon, ``The half-rate linear programming bound for binary codes is $\frac12-\frac1\pi$,'' \arxiv{2609.03736v2}, 2026, doi: \doi{10.48550/arXiv.2609.03736}.
+
+\bibitem{keyl}
+M.~Keyl and R.~F. Werner, ``Estimating the spectrum of a density operator,'' \emph{Physical Review A}, vol.~64, no.~5, Art. no.~052311, 2001, doi: \doi{10.1103/PhysRevA.64.052311}.
+
+\bibitem{fannes}
+M.~Fannes, B.~Nachtergaele, and R.~F. Werner, ``Finitely correlated states on quantum spin chains,'' \emph{Communications in Mathematical Physics}, vol.~144, no.~3, pp.~443--490, 1992, doi: \doi{10.1007/BF02099178}.
+
+\bibitem{mong2014}
+R.~S.~K. Mong, D.~J. Clarke, J.~Alicea, N.~H. Lindner, and P.~Fendley, ``Parafermionic conformal field theory on the lattice,'' \emph{Journal of Physics A: Mathematical and Theoretical}, vol.~47, no.~45, Art. no.~452001, 2014, doi: \doi{10.1088/1751-8113/47/45/452001}.
+
+\bibitem{baxter}
+R.~J. Baxter, ``Surface and corner free energies of the self-dual Potts model,'' \arxiv{1606.01616v4}, 2017, doi: \doi{10.48550/arXiv.1606.01616}.
+\end{thebibliography}
+
+\end{document}

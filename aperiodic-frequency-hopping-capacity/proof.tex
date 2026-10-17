@@ -1,0 +1,363 @@
+\documentclass[12pt,letterpaper,onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,mathtools}
+\usepackage{newtxtext,newtxmath}
+\usepackage{cite}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage[unicode,bookmarksnumbered,breaklinks,colorlinks=false,hyperfootnotes=false,
+ citebordercolor={0 1 0},linkbordercolor={1 0 0},urlbordercolor={0 1 1},
+ pdfborder={0 0 0.65}]{hyperref}
+% Hyperlink policy: citations, DOI strings, and equation references only.
+
+\allowdisplaybreaks[1]
+\interdisplaylinepenalty=2500
+\emergencystretch=1em
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newcommand{\AperCap}{A_{\mathrm A}}
+\newcommand{\HA}{H_{\mathrm A}}
+\newcommand{\Hstar}{H_{\mathrm A}^{\star}}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prb}{\mathbb P}
+\newcommand{\R}{\mathbb R}
+\newcommand{\calS}{\mathcal S}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\cF}{\mathcal F}
+\newcommand{\cV}{\mathcal V}
+\newcommand{\cA}{\mathcal A}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\cM}{\mathcal M}
+\newcommand{\cB}{\mathcal B}
+\newcommand{\cG}{\mathcal G}
+\newcommand{\cT}{\mathcal T}
+\newcommand{\cW}{\mathcal W}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\DeclareMathOperator{\vbl}{vbl}
+\DeclareMathOperator{\supp}{supp}
+
+
+
+\usepackage[margin=1in]{geometry}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,pdfauthor={Yang Shifu},pdfsubject={Mathematical proof note},pdfcreator={LaTeX}}
+\pagestyle{plain}
+\renewcommand{\refname}{Sources}
+
+\begin{document}
+\noindent{\large\bfseries Mathematical proof note}\par\medskip
+\noindent{\raggedright\fontsize{24}{28}\selectfont\bfseries Exact Large-Alphabet Capacity of Aperiodic Frequency-Hopping Sequence Sets\par}\medskip
+\noindent{\fontsize{16}{20}\selectfont Yang Shifu}\par\smallskip
+\noindent\begin{minipage}{\linewidth}\small National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China\end{minipage}\par\medskip
+\noindent Version 1.0 --- October 8, 2026\par\bigskip
+\hypersetup{pdftitle={Exact Large-Alphabet Capacity of Aperiodic Frequency-Hopping Sequence Sets}}
+\section*{Result overview}
+We determine the maximum cardinality of aperiodic frequency-hopping sequence sets over sufficiently large alphabets. For each fixed length $L$, one threshold $Q_0(L)$ works for every integer alphabet size $q\ge Q_0(L)$ and every correlation level $0\le h<L$: the capacity is $\lfloor q^{h+1}/(L-h)\rfloor$. The proof records every normalized set of matching positions, including nonconsecutive windows. A uniformly invertible window Gram operator permits positive degree regularization. A circular-word switch and a bounded-degree template give one sparse absorber for every divisible subset of reserved windows. A prescribed-vertex matching theorem then covers the bulk, and switching absorbs all but the exact integer remainder. The construction uses only alphabet symbols and therefore applies to integer alphabet sizes, including sizes that are not prime powers.
+\section{Aperiodic Correlation and the Capacity Theorem}
+Frequency-hopping sequence (FHS) sets support asynchronous multiple access. Aperiodic Hamming correlation counts coincidences within the actual overlap, so cardinality depends on relative delays as well as zero-delay separation. The consecutive-window bound and attaining algebraic families were established by Liu and Peng~\cite{liu2014}. We prove simultaneous attainability of that bound, including its integer remainder, for every sufficiently large integer alphabet size and every correlation threshold at a fixed length.
+
+Let $\Sigma$ have size $q$. For $x,y\in\Sigma^L$, define
+\begin{equation}
+ H_{xy}(\tau)=\sum_{i=0}^{L-\tau-1}\ind\{x_i=y_{i+\tau}\},
+ \qquad0\le\tau<L.
+ \label{eq:correlation}
+\end{equation}
+The peak of $\calS$ is the maximum over ordered pairs $x,y\in\calS$, excluding $x=y,\tau=0$; a maximum over no comparisons is zero. Let $\AperCap(L,q,h)$ be the largest size with peak at most $h$.
+
+\begin{theorem}\label{thm:main}
+For each $L\ge1$, there is an integer $Q_0(L)$ such that every integer $q\ge Q_0(L)$ satisfies
+\begin{equation}
+ \AperCap(L,q,h)=\left\lfloor\frac{q^{h+1}}{L-h}\right\rfloor,
+ \qquad0\le h<L.
+ \label{eq:main}
+\end{equation}
+\end{theorem}
+At $h=0$, disjoint blocks of $L$ distinct symbols attain $\lfloor q/L\rfloor$. At $h=L-1$, all distinct words attain $q^L$. We henceforth fix $2\le k=h+1<L$, and put
+\begin{equation}
+ r=L-k+1,\quad b=\binom Lk,\quad a=q^{L-k},\quad B=\binom L{k+1}.
+ \label{eq:parameters}
+\end{equation}
+All constants below depend only on $L,k$; the alphabet size tends to infinity through all integers.
+
+\section{Full-Position Packing and Positive Regularization}
+A normalized shape is $s=(0,s_1,\ldots,s_{k-1})$ with increasing coordinates and span below $L$. A resource is $(s,u)$, $u\in\Sigma^k$. The occurrence indexed by $I=\{i_0<\cdots<i_{k-1}\}$ in $x$ is
+\begin{equation}
+ \mathcal R_I(x)=((0,i_1-i_0,\ldots,i_{k-1}-i_0),x_I).
+ \label{eq:record}
+\end{equation}
+The consecutive shape has value class $\Omega=\Sigma^k$.
+
+\begin{lemma}\label{lem:resources}
+A word family is legal at peak $k-1$ if and only if all of its resource occurrences are distinct. Each legal word uses $r$ consecutive resources and $b$ total resources. Consequently $r|\calS|\le q^k$.
+\end{lemma}
+\begin{proof}
+Equal records have translated position sets. Aligning their starts gives $k$ matches, either between two words or at a nonzero delay of one word. Conversely, selecting $k$ matching positions in a prohibited comparison gives equal records. The consecutive resources then give the bound.
+\end{proof}
+
+Let $\cV$ be the self-compatible words. Their resource sets form a simple $b$-uniform hypergraph. For $k\ge3$, shapes containing both endpoints occur only once in a word and together recover every symbol. For $k=2$, the span-$L-1$ record recovers the endpoints. Inductively, the span-$L-1-j$ records, after removing the already recovered internal pairs, leave $(x_0,x_{L-1-j})$ and $(x_j,x_{L-1})$. Swapping their assignment could be ambiguous only if both equal $(x_0,x_{L-1})$, a repeated record excluded by Lemma~\ref{lem:resources}. Thus the resource edge determines the word.
+
+\begin{lemma}\label{lem:degrees}
+Every $u\in\Omega$ has degree between $ra(1-B/q)$ and $ra$. Every nonconsecutive resource has degree at most $(r-1)a$, and the maximum codegree is at most $r^2q^{r-2}$.
+\end{lemma}
+\begin{proof}
+A prescribed record at a fixed placement has $a$ completions. A forbidden autocorrelation is witnessed by $k$ equalities $x_i=x_{i+\tau}$. Their position graph is a forest with $k$ edges and $L-k$ components; a fixed window meets at least one component, leaving at most $q^{L-k-1}$ completions. There are $\sum_{\tau}\binom{L-\tau}k=B$ witnesses. The $r$ placements give the degree bounds, while a nonconsecutive shape has at most $r-1$ placements. Two different compatible resources jointly fix at least $k+1$ coordinates and have at most $r^2$ placement pairs, proving the codegree bound. This argument includes all symbol repetition patterns.
+\end{proof}
+
+On all words, including self-incompatible ones, let $\mathsf A_{u,x}$ count consecutive-window occurrences. Its column sums are $r$ and row sums $ra$. Let $S$ be the averaged left shift on functions on $\Sigma^k$:
+\[
+ (Sf)(u_1,\ldots,u_k)=q^{-1}\sum_z f(u_2,\ldots,u_k,z).
+\]
+Conditioning two windows at relative displacement $j$ gives
+\begin{equation}
+ G=a^{-1}\mathsf A\mathsf A^{\mathsf T}
+ =rI+\sum_{j=1}^{r-1}(r-j)(S^j+(S^*)^j).
+ \label{eq:Gram}
+\end{equation}
+
+\begin{lemma}\label{lem:inverse}
+$G$ is invertible for every $q\ge2$, with
+\begin{equation}
+ \|G^{-1}\|_\infty\le\beta_k:=1+(3^k-1)k^3.
+ \label{eq:inverse}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Split each coordinate space into constants and mean-zero functions. For a normalized nonempty support, translating its factors through the $k$ positions gives a chain of length $n\le k$. Averaged shifts translate a support or annihilate a mean-zero endpoint; the restriction of \eqref{eq:Gram} is
+\[
+ T_{n,r}(i,j)=(r-|i-j|)_+,\qquad0\le i,j<n.
+\]
+This is the Gram matrix of translated length-$r$ interval indicators. The first $n$ rows of their convolution matrix form a triangular matrix $C$, and for the nilpotent shift $Z$,
+\[
+ C^{-1}=(I-Z)(I-Z^r)^{-1}.
+\]
+Its entries are $0,1,-1$ and both row-sum and column-sum norms are at most $n$. Since $T_{n,r}\succeq C^{\mathsf T}C$, its minimum eigenvalue is at least $n^{-2}$, giving $\|T_{n,r}^{-1}\|_\infty\le n^3$.
+
+If $E_i$ averages coordinate $i$, the support projection $\Pi_J=\prod_{i\in J}(I-E_i)\prod_{i\notin J}E_i$ has norm at most $2^{|J|}$. Translation preserves supremum norm. Summing the chain inverse bounds over nonempty supports gives $k^3\sum_{J\ne\varnothing}2^{|J|}=k^3(3^k-1)$. The constant subspace has eigenvalue $r^2$ and contributes at most one, proving \eqref{eq:inverse}.
+\end{proof}
+
+Say a resource set $\cF$ is $\eta$-sparse if prescribing any $t<k$ roles and values in any fixed shape leaves at most $\eta q^{k-t}$ members. Let $D=\cF\cap\Omega$, $P=\Omega\setminus D$, and retain the words of $\cV$ avoiding $\cF$. Their consecutive incidence matrix $A$ has rows $P$ and column sums $r$.
+
+\begin{lemma}\label{lem:regularize}
+Put $\gamma_0=B/q+b\eta$ and $\xi=\beta_k[r(r-1)\eta+r^2\gamma_0]$. If $\xi<1/2$, the retained words have positive weights $w$ satisfying
+\begin{equation}
+ Aw=ra\one,\qquad\|w-\one\|_\infty\le\frac{\beta_k r^2\gamma_0}{1-\xi}.
+ \label{eq:regularization}
+\end{equation}
+If $\xi\le1/(4r)$, using weights $w_x/(ra)$ gives total weight at any nonconsecutive resource at most $1-3/(4r-1)$.
+\end{lemma}
+\begin{proof}
+Sparsity and the shift representation give $\|G_{P,D}\|_\infty\le r(r-1)\eta$: each shifted window fixes fewer than $k$ roles, and its forbidden completions occupy at most an $\eta$ fraction. The block identity
+\[
+ G_{P,P}(G^{-1})_{P,P}=I-G_{P,D}(G^{-1})_{D,P}
+\]
+gives $\|G_{P,P}^{-1}\|_\infty\le\beta_k/[1-\beta_k r(r-1)\eta]$. For a prescribed allowed window, self-incompatibility removes at most a $B/q$ fraction of completions. Each other forbidden record fixes $t<k$ shared roles and removes at most an $\eta$ fraction; a union bound over $b$ records gives incidence loss at most $ra\gamma_0$ per row. Each deleted column has total multiplicity $r$, so, for $M=a^{-1}AA^{\mathsf T}$,
+\[
+ \|G_{P,P}-M\|_\infty\le r^2\gamma_0,\qquad
+ \|M^{-1}\|_\infty\le\frac{\beta_k}{1-\xi}.
+\]
+The latter is a second Neumann-series bound. Let $e=a^{-1}(ra\one-A\one)$ and $w=\one+A^{\mathsf T}M^{-1}e$. Then $Aw=ra\one$ and $\|e\|_\infty\le r\gamma_0$, proving \eqref{eq:regularization}. Positivity follows from a norm bound below one. A nonconsecutive resource has at most $(r-1)a$ incidences and weights at most $1/(1-\xi)$, yielding normalized weight at most
+\[
+ \frac{r-1}{r(1-\xi)}\le1-\frac3{4r-1}.
+\]
+\end{proof}
+
+\section{One Absorber for Every Divisible Root Subset}
+\subsection{A local circular-word switch}
+Put $d_*=1+r\lceil(L+k-2)/r\rceil$ and $n_*=rd_*$. Thus $d_*\equiv1\pmod r$, $L+k-1\le d_*\le2L-1$, and $n_*\ge2L$.
+
+\begin{lemma}\label{lem:switch}
+Any $r$ distinct prescribed windows $u_0,\ldots,u_{r-1}$ admit two legal word sets $T_0,T_1$ with $|T_0|=d_*-1$, $|T_1|=d_*$, whose consecutive-resource sets differ exactly by these roots. All other records contain an auxiliary symbol.
+\end{lemma}
+\begin{proof}
+On a circle of length $n_*$, place $u_i$ at $id_*$ and fill the remaining positions with pairwise distinct auxiliary symbols avoiding every root symbol. This is possible for $q\ge rd_*$. Take length-$L$ segments starting respectively at
+\begin{align}
+ J_1&=\{0,r,\ldots,n_*-r\},\notag\\
+ J_0&=\{id_*+1+jr:0\le i<r,\ 0\le j<(d_*-1)/r\}.
+ \label{eq:starts}
+\end{align}
+Their consecutive windows partition respectively all circular window positions and all except $0,d_*,\ldots,(r-1)d_*$. The cardinalities and window difference follow.
+
+A segment meets at most one root block since $d_*-k\ge L-1$. In either state, starts are at least $r$ apart around a circle of length at least $2L$, so physically aligned distinct segments overlap in at most $L-r=k-1$ positions. Equal records containing an auxiliary symbol must align its unique physical occurrence, and thus cannot have $k$ matches. Records without auxiliary symbols are complete roots: absent in state zero and appearing once each in state one. Root distinctness excludes repetitions. The same unique-symbol argument applies to two occurrences in one segment, proving legality by Lemma~\ref{lem:resources}.
+\end{proof}
+
+For a concrete local switch, take $L=3$, $k=2$, $r=2$, and roots $00,11$ in an alphabet containing $0,\ldots,9$. Then $d_*=5$, and the circular buffer is $0023411567$. The two sets of ordinary length-three words are
+\[
+ \begin{aligned}
+ T_0&=\{023,341,156,670\},\\
+ T_1&=\{002,234,411,156,670\}.
+ \end{aligned}
+\]
+The common consecutive windows are \texttt{02}, \texttt{23}, \texttt{34}, \texttt{41}, \texttt{15}, \texttt{56}, \texttt{67}, and \texttt{70}; state one adds exactly \texttt{00} and \texttt{11}. The nonconsecutive records are also distinct within each state. Thus the switch accepts repeated-symbol roots while adding one word and two consecutive resources.
+
+\subsection{A template and a sparse simultaneous installation}
+For $R=\{x_0,\ldots,x_{n-1}\}$, introduce distinct fixed roots $Z_0=\{z_0,\ldots,z_{2rn-1}\}$. Use all consecutive $r$-sets of the $z$-list and all edges
+\begin{equation}
+ \{x_i,z_{2ri+c},\ldots,z_{2ri+c+r-2}\},\quad0\le c<r.
+ \label{eq:template}
+\end{equation}
+This $r$-uniform template has at most $3rn-r+1$ edges and maximum degree at most $2r-1$. It has a matching covering exactly $Z_0\cup X$ for every $X\subseteq R$ of size divisible by $r$. Indeed, write its indices as $i_0<\cdots<i_{t-1}$ and use \eqref{eq:template} with $c_j\equiv-j\pmod r$, $0\le c_j<r$. The special edges are disjoint, and every remaining interval of fixed roots has length divisible by $r$: consecutive gap lengths are $2r(i_{j+1}-i_j)+c_{j+1}-c_j-r+1$. The initial and final gaps are also divisible by $r$. Partition them into consecutive $r$-sets. For $X=\varnothing$, partition all of $Z_0$ directly.
+
+Let $K=(2d_*-1)b$, $D_H=2r$, $C_0=D_H2^kK$, and $C_1=2^k(K+D_HK^2)$. Each template edge carries the switch above.
+
+\begin{lemma}\label{lem:absorber}
+Suppose $T=R\cup Z_0$ is $\rho$-sparse and a nonconsecutive forbidden set $Z_1$ is $\psi$-sparse. If
+\begin{equation}
+ C_1\rho+K2^k\psi\le1/128,
+ \label{eq:small-load}
+\end{equation}
+then, for all sufficiently large $q$, one switch installation gives legal families $\cA_X$ for every $X\subseteq R$ with $r\mid|X|$, such that
+\begin{align}
+ \cW_k(\cA_X)&=B_0\mathbin{\dot\cup}Z_0\mathbin{\dot\cup}X,\notag\\
+ |\cA_X|&=|\cA_\varnothing|+|X|/r.
+ \label{eq:absorption}
+\end{align}
+Here $B_0$ is fixed and disjoint from $T$. All states use a common resource set $\cF_A$ disjoint from $Z_1$, with $\cF_A\cap\Omega=B_0\cup T$ and sparsity at most $8C_0\rho$.
+\end{lemma}
+\begin{proof}
+Choose each switch's injective auxiliary-symbol assignment independently, avoiding its root symbols. Exclude a nonroot consecutive record in $T$, a nonconsecutive record in $Z_1$, or equal same-shape records from different switches, except a shared complete prescribed root.
+
+For a pair of record types, let $a_0$ roles be fixed by root symbols on both sides. Unless the records are complete roots, their equality imposes $k-a_0$ auxiliary constraints, each with at least $q/2$ choices for large $q$. Each auxiliary occurs once within a record, so these constraints have no cycle. The probability is at most $(2/q)^{k-a_0}$. Compatible roots in the other switch number at most $\rho q^{k-a_0}$, and each appears in at most $D_H$ switches. Summing over record and role types bounds the incident two-variable probability load by $D_H2^kK^2\rho$. Forbidden-set events add at most $K2^k(\rho+\psi)$. By \eqref{eq:small-load}, the load per switch is at most $1/128$.
+
+Assign each bad event $B$ the parameter $x_B=2\Prb(B)$. An event uses at most two switch variables, and its neighbor parameters sum to at most $1/32$. Therefore $\Prb(B)\le x_B\prod_{B'\sim B}(1-x_{B'})$, and the variable local lemma~\cite{moser2010} gives positive probability for the collision-free event $\cG$.
+
+We also need sparsity in the same installation. For any fixed shape, $t<k$ roles and values, let $Y_e\in[0,K]$ count matching record occurrences in switch $e$. Sorting the roles into fixed root roles and auxiliary roles, sparsity of $T$ and auxiliary reveal probabilities give
+\begin{equation}
+ \mu=\sum_e\E Y_e\le C_0\rho q^{k-t}.
+ \label{eq:projection-mean}
+\end{equation}
+For any nonnegative $F$ supported on switch variables $I$, the ordinary local-lemma induction gives
+\begin{equation}
+ \E(F\mid\cG)\le\E F\prod_{B:\vbl(B)\cap I\ne\varnothing}(1-x_B)^{-1}
+ \le2^{|I|}\E F.
+ \label{eq:conditional}
+\end{equation}
+To see the first bound, an event determined by $I$ is independent of avoiding all nonincident bad events. The conditional probability of avoiding the remaining events is at least their product of $1-x_B$, by local-lemma induction. Apply this to level sets of $F$. The incident parameter sum per variable is at most $1/64$, which gives the second bound.
+
+Using $e^{y/K}\le1+(\mathrm e-1)y/K$, expand the product over switches, apply \eqref{eq:conditional} to each subset and use original independence. This gives
+\[
+ \E(e^{\sum_eY_e/K}\mid\cG)\le
+ \exp(2(\mathrm e-1)\mu/K).
+\]
+Markov's inequality gives
+\[
+\Pr\left(\sum_eY_e\ge8C_0\rho q^{k-t}\,\middle|\,\cG\right)
+\le \exp(-4C_0\rho q^{k-t}/K).
+\]
+There are $O_{L,k}(q^{k-1})$ partial prescriptions, each with $q^{k-t}\ge q$. A union bound gives one collision-free installation meeting all sparsity bounds.
+
+The nonroot windows used by a switch are the same in both states, and are disjoint across switches and from $T$; their union is $B_0$. Activate state one exactly on a template matching covering $Z_0\cup X$, and state zero elsewhere. Each complete root is then used once at most; all other collisions were excluded in the installation. This proves \eqref{eq:absorption} and the common-resource assertions.
+\end{proof}
+
+\section{Reserved Completions and an Exact Bulk Matching}
+Choose small positive constants before allowing $q$ to grow:
+\begin{align}
+ \eta_*&=[64\beta_k r^3(b+1)]^{-1},\notag\\
+ \gamma&=\min\{\eta_*/8,(4096K2^k)^{-1}\},\notag\\
+ \rho&=\min\{\eta_*/(64C_0),(4096C_1)^{-1}\},\notag\\
+ \delta&=\rho/(128r),\qquad\chi=\delta^{r-1}\gamma^{b-r}.
+ \label{eq:constants}
+\end{align}
+Independently reserve each consecutive resource in $R$ with probability $\delta$, in a preliminary buffer $Z'$ with probability $16r\delta$, and each nonconsecutive resource in $Z_1$ with probability $\gamma$.
+
+\begin{lemma}\label{lem:reserves}
+For sufficiently large $q$, the reserves can be fixed with $n=|R|\in[\delta q^k/2,2\delta q^k]$, a subset $Z_0\subseteq Z'\setminus R$ of size $2rn$, $\rho$-sparse $R\cup Z_0$, and $2\gamma$-sparse $Z_1$. Every root $u\in\Omega$ has at least $\chi ra/4$ self-compatible completions whose other consecutive resources lie in $R$ and nonconsecutive resources lie in $Z_1$.
+\end{lemma}
+\begin{proof}
+Chernoff bounds simultaneously control all $O_{L,k}(q^{k-1})$ partial prescriptions, whose means grow at least linearly in $q$. The consecutive union has mean density at most $(1+16r)\delta<\rho/4$, and $|Z'\setminus R|\ge4r\delta q^k$ with high probability. Thus a buffer of size $2rn$ exists and preserves sparsity.
+
+For fixed $u$, each candidate completion has distinct other resources, so its reservation indicator has mean $\chi$. A reserve variable is read by at most $r^2q^{r-2}$ indicators, by Lemma~\ref{lem:degrees}. The read-family lower-tail bound~\cite[Theorem 1.1]{gavinsky2015}, applied to at least $ra/2$ candidates, gives failure probability at most $\exp(-\chi^2q/(4r))$. A union bound over all $q^k$ roots gives the simultaneous completion bound. These indicators exclude $u$'s own reserve-membership variable. Finally choose any $2rn$ elements of $Z'\setminus R$ as $Z_0$.
+\end{proof}
+
+The constants satisfy \eqref{eq:small-load} for $\psi=2\gamma$. Fix the common absorber, and set
+\[
+ P=\Omega\setminus(B_0\cup Z_0\cup R),\qquad R_*=R\cup Z_1.
+\]
+Let $Q$ contain the nonconsecutive resources outside $\cF_A\cup Z_1$. These three classes are disjoint. Bulk words avoid $\cF_A\cup Z_1$; completion words have distinguished root in $P$ and all their other resources reserved. Their incidences are
+\begin{center}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Class & Bulk word & Completion word\\
+\midrule
+$P$ & $r$ & $1$\\
+$R$ & $0$ & $r-1$\\
+$Q$ & $b-r$ & $0$\\
+$Z_1$ & $0$ & $b-r$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The forbidden family is at most $8C_0\rho+2\gamma\le3\eta_*/8$ sparse. Lemma~\ref{lem:regularize} therefore gives positive bulk weights with root degree $ra$ and fixed fractional slack at $Q$, since $\xi\le1/(4r)$ for large $q$.
+
+Retain each bulk word independently with probability $w_x/2$, giving $\cH_1$. Let $\cH_2$ contain all completion words. Put $D_*=ra/2$, $s_q=\lfloor q^{1/8}\rfloor$, and $d=\lceil(1+2/s_q)D_*\rceil$. Chernoff bounds give one realization with root degrees between $(1\pm1/s_q)D_*$ and all $Q$ degrees at most $d$; the latter use the fixed slack. The weakest concentration exponent is $\Theta(q^{r-1-1/4})$, dominating the logarithm of the $O(q^k)$ vertices.
+
+We use the no-additional-conflicts specialization of Joos--Mubayi--Smith~\cite[Theorem 3.1]{jms2026}. For fixed edge sizes $(r,b-r,b-1)$, there is $\varepsilon_0>0$ such that, for sufficiently large $d$ and $0<\varepsilon<\varepsilon_0$, a matching covers all of $P$ provided
+\begin{align}
+ d^\varepsilon&\le|P|\le|P\cup Q|\le\exp(d^{\varepsilon^3}),\notag\\
+ (1-d^{-\varepsilon})d&\le\delta_P(\cH_1)\le\Delta(\cH_1)\le d,\notag\\
+ \Delta_2(\cH_1)&\le d^{1-\varepsilon},\notag\\
+ \Delta_{R_*}(\cH_2)&\le d^{\varepsilon^4}\delta_P(\cH_2),\notag\\
+ d_{\cH_2}(u,v)&\le d^{-\varepsilon}\delta_P(\cH_2)
+ \quad(u\in P,v\in R_*).
+ \label{eq:matching-input}
+\end{align}
+Both edge classes must be nonempty.
+
+Choose $\varepsilon<\min(\varepsilon_0,1/(32L))$. We have $|P|=\Theta(q^k)$, $|P\cup Q|=O(q^k)$, and $d=\Theta(q^{r-1})$, proving the size conditions. The relative degree error $O(q^{-1/8})$ is $o(d^{-\varepsilon})$. The codegree bound gives
+\[
+ \frac{\Delta_2(\cH_1)}{d^{1-\varepsilon}}
+ =O(q^{-1+(r-1)\varepsilon})\longrightarrow0.
+\]
+For the completion family, Lemma~\ref{lem:reserves} and the original degree/codegree bounds give
+\begin{align}
+ \delta_P(\cH_2)&\ge\chi ra/4,\notag\\
+ \frac{\Delta_{R_*}(\cH_2)}{\delta_P(\cH_2)}&\le4/\chi,\notag\\
+ \frac{d_{\cH_2}(u,v)}{\delta_P(\cH_2)}&\le4r/(\chi q).\notag
+\end{align}
+The constant first ratio is eventually at most $d^{\varepsilon^4}$, and the second is eventually at most $d^{-\varepsilon}$. Positive minimum root degrees ensure nonempty edge classes. Thus all conditions in \eqref{eq:matching-input} hold for the same fixed reserves and installation, giving a matching $\cM\subseteq\cH_1\cup\cH_2$ covering every root in $P$.
+
+\section{Exact Remainder and Completion of the Proof}
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+The words of $\cM$ are legal by Lemma~\ref{lem:resources}. Let $Y\subseteq R$ be the reserved roots used by completion edges. The matching words are compatible with $\cA_\varnothing$: bulk words avoid all absorber resources, and completion words use $Z_1$ for their nonconsecutive resources and avoid $B_0\cup Z_0$ for consecutive ones. Their union covers exactly $\Omega\setminus(R\setminus Y)$ in the consecutive class.
+
+Every selected word uses $r$ distinct consecutive resources. Consequently, for $R'=R\setminus Y$ and $d_0=q^k\bmod r$ in $\{0,\ldots,r-1\}$,
+\[
+ |R'|\equiv q^k\pmod r,\qquad |R'|\ge d_0.
+\]
+Choose $D_0\subseteq R'$ of size $d_0$ and put $X=R'\setminus D_0$. Its size is divisible by $r$, so the same installed absorber switches to $\cA_X$. Its consecutive roots avoid $Y$, and all its nonconsecutive resources still avoid both matching families. The final family is therefore legal and covers every consecutive resource except $D_0$. Its cardinality is
+\[
+ (q^k-d_0)/r=\lfloor q^k/r\rfloor,
+\]
+matching the upper bound. For each fixed $(L,k)$, all constants were chosen before $q$ grew, and all required inequalities hold for every sufficiently large integer $q$. Taking a finite maximum over intermediate $k$, together with the two endpoint constructions, yields one $Q_0(L)$ for all $h$.
+\end{proof}
+
+For $1\le M\le q^L$ and $q\ge Q_0(L)$, the minimum peak correlation is consequently
+\begin{equation}
+ \Hstar(L,M,q)=\sum_{j=1}^{L-1}\ind\{(L-j+1)M>q^j\}.
+ \label{eq:minpeak}
+\end{equation}
+Indeed, the capacities increase with the threshold, and each smaller family size is attained by taking a subset. The number of failed inequalities is exactly the first feasible threshold.
+
+\section{Result summary}
+Full-position records enforce every aperiodic comparison while consecutive records determine the extremal size. Uniform Gram inversion, a sparse common absorber and a two-class prescribed-root matching realize that size with precisely the required remainder. These arguments establish the exact large-alphabet capacity across all correlation levels without imposing algebraic conditions on the alphabet size.
+
+\begin{thebibliography}{13}
+
+\bibitem{liu2014}
+X. Liu and D. Peng, ``Sets of frequency hopping sequences under aperiodic Hamming correlation: Upper bound and optimal constructions,'' \emph{Adv. Math. Commun.}, vol.~8, no.~3, pp.~359--373, Aug. 2014, doi: \href{https://doi.org/10.3934/amc.2014.8.359}{\nolinkurl{10.3934/amc.2014.8.359}}.
+
+\bibitem{moser2010}
+R. A. Moser and G. Tardos, ``A constructive proof of the general Lov\'asz local lemma,'' \emph{J. ACM}, vol.~57, no.~2, pp.~11:1--11:15, 2010, doi: \href{https://doi.org/10.1145/1667053.1667060}{\nolinkurl{10.1145/1667053.1667060}}.
+
+\bibitem{gavinsky2015}
+D. Gavinsky, S. Lovett, M. Saks, and S. Srinivasan, ``A tail bound for read-$k$ families of functions,'' \emph{Random Structures Algorithms}, vol.~47, no.~1, pp.~99--108, 2015, doi: \href{https://doi.org/10.1002/rsa.20532}{\nolinkurl{10.1002/rsa.20532}}.
+
+\bibitem{jms2026}
+F. Joos, D. Mubayi, and Z. Smith, ``Conflict-free hypergraph matchings and coverings,'' \emph{Combin. Probab. Comput.}, vol.~35, no.~2, pp.~230--254, Mar. 2026, doi: \href{https://doi.org/10.1017/S0963548325100291}{\nolinkurl{10.1017/S0963548325100291}}.
+\end{thebibliography}
+
+\end{document}
