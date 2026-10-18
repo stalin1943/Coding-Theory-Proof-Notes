@@ -2,7 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://stalin1943.github.io/Coding-Theory-Proof-Notes/</loc>
-    <lastmod>2026-10-16</lastmod>
+    <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://stalin1943.github.io/Coding-Theory-Proof-Notes/abelian-automorphism-constant-two/</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/</loc>
@@ -38,6 +42,10 @@
   </url>
   <url>
     <loc>https://stalin1943.github.io/Coding-Theory-Proof-Notes/qary-strict-rate-bounds/</loc>
+  </url>
+  <url>
+    <loc>https://stalin1943.github.io/Coding-Theory-Proof-Notes/abelian-automorphism-constant-two/proof.pdf</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://stalin1943.github.io/Coding-Theory-Proof-Notes/binary-cyclic-minimum-dual-distance/proof.pdf</loc>
