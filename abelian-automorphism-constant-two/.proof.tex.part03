@@ -1,0 +1,129 @@
+ \qquad N_r(Y_i)=\sum_{d\mid r}dB_d(Y_i).
+ \label{eq:points}
+\end{equation}
+For an integer $T\ge1$, the Fej\'er identity is
+\begin{equation}
+ 1+2\sum_{r=1}^T\left(1-\frac r{T+1}\right)\cos(r\theta)
+ =\frac1{T+1}\left|\sum_{a=0}^T e^{\mathrm i a\theta}\right|^2\ge0.
+ \label{eq:fejer}
+\end{equation}
+The parameter $T$ controls this analytic truncation; $J$ in \eqref{eq:LJ} controls the degrees of places included in the correction.
+
+Summing \eqref{eq:fejer} over the $2h_i$ reciprocal roots and using \eqref{eq:points} yields
+\begin{equation}
+ \sum_{r=1}^T\left(1-\frac r{T+1}\right)q^{-r/2}
+       (N_r(Y_i)-q^r-1)\le h_i.
+ \label{eq:fejerfinite}
+\end{equation}
+Keep $T$ fixed and divide by $h_i$. Along the subsequence in \eqref{eq:betad},
+\begin{equation}
+ \sum_{r=1}^T\left(1-\frac r{T+1}\right)q^{-r/2}
+       \sum_{d\mid r}d\beta_d\le1.
+ \label{eq:fejerlimit}
+\end{equation}
+Every term in this limiting sum is nonnegative. For fixed $r$, its coefficient, extended as zero for $r>T$, increases to $q^{-r/2}$. Monotone convergence followed by a nonnegative interchange of sums gives
+\begin{align}
+ 1&\ge\sum_{r\ge1}q^{-r/2}\sum_{d\mid r}d\beta_d\notag\\
+  &=\sum_{d\ge1}d\beta_d\sum_{a\ge1}q^{-ad/2}
+   =\sum_{d\ge1}\frac{d\beta_d}{q^{d/2}-1}.
+ \label{eq:basic}
+\end{align}
+This is the function-field basic inequality. Its constant is independent of the sequence and of whether $q$ is a square.
+
+\subsection{The class-number limit}
+Let
+\[
+ Z_Y(T)=\frac{P_Y(T)}{(1-T)(1-qT)},\qquad
+ P_Y(T)=\prod_{\nu=1}^{2h}(1-\omega_\nu T).
+\]
+The functional equation and the class-number identity give
+$H_K=P_Y(1)=q^hP_Y(1/q)$ \cite[Ch.~5]{stichtenoth}. Since
+$|\omega_\nu|=\sqrt q$, the analytic logarithm of $P_Y(T)$, normalized to vanish at zero, has the absolutely convergent expansion
+\[
+ \ln P_Y(T)=\sum_{r\ge1}\frac{N_r(Y)-q^r-1}{r}T^r,
+ \qquad |T|<q^{-1/2}.
+\]
+Evaluation at $T=1/q$ is within this disk and gives
+\begin{equation}
+ \log_qH_K=h+
+ \frac1{\ln q}\sum_{r\ge1}
+      \frac{N_r(Y)-q^r-1}{r q^r}.
+ \label{eq:classseries}
+\end{equation}
+For positive genus, the absolute value of the $r$th summand after division by $h$ is at most
+\begin{equation}
+ \frac{2}{r q^{r/2}\ln q},\qquad
+ \sum_{r\ge1}\frac{2}{r q^{r/2}\ln q}<\infty.
+ \label{eq:dominate}
+\end{equation}
+Thus dominated convergence applies uniformly to the curves in the extracted sequence.
+
+Using \eqref{eq:points}, we obtain
+\begin{align}
+ \lim_i\frac{\log_qH_{K_i}}{h_i}
+ &=1+\frac1{\ln q}\sum_{r\ge1}\frac{q^{-r}}r
+                    \sum_{d\mid r}d\beta_d\notag\\
+ &=1+\sum_{d\ge1}\beta_d\log_q\frac1{1-q^{-d}}.
+ \label{eq:BS}
+\end{align}
+The interchange in the second line has nonnegative terms. Formula \eqref{eq:dominate} also establishes finiteness of the resulting sum. These steps use the zeta numerator at a point where its logarithmic series converges absolutely.
+
+\subsection{Cancellation and a uniform bound}
+For the fixed integer $J$, combine \eqref{eq:bq}, \eqref{eq:LJ}, and \eqref{eq:BS}. The logarithmic terms for degrees at most $J$ cancel, leaving
+\begin{align}
+ \lim_i\frac{L_J(Y_i)}{h_i}
+ =1+\sum_{d\le J}\frac{d\beta_d}{q^d-1}
+   +\sum_{d>J}\beta_d\log_q\frac1{1-q^{-d}}.
+ \label{eq:cancellation}
+\end{align}
+The nonnegativity of $b_q(d)$ implies
+\[
+ \log_q\frac1{1-q^{-d}}\le\frac d{q^d-1}.
+\]
+Moreover,
+\begin{equation}
+ \frac d{q^d-1}
+ =\frac1{q^{d/2}+1}\frac d{q^{d/2}-1}
+ \le\frac1{\sqrt q+1}\frac d{q^{d/2}-1}.
+ \label{eq:weights}
+\end{equation}
+It follows from \eqref{eq:basic} that
+\begin{equation}
+ \lim_i\frac{L_J(Y_i)}{h_i}
+ \le1+\sum_{d\ge1}\frac{d\beta_d}{q^d-1}
+ \le1+\frac1{\sqrt q+1}=c_q.
+ \label{eq:limitjoint}
+\end{equation}
+The same place densities appear in both terms of \eqref{eq:cancellation}; this common dependence is retained throughout the estimate.
+
+We now pass from the subsequence statement to Proposition~\ref{prop:joint}. If
+$L_J(Y)\le(c_q+\eta)h$ failed at arbitrarily large genus, a violating sequence would have a subsequence as in \eqref{eq:betad}. Equation~\eqref{eq:limitjoint} would then contradict the strict excess $\eta$. Hence the inequality holds beyond a genus threshold depending only on $q,J,\eta$.
+
+For bounded genus, the estimates
+\begin{equation}
+ H_K\le(1+\sqrt q)^{2h},\qquad
+ B_d(Y)\le\frac{q^d+1+2h q^{d/2}}d
+ \label{eq:boundedgenus}
+\end{equation}
+provide a uniform bound for $L_J(Y)$. They also cover genus zero, for which $H_K=1$. Absorbing this bounded range into $B_{q,J,\eta}$ proves \eqref{eq:joint}. Every parameter used in the proposition is fixed before the genus threshold is chosen.
+
+\section{The Uniform Genus Bound}\label{sec:upper}
+In this section, we combine the local and global estimates to prove Theorem~\ref{thm:finite}. A fixed degree cutoff separates the finitely many low-degree terms controlled by Proposition~\ref{prop:joint} from the high-degree terms controlled by the mean conductor itself.
+
+At a ramified place, at least a proportion $1-1/e_P$ of the inertia characters are nontrivial. Their conductors are at least one, so
+\begin{equation}
+ \bar c_P\ge1-\frac1{e_P}\ge\frac12.
+ \label{eq:half}
+\end{equation}
+If $d_P>J$, Lemma~\ref{lem:localbound} and \eqref{eq:half} give
+\[
+ b_q(d_P)\le\frac{d_P}{q^{d_P}-1}
+ \le\frac{2}{q^{J+1}-1}\,d_P\bar c_P.
+\]
+For the remaining places, nonnegativity permits the sum over ramified places to be enlarged to all places of degrees at most $J$. Substitution into \eqref{eq:raw} yields
+\begin{equation}
+ \log_qM\le(1+\varepsilon_J)A+L_J(Y),
+ \qquad \varepsilon_J=\frac2{q^{J+1}-1}.
+ \label{eq:keyglobal}
+\end{equation}
+This bound accommodates an arbitrary number of ramified places and arbitrary conductor depths.
