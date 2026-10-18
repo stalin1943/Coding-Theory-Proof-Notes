@@ -1,0 +1,130 @@
+\begin{proof}[Proof of Theorem~\ref{thm:finite}]
+Fix $\varepsilon>0$ and choose $J=J(q,\varepsilon)$ so that $\varepsilon_J\le\varepsilon$. Set
+\begin{equation}
+ \eta_q=\gamma_q=\frac{2-c_q}{2}>0,
+ \qquad c_q+\eta_q=2-\gamma_q.
+ \label{eq:gamma}
+\end{equation}
+Proposition~\ref{prop:joint} gives a constant $B=B_{q,J,\eta_q}\ge0$ such that
+\begin{align}
+ \log_qM
+ &\le(1+\varepsilon)A+(2-\gamma_q)h+B\notag\\
+ &\le(1+\varepsilon)(A+2h)+B\notag\\
+ &=(1+\varepsilon)\frac{2g_X-2}{M}+2(1+\varepsilon)+B,
+ \label{eq:closing}
+\end{align}
+where the last equality is \eqref{eq:hurwitzmean}. Define
+\begin{equation}
+ C_{q,\varepsilon}
+ =B_{q,J(q,\varepsilon),\eta_q}+2(1+\varepsilon).
+ \label{eq:Cconstant}
+\end{equation}
+Rearranging \eqref{eq:closing} proves \eqref{eq:main}, with precisely the required dependence of the constant.
+\end{proof}
+
+Along any sequence with $g_X\to\infty$, bounded values of $M$ contribute zero to $M\log_qM/g_X$. On a subsequence with $M\to\infty$, \eqref{eq:main} with a fixed choice such as $\varepsilon=1$ implies $M/g_X\to0$. Multiplying \eqref{eq:closing} by $M/g_X$ therefore gives
+\begin{equation}
+ \limsup\frac{M\log_qM}{g_X}\le2(1+\varepsilon).
+ \label{eq:epslimit}
+\end{equation}
+The limit in the curve sequence is taken with $\varepsilon$ fixed. Letting $\varepsilon\downarrow0$ afterward establishes the upper constant two, uniformly over all finite abelian actions.
+
+The slack in the quotient-genus coefficient will also be useful. Keeping the term discarded in the second line of \eqref{eq:closing} gives
+\begin{equation}
+ \log_qM\le
+ (1+\varepsilon)\frac{2g_X-2}{M}
+ -(\gamma_q+2\varepsilon)h+C_{q,\varepsilon}.
+ \label{eq:slack}
+\end{equation}
+$\gamma_q$ depends only on $q$, whereas $C_{q,\varepsilon}$ may depend on the fixed error parameter. This distinction in \eqref{eq:slack} separates the contributions that can persist in an extremal sequence.
+
+\section{Sharpness and Extremal Sequences}\label{sec:sharp}
+In this section, we complete Theorem~\ref{thm:exact} using the classical Carlitz family and then derive the necessary structure of sequences attaining the limiting constant. We also express the result using genus as the argument of the logarithm, which is convenient for code applications.
+
+\subsection{Carlitz cyclotomic attainment}
+For each integer $m\ge2$, choose a monic irreducible polynomial $P_m\in\F_q[T]$ of degree $m$, and let
+\begin{equation}
+ L_m=\F_q(T)(\Lambda_{P_m}),\qquad M_m=q^m-1.
+ \label{eq:carlitzfield}
+\end{equation}
+The standard Carlitz construction gives a cyclic Galois group
+$(\F_q[T]/P_m)^\times$ of order $M_m$. The place $P_m$ is totally ramified with residue degree one. Above infinity there are $M_m/(q-1)$ places, each with ramification index $q-1$ and residue degree one. All other places are unramified \cite[Prop.~2.1]{maxing}. In particular, the rational places above infinity ensure that the full constant field is $\F_q$.
+
+These extensions are tame because $M_m$ is prime to the characteristic. At $P_m$, the different exponent is $M_m-1$, and the upper place has degree $m$. At infinity, the different exponent is $q-2$ at each of the $M_m/(q-1)$ degree-one places. Hurwitz's formula therefore gives
+\begin{align}
+ 2g_m-2
+ &=-2M_m+m(M_m-1)+\frac{M_m}{q-1}(q-2)\notag\\
+ &=M_m\left(m-1-\frac1{q-1}\right)-m.
+ \label{eq:carlitzgenus}
+\end{align}
+For $q=2$, the infinite places are unramified and their different contribution is zero, as also reflected in this formula.
+
+Since $\log_q M_m=m+o(1)$, \eqref{eq:carlitzgenus} implies
+\begin{equation}
+ \lim_{m\to\infty}\frac{M_m\log_qM_m}{g_m}=2.
+ \label{eq:carlitzlimit}
+\end{equation}
+The construction is the attainment family used by Ma and Xing \cite[Ex.~1]{maxing}. The largest abelian subgroup on the corresponding curve has order at least $M_m$. Together with \eqref{eq:epslimit}, this proves $M_q=2$.
+
+\subsection{The logarithm of the genus}
+An equivalent form of the result is
+\begin{equation}
+ \limsup_{g_X\to\infty}
+ \frac{a_q(X)\log_qg_X}{g_X}=2.
+ \label{eq:genuslog}
+\end{equation}
+To prove it, take a subsequence on which the ratio in \eqref{eq:genuslog} has a positive lower bound and put $M=a_q(X)$. Then $M\ge c g_X/\log_qg_X$, so
+\[
+ \ln M\ge\ln g_X-\ln\log_qg_X+O(1).
+\]
+Theorem~\ref{thm:finite} also implies $M/g_X\to0$ along this subsequence and hence $M\le g_X$ eventually. These estimates give $\ln M/\ln g_X\to1$. Subsequences with ratio tending to zero do not affect the positive limsup, and the Carlitz family attains two in both normalizations. In particular,
+\begin{equation}
+ a_q(X)\le(2+o(1))\frac{g_X}{\log_qg_X}
+ \label{eq:orderform}
+\end{equation}
+holds uniformly as the genus grows.
+
+\subsection{The quotient genus near the extremal value}
+Suppose an abelian-action sequence satisfies
+$M\log_qM/g_X\to2$. Then $M\to\infty$ and
+\[
+ \frac{2g_X-2}{M\log_qM}\longrightarrow1.
+\]
+For a fixed $\varepsilon>0$, divide \eqref{eq:slack} by $\log_qM$ and take a limsup. This yields
+\begin{equation}
+ (\gamma_q+2\varepsilon)
+ \limsup\frac h{\log_qM}\le\varepsilon.
+ \label{eq:nearlimit}
+\end{equation}
+The constant term vanishes because its parameters are fixed. As $\gamma_q>0$ is independent of $\varepsilon$, letting $\varepsilon\downarrow0$ proves $h=o(\log_qM)$. Finally, \eqref{eq:hurwitzmean} gives
+\begin{equation}
+ A=\frac{2g_X-2}{M}-2h+2
+   =(1+o(1))\log_qM.
+ \label{eq:nearA}
+\end{equation}
+This proves the remaining assertion of Theorem~\ref{thm:exact}. In an extremal sequence, the mean ramification contribution supplies the leading logarithmic term, while the quotient genus contributes a lower-order term.
+
+\section{Geometric Cyclic Evaluation Codes}\label{sec:codes}
+In this section, we apply the uniform genus bound to cyclic code symmetries induced by curve automorphisms. The argument retains the actual dimension of the evaluation space, so it applies to complete and incomplete linear series and to special divisors.
+
+\subsection{Evaluation model and rate bound}
+Let $X/\F_q$ carry an automorphism $\sigma$ with a full orbit of distinct rational points
+$P_1,\ldots,P_n$. Choose a rational divisor $G$ whose support is disjoint from this orbit, and a nonzero $\F_q$-subspace
+\[
+ V\subseteq L(G),\qquad \sigma^*V=V.
+\]
+Evaluation gives the ordinary cyclic code
+\begin{equation}
+ C=\{(f(P_1),\ldots,f(P_n)):f\in V\}\le\F_q^n.
+ \label{eq:evalcode}
+\end{equation}
+Write $k=\dim C$, $v=\dim V$, and $D=\deg G$. Then $k\le v$; the geometric cyclic construction in \cite{cabana} includes the invariant-divisor choice $V=L(G)$.
+
+\begin{corollary}\label{cor:rate}
+Fix $q$ and $A_0>0$. For every sequence of codes \eqref{eq:evalcode} with $n\to\infty$ and $D\le A_0n$,
+\begin{equation}
+ \limsup_{n\to\infty}\frac{k\log_qn}{n}\le A_0^2.
+ \label{eq:ratebound}
+\end{equation}
+If instead $\liminf k/n\ge R_0>0$, then
+\begin{equation}
