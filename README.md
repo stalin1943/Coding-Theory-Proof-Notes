@@ -16,6 +16,7 @@ Website: [Coding-Theory-Proof-Notes](https://stalin1943.github.io/Coding-Theory-
 
 ## Projects
 
+- [The Exact Asymptotic Constant for Abelian Automorphism Groups over Finite Fields](abelian-automorphism-constant-two/README.md)
 - [Binary Cyclic Codes with Simultaneously Near-Linear Minimum and Dual Distances](binary-cyclic-minimum-dual-distance/README.md)
 - [Nonexistence of Perfect Two-Error-Correcting Lee Codes](perfect-radius-two-lee-codes/README.md)
 - [Global Optimizers of the Binary Masked Mixed-Qubit Bound](binary-masked-mixed-qubit-bound/README.md)
