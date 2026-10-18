@@ -1,0 +1,743 @@
+\documentclass[12pt,onecolumn,draftclsnofoot,letterpaper]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{microtype}
+\usepackage{cite}
+\usepackage[unicode,bookmarksnumbered,breaklinks,colorlinks=false,
+ citebordercolor={0 1 0},linkbordercolor={1 0 0},urlbordercolor={0 1 1},
+ pdfborder={0 0 0.65}]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\A}{\mathbb A}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Div}{\operatorname{Div}}
+\newcommand{\Prin}{\operatorname{Prin}}
+\newcommand{\Diff}{\operatorname{Diff}}
+\newcommand{\rec}{\operatorname{rec}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\dd}{\mathrm d}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{doi: #1}}
+\interdisplaylinepenalty=2500
+\hypersetup{pdftitle={The Exact Asymptotic Constant for Abelian Automorphism Groups over Finite Fields},pdfauthor={Yang Shifu},pdfsubject={Algebraic function fields and algebraic-geometry codes},pdfkeywords={abelian automorphism groups, mean conductor, genus, algebraic-geometry codes}}
+\pagestyle{plain}
+\begin{document}
+\title{The Exact Asymptotic Constant for Abelian Automorphism Groups over Finite Fields}
+\author{Yang Shifu\thanks{Yang Shifu is with the National Mobile Communications Research Laboratory and the Frontiers Science Center for Mobile Information Communication and Security, Southeast University, Nanjing 211189, China.}}
+\maketitle
+
+\begin{abstract}
+Automorphism groups of algebraic curves provide coordinate symmetries for algebraic-geometry codes, and their orders determine part of the geometric cost of imposing those symmetries. This paper determines the exact asymptotic constant for the largest abelian automorphism groups over every fixed finite field. The proof relates inertia-group orders to mean character conductors and combines the resulting local corrections with a joint estimate for the class number and low-degree places of the quotient curve. This approach gives a uniform genus lower bound that accommodates wild ramification and varying quotient genus. Classical Carlitz cyclotomic function fields attain the bound asymptotically, establishing that the extremal constant equals two in every characteristic. Sequences approaching this constant have quotient genus negligible relative to the logarithm of the group order, while their mean conductor degree is asymptotic to that logarithm. For geometric cyclic evaluation codes, the result yields a uniform rate bound under a linear divisor-degree constraint and a lower bound on the divisor degree required for positive rate. These conclusions quantify the relation between abelian symmetry, genus, and evaluation-code dimension over a fixed alphabet.
+\end{abstract}
+\begin{IEEEkeywords}
+Abelian automorphisms, algebraic-geometry codes, conductors, finite fields, genus bounds.
+\end{IEEEkeywords}
+
+\section{Introduction}\label{sec:intro}
+Algebraic-geometry codes connect the parameters of a linear code to rational points and function spaces on a curve over a finite field. Automorphisms of the curve can act on the evaluation points and induce permutations of the code coordinates. This construction gives a direct relation between geometric symmetry and algebraic code structure. The genus enters the dimension and designed-distance estimates, so the size of a symmetry group relative to the genus is relevant when the alphabet is fixed and the code length grows \cite{stichtenoth}.
+
+Transitive constructions illustrate the range of symmetries available through function fields. Stichtenoth constructed transitive and self-dual codes attaining the Tsfasman--Vl\u{a}du\c{t}--Zink bound over square fields \cite{transitive}. For a cyclic coordinate action, Caba\~na, Chara, Podest\'a, and Toledano studied evaluation codes in which a curve automorphism permutes the evaluation points in a single orbit \cite{cabana}. These constructions lead naturally to cyclic extensions and, more generally, to abelian subgroups of the automorphism group. Quantitative bounds on such groups therefore describe an arithmetic constraint on geometric code constructions.
+
+Ma and Xing \cite{maxing} studied this constraint over a fixed field $\F_q$. For a curve $X/\F_q$ of genus $g_X\ge2$, let $a_q(X)$ denote the largest order of an abelian subgroup of $\Aut_{\F_q}(X)$. They introduced
+\begin{equation}
+ M_q=\limsup_{g_X\to\infty}
+ \frac{a_q(X)\log_q a_q(X)}{g_X}
+ \label{eq:introMq}
+\end{equation}
+and proved $2\le M_q\le3$ in odd characteristic and $2\le M_q\le4$ in characteristic two. Their Carlitz cyclotomic examples attain the lower constant two. Thus the scale $g_X/\log_q g_X$ was established, with an interval remaining for the leading constant.
+
+Ramification and the arithmetic of the quotient curve both contribute to this interval. Local class field theory expresses each inertia group as a quotient of the local unit group, while the conductor records the depth of its characters in the unit filtration. The Hasse--Arf theorem provides the integral upper ramification jumps needed for this correspondence \cite{yoshida,li}. Globally, the degree-zero divisor class group controls geometric unramified abelian extensions \cite{genus}. Estimates that retain these local and global contributions together are particularly useful when the quotient genus also grows.
+
+Asymptotic place densities provide the second ingredient. Tsfasman and Vl\u{a}du\c{t} established the basic inequality and the generalized Brauer--Siegel formula for asymptotically exact families of function fields \cite{tv}. These results connect the class number to the distribution of closed points. Their combination with a mean-conductor estimate allows the class-number term and the low-degree ramification correction to be bounded by a common expression. The evaluation-code application further uses the classical Castelnuovo genus bound for a simple linear series, in the form recalled by Abd\'on and Torres \cite{abdon}. An earlier proof note for the main asymptotic result is available in \cite{note}.
+
+In this paper, we determine $M_q$ exactly for every prime power $q$. The main result is a genus bound that is uniform over all finite abelian actions on curves over $\F_q$. For every $\varepsilon>0$, the bound has leading term $M\log_qM/[2(1+\varepsilon)]$, where $M$ is the group order, and its remaining constant depends only on $q$ and $\varepsilon$. Together with the Carlitz examples, this proves $M_q=2$.
+
+A local inequality relating the logarithm of an inertia-group order to its mean character conductor is central to the proof. Its additive correction is independent of ramification depth and is attained by full unit-group quotients. At the global level, that correction combines with the class-number asymptotic formula through an exact cancellation. We obtain a coefficient strictly below two for the quotient genus and absorb the remaining high-degree contributions into the mean conductor.
+
+The same estimates yield necessary conditions for an asymptotically extremal sequence: its quotient genus is $o(\log_q M)$ and its mean conductor degree is $(1+o(1))\log_q M$. As an application to coding theory, we prove that a geometric cyclic evaluation code with a divisor of degree at most $An$ has dimension at most $(A^2+o(1))n/\log_qn$. A positive asymptotic rate consequently imposes a divisor degree of order at least $n\sqrt{\log_qn}$.
+
+Section~\ref{sec:setting} gives the notation and main statements. Sections~\ref{sec:local} and~\ref{sec:global} develop the local conductor estimate and the global inertia bound, respectively. Section~\ref{sec:class} proves the joint class-number estimate, and Section~\ref{sec:upper} completes the uniform genus bound. Section~\ref{sec:sharp} establishes sharpness and the structure of extremal sequences. Section~\ref{sec:codes} treats geometric cyclic evaluation codes, and Section~\ref{sec:conclusion} concludes the paper.
+
+\section{Setting and Main Results}\label{sec:setting}
+In this section, we specify the extremal quantity and the normalization of the ramification terms. Throughout the paper, $q$ is fixed, all logarithms written as $\log_q$ have base $q$, and $\ln$ denotes the natural logarithm. Constants indexed by $q$ may depend on the fixed alphabet.
+
+\subsection{Curves and abelian actions}
+Every curve is smooth, projective, and geometrically integral over $\F_q$. Its function field has full constant field $\F_q$. For $g_X\ge2$, the group $\Aut_{\F_q}(X)$ is finite, and we set
+\begin{equation}
+ a_q(X)=\max_{\substack{\Gamma\le\Aut_{\F_q}(X)\\\Gamma\ \mathrm{abelian}}}|\Gamma|,
+ \qquad
+ M_q=\lim_{G\to\infty}\ \sup_{g_X\ge G}
+ \frac{a_q(X)\log_q a_q(X)}{g_X}.
+ \label{eq:defMq}
+\end{equation}
+The latter definition expresses the limsup in \eqref{eq:introMq} without choosing a particular curve sequence.
+
+Fix a finite abelian subgroup $\Gamma\le\Aut_{\F_q}(X)$, and write
+\begin{equation}
+ L=\F_q(X),\qquad K=L^\Gamma,\qquad
+ M=|\Gamma|=[L:K],\qquad h=g(K).
+ \label{eq:LK}
+\end{equation}
+The fixed-field theorem makes $L/K$ a separable Galois extension with group $\Gamma$, including when the characteristic divides $M$. Every intermediate field has full constant field $\F_q$, since its constants are contained in those of $L$. Let $Y$ be the curve with function field $K$.
+
+For a place $P$ of $K$, let $d_P=[\kappa(P):\F_q]$ and choose a place $\mathfrak P$ of $L$ above $P$. We use
+\begin{equation}
+ \mathcal D_P=\Gal(L_{\mathfrak P}/K_P),\qquad
+ I_P\le\mathcal D_P,\qquad e_P=|I_P|,\qquad
+ f_P=[\kappa(\mathfrak P):\kappa(P)]
+ \label{eq:localnotation}
+\end{equation}
+for the decomposition group, inertia group, ramification index, and residue degree. Thus $|\mathcal D_P|=e_Pf_P$, and there are $M/(e_Pf_P)$ places above $P$. Abelianity makes the subgroups in \eqref{eq:localnotation} independent of the chosen place above $P$.
+
+Write $\widehat\Gamma=\operatorname{Hom}(\Gamma,\C^\times)$. For $\chi\in\widehat\Gamma$, let $c_P(\chi)$ be its local Artin conductor exponent, with the convention specified in Section~\ref{sec:local}. The mean conductor degree is
+\begin{equation}
+ \bar c_P=\frac1M\sum_{\chi\in\widehat\Gamma}c_P(\chi),
+ \qquad A=\sum_Pd_P\bar c_P.
+ \label{eq:mean}
+\end{equation}
+All places of $K$ are included in the sum. Only finitely many terms are nonzero. We also write $H_K=|\Cl^0(K)|$ for the degree-zero divisor class number.
+
+\subsection{Uniform genus bound and sharp constant}
+The finite form of the result makes its uniformity explicit.
+\begin{theorem}\label{thm:finite}
+For every prime power $q$ and every $\varepsilon>0$, there exists a constant $C_{q,\varepsilon}\ge0$ such that every curve $X/\F_q$ of genus $g_X\ge2$ and every finite abelian subgroup $\Gamma\le\Aut_{\F_q}(X)$ satisfy
+\begin{equation}
+ g_X\ge1+\frac{M}{2(1+\varepsilon)}
+       \bigl(\log_qM-C_{q,\varepsilon}\bigr),
+ \qquad M=|\Gamma|.
+ \label{eq:main}
+\end{equation}
+The constant is uniform in the curve, the group, the quotient genus, and the ramification data.
+\end{theorem}
+The bound yields the leading constant for every fixed characteristic.
+\begin{theorem}\label{thm:exact}
+For every prime power $q$, the extremal quantity in \eqref{eq:defMq} satisfies
+\begin{equation}
+ M_q=2.
+ \label{eq:exact}
+\end{equation}
+If a sequence of abelian actions satisfies $g_X\to\infty$ and
+$M\log_qM/g_X\to2$, then
+\begin{equation}
+ h=o(\log_qM),\qquad A=(1+o(1))\log_qM.
+ \label{eq:extremal}
+\end{equation}
+\end{theorem}
+The statement covers both tame and wild abelian actions. The quotient curve may vary throughout the sequence, and the evaluation of $M_q$ ranges over all curves with the specified constant field.
+
+The proof separates the group order into an unramified contribution and local inertia contributions. The normalized Hurwitz formula is
+\begin{equation}
+ \frac{2g_X-2}{M}=2h-2+A.
+ \label{eq:hurwitzmean}
+\end{equation}
+We shall bound $\log_qM$ in terms of the same mean conductor $A$, together with a quotient-genus coefficient strictly below two. This common normalization is what permits the two inequalities to have matching leading constants.
+
+\section{Mean Conductors and Inertia Orders}\label{sec:local}
+In this section, we obtain the local estimate used in the global argument. We first identify the precise mean conductor in \eqref{eq:hurwitzmean}, then estimate the inertia-group order using the number of characters in each conductor level. The local residue-field size is denoted by $Q=q^d$.
+
+\subsection{Character restriction and conductor normalization}
+Uniform restriction of characters will be used for inertia groups and ramification subgroups alike.
+\begin{lemma}\label{lem:restriction}
+For finite abelian groups $B\le H$, character restriction gives an exact sequence
+\begin{equation}
+ 1\longrightarrow\widehat{H/B}\longrightarrow\widehat H
+ \longrightarrow\widehat B\longrightarrow1.
+ \label{eq:restriction}
+\end{equation}
+Each restriction fiber has size $|H|/|B|$.
+\end{lemma}
+\begin{proof}
+Let $\theta\in\widehat B$. If $B\ne H$, choose $x\in H\setminus B$, and let $t$ be the least positive integer such that $x^t\in B$. Choose $z\in\C^\times$ with $z^t=\theta(x^t)$. The rule
+\[
+ \theta'(bx^j)=\theta(b)z^j,
+ \qquad b\in B,\quad j\in\Z,
+\]
+defines a character on $\langle B,x\rangle$: equality between two such representations changes $j$ by a multiple of $t$, and the prescribed value of $z^t$ makes the values equal. Repeating this extension reaches $H$. The kernel of restriction consists exactly of the characters of $H/B$. Since a finite abelian group and its character group have the same order, every fiber has the asserted size.
+\end{proof}
+
+For the local field $K_P$, put $U_P^0=\mathcal O_{K_P}^{\times}$ and $U_P^j=1+\mathfrak m_{K_P}^j$ for $j\ge1$. We normalize the reciprocity map
+$\rec_P:K_P^\times\twoheadrightarrow\mathcal D_P$ by sending a uniformizer to arithmetic Frobenius on the unramified quotient. Local reciprocity identifies the image of $U_P^0$ with $I_P$ and the image of $U_P^j$ with the upper ramification group $\mathcal D_P^j$ \cite[Th.~26(iii)]{li}. The local construction and integral-jump theorem are given in \cite[Th.~A and Th.~6.11]{yoshida}; taking the inverse of its geometric-Frobenius convention gives the normalization adopted throughout.
+
+Define
+\begin{equation}
+ c_P(\chi)=\min\{j\ge0:
+ \chi\text{ is trivial on }\rec_P(U_P^j)\}.
+ \label{eq:conductor}
+\end{equation}
+An unramified character has conductor zero, a nontrivial tame character has conductor one, and a wild character has conductor at least two. These are Artin conductor exponents, including the tame contribution. Since every group $\rec_P(U_P^j)$ lies in $I_P$, the value depends only on $\chi|_{I_P}$. Lemma~\ref{lem:restriction} gives
+\begin{equation}
+ \bar c_P=\frac1{e_P}\sum_{\theta\in\widehat I_P}c_P(\theta).
+ \label{eq:inertiamean}
+\end{equation}
+
+\subsection{Mean conductor and the different}
+Let $G_{P,j}$ be the lower ramification groups, with $G_{P,0}=I_P$. For the real extension $G_{P,u}=G_{P,\lceil u\rceil}$, define
+\begin{equation}
+ \varphi_P(u)=\int_0^u\frac{|G_{P,t}|}{e_P}\,\dd t,
+ \qquad \psi_P=\varphi_P^{-1},\qquad
+ \mathcal D_P^v=G_{P,\psi_P(v)}.
+ \label{eq:herbrand}
+\end{equation}
+In particular, for an integer $b\ge0$,
+\begin{equation}
+ \varphi_P(b)=\frac1{e_P}\sum_{j=1}^{b}|G_{P,j}|.
+ \label{eq:herbrandinteger}
+\end{equation}
+The denominator is the inertia order. This normalization also follows by passing to the maximal unramified intermediate local field, since the lower groups with nonnegative indices remain unchanged.
+
+Suppose $\chi|_{I_P}$ is nontrivial, and let $b$ be the last lower index on which $\chi$ is nontrivial. Then $G_{P,b}\ne G_{P,b+1}$. Hasse--Arf makes $\varphi_P(b)$ an integer, and reciprocity with the unit filtration gives
+\begin{equation}
+ c_P(\chi)=1+\varphi_P(b)
+ =\sum_{j\ge0}\frac{|G_{P,j}|}{e_P}
+       \one_{\{\chi|_{G_{P,j}}\ne1\}}.
+ \label{eq:artinlower}
+\end{equation}
+For an unramified character both sides are zero. The $j=0$ term in \eqref{eq:artinlower} accounts for the tame contribution.
+
+Hilbert's different formula and Hurwitz's genus formula have the forms \cite[Ths.~3.8.7 and 3.4.13]{stichtenoth}
+\begin{equation}
+ \mathfrak d_P=\sum_{j\ge0}(|G_{P,j}|-1),\qquad
+ 2g_X-2=M(2h-2)+\deg_L\Diff(L/K),
+ \label{eq:hilbert}
+\end{equation}
+where $\mathfrak d_P$ is the local different exponent. Averaging \eqref{eq:artinlower}, Lemma~\ref{lem:restriction} shows that a proportion $1-|G_{P,j}|^{-1}$ of all characters is nontrivial on $G_{P,j}$. Consequently,
+\begin{equation}
+ \bar c_P=\frac1{e_P}\sum_{j\ge0}(|G_{P,j}|-1)
+ =\frac{\mathfrak d_P}{e_P}.
+ \label{eq:differentmean}
+\end{equation}
+Summing the different over places of $L$ now gives
+\begin{align}
+ \deg_L\Diff(L/K)
+ &=\sum_P\frac{M}{e_Pf_P}\,\mathfrak d_P f_Pd_P\\
+ &=M\sum_Pd_P\bar c_P=MA.
+ \label{eq:globaldifferent}
+\end{align}
+Thus \eqref{eq:hilbert} yields \eqref{eq:hurwitzmean}. Equivalently, the coefficient at $P$ of the discriminant divisor on $K$ is $\sum_{\chi}c_P(\chi)$. The calculation retains the contribution of every place and shows explicitly how the residue degrees enter the normalization.
+
+\subsection{An inertia-order bound with a sharp local correction}
+For each positive integer $d$, set
+\begin{equation}
+ b_q(d)=\frac{d}{q^d-1}+\log_q(1-q^{-d}).
+ \label{eq:bq}
+\end{equation}
+The correction in the following estimate depends only on the residue-field size.
+\begin{lemma}\label{lem:localbound}
+Let $e$ be the inertia order at a place of degree $d$, and let $\bar c$ be the mean in \eqref{eq:inertiamean}. Then
+\begin{equation}
+ \log_qe\le d\bar c+b_q(d),\qquad
+ 0\le b_q(d)\le\frac{d}{q^d-1}.
+ \label{eq:localbound}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Write $Q=q^d$. Local reciprocity makes the inertia group a finite quotient of $U^0$. Since $|U^0/U^j|=(Q-1)Q^{j-1}$ for $j\ge1$, the number $N_j$ of inertia characters of conductor at most $j$ satisfies
+\begin{equation}
+ N_0=1,\qquad N_j\le D_j:=(Q-1)Q^{j-1}\quad(j\ge1).
+ \label{eq:countlevels}
+\end{equation}
+The first equality follows because a conductor-zero inertia character is trivial. Put $D_0=1$.
+
+Assume $e>1$, and choose the least $c\ge1$ for which $D_c\ge e$. The tail-sum formula for a nonnegative integer-valued variable gives
+\begin{align}
+ \bar c
+ &=\sum_{j\ge0}\left(1-\frac{N_j}{e}\right)\notag\\
+ &\ge\sum_{j=0}^{c-1}\left(1-\frac{D_j}{e}\right)
+ =c-\frac{Q^{c-1}}e,
+ \label{eq:tailsum}
+\end{align}
+where $\sum_{j=0}^{c-1}D_j=Q^{c-1}$. The integer $c$ depends only on $Q$ and $e$, while the terms omitted from the tail sum are nonnegative.
+
+For $z=e/Q^{c-1}$, \eqref{eq:tailsum} yields
+\begin{equation}
+ \log_Qe-\bar c\le F_Q(z),\qquad
+ F_Q(z)=\log_Qz-1+z^{-1}.
+ \label{eq:FQ}
+\end{equation}
+If $c\ge2$, minimality of $c$ implies $(Q-1)/Q<z\le Q-1$. If $c=1$, the interval is $1\le z\le Q-1$. Differentiation gives
+\[
+ F_Q'(z)=\frac{z-\ln Q}{z^2\ln Q},
+\]
+so $F_Q$ decreases and then increases. Its maximum is attained at an endpoint of the relevant interval. The two principal endpoints have the common value
+\begin{equation}
+ F_Q((Q-1)/Q)=F_Q(Q-1)
+ =\frac1{Q-1}+\log_Q(1-1/Q).
+ \label{eq:endpoints}
+\end{equation}
+The remaining endpoint satisfies $F_Q(1)=0$. Bernoulli's inequality gives
+$(1-1/Q)^{Q-1}\ge1/Q$, so the value in \eqref{eq:endpoints} is nonnegative. Multiplying \eqref{eq:FQ} by $d$ proves the first inequality in \eqref{eq:localbound}. The same nonnegativity handles $e=1$, for which $\bar c=0$, and the upper bound on $b_q(d)$ follows from $\log_q(1-q^{-d})\le0$.
+\end{proof}
+
+Full unit-group quotients attain this local estimate. If the inertia quotient is $U^0/U^c$ and $e=(Q-1)Q^{c-1}>1$, then equality holds in the relevant character counts, and
+\begin{equation}
+ \bar c=c-\frac1{Q-1},\qquad
+ \log_qe=d\bar c+b_q(d).
+ \label{eq:localequality}
+\end{equation}
+This includes arbitrarily deep unit filtrations. In particular, the local correction remains bounded as the ramification depth increases, a property used when summing over all ramified places.
+
+\section{Geometric Unramified Quotients}\label{sec:global}
+In this section, we relate the order of the global group to the inertia orders and the class number of $K$. The full-constant-field assumption enters through the unramified quotient. We use the global Artin map and its local compatibility in the global-function-field form of class field theory \cite[Ths.~21, 22, and 29]{li}.
+
+\subsection{The degree map on divisor classes}
+Let $\Cl(K)=\Div(K)/\Prin(K)$. The degree map has the following exact sequence.
+\begin{lemma}\label{lem:degree}
+For a geometrically integral curve over $\F_q$,
+\begin{equation}
+ 0\longrightarrow\Cl^0(K)\longrightarrow\Cl(K)
+ \xrightarrow{\deg}\Z\longrightarrow0.
+ \label{eq:degree}
+\end{equation}
+\end{lemma}
+\begin{proof}
+The Weil bound implies $|Y(\F_{q^r})|\ge q^r+1-2h q^{r/2}>0$ for every sufficiently large integer $r$. If $d_0$ is the greatest common divisor of all place degrees, the existence of an $\F_{q^r}$-point shows that $d_0$ divides $r$. Hence $d_0$ divides all sufficiently large integers and equals one. A finite integral combination of places consequently has degree one. Principal divisors have degree zero, and the kernel of the induced degree map is $\Cl^0(K)$, proving \eqref{eq:degree}.
+\end{proof}
+The divisor supplied by this argument may have both positive and negative coefficients. Surjectivity in \eqref{eq:degree} therefore applies uniformly to curves with any number of rational points.
+
+\subsection{The unramified abelian contribution}
+We record the geometric form of the unramified degree bound. Its class-field interpretation is also described in \cite[Introduction]{genus}.
+\begin{lemma}\label{lem:unramified}
+If $E/K$ is a finite, everywhere unramified abelian extension and both fields have full constant field $\F_q$, then
+\begin{equation}
+ \Cl^0(K)\twoheadrightarrow\Gal(E/K),\qquad
+ [E:K]\mid H_K.
+ \label{eq:unramified}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Let $H=\Gal(E/K)$. Global reciprocity gives a surjective Artin map from the idele class group to $H$. Since $E/K$ is unramified at every place, all local unit groups lie in its kernel. The divisor map identifies
+\[
+ \A_K^\times\big/\left(K^\times\prod_P\mathcal O_{K_P}^\times\right)
+ \simeq\Cl(K),
+\]
+so the Artin map induces a surjection $\alpha:\Cl(K)\twoheadrightarrow H$.
+
+Put $B=\alpha(\Cl^0(K))$, and suppose $|H/B|=t$. By \eqref{eq:degree}, the map to $H/B$ factors as a surjection from $\Z$. Its kernel on $\Cl(K)$ is precisely
+\begin{equation}
+ \{[D]\in\Cl(K):\deg D\in t\Z\}.
+ \label{eq:degreekernel}
+\end{equation}
+Now consider the constant extension $K\F_{q^t}/K$. It has degree $t$ and is everywhere unramified. At a place $P$, arithmetic Frobenius acts on constants as $x\mapsto x^{q^{d_P}}$, so its Artin kernel is the idele preimage of \eqref{eq:degreekernel}. Class-field uniqueness identifies the fixed field with this constant extension:
+\begin{equation}
+ E^B=K\F_{q^t}.
+ \label{eq:constantquotient}
+\end{equation}
+Every intermediate field of $E/K$ has constants $\F_q$, which forces $t=1$. Thus $B=H$, and the first map in \eqref{eq:unramified} is surjective. Its target order divides $H_K$.
+\end{proof}
+
+\subsection{The product of inertia orders}
+Let $I_{\rm all}$ be the subgroup of $\Gamma$ generated by all inertia groups. Only finitely many are nontrivial. Since $\Gamma$ is abelian, multiplication defines a surjection from their direct product onto $I_{\rm all}$, giving
+\[
+ |I_{\rm all}|\le\prod_{P\,\mathrm{ramified}}e_P.
+\]
+The fixed extension $L^{I_{\rm all}}/K$ is geometric, abelian, and everywhere unramified. Lemma~\ref{lem:unramified} therefore implies
+\begin{equation}
+ M\le H_K\prod_{P\,\mathrm{ramified}}e_P.
+ \label{eq:product}
+\end{equation}
+This estimate permits arbitrary intersections among the inertia subgroups. Combining it with Lemma~\ref{lem:localbound}, we obtain
+\begin{equation}
+ \log_qM\le\log_qH_K+A+
+ \sum_{P\,\mathrm{ramified}}b_q(d_P).
+ \label{eq:raw}
+\end{equation}
+The mean conductor in \eqref{eq:raw} is exactly the quantity in \eqref{eq:hurwitzmean}. What remains is a joint bound for the class number and the local corrections on the quotient curve.
+
+\section{Class Numbers and Low-Degree Places}\label{sec:class}
+In this section, we combine the basic place-density inequality with the class-number formula. Both asymptotic formulas are due to Tsfasman and Vl\u{a}du\c{t} \cite[Cor.~A$'$ and Cor.~D$'$]{tv}. We give their required derivations to track the uniformity in the quotient curve and the interaction with $b_q(d)$.
+
+For a curve $Y/\F_q$ of genus $h$, let $B_d(Y)$ be the number of degree-$d$ places. Given an integer $J\ge1$, define
+\begin{equation}
+ L_J(Y)=\log_qH_K+\sum_{d=1}^JB_d(Y)b_q(d),
+ \qquad c_q=1+\frac1{\sqrt q+1}.
+ \label{eq:LJ}
+\end{equation}
+The coefficient $c_q<2$ is the feature needed in the genus estimate.
+\begin{proposition}\label{prop:joint}
+For every fixed $q,J$, and $\eta>0$, there is a nonnegative constant $B_{q,J,\eta}$ such that every curve $Y/\F_q$ satisfies
+\begin{equation}
+ L_J(Y)\le(c_q+\eta)h+B_{q,J,\eta}.
+ \label{eq:joint}
+\end{equation}
+\end{proposition}
+
+\subsection{Place densities and a fixed Fej\'er truncation}
+Let $Y_i$ be an arbitrary sequence with $h_i\to\infty$. The Weil bound and
+$dB_d(Y_i)\le|Y_i(\F_{q^d})|$ make $B_d(Y_i)/h_i$ bounded for each fixed $d$. Diagonal extraction gives a subsequence on which
+\begin{equation}
+ \beta_d=\lim_{i\to\infty}\frac{B_d(Y_i)}{h_i}
+ \label{eq:betad}
+\end{equation}
+exists for every $d\ge1$. Each $\beta_d$ is nonnegative.
+
+Write the reciprocal roots of the zeta numerator as
+$\omega_{i,\nu}=\sqrt q\,e^{\mathrm i\theta_{i,\nu}}$, where
+$1\le\nu\le2h_i$. The Weil theorem and the point-count relation give
+\begin{equation}
+ N_r(Y_i):=|Y_i(\F_{q^r})|
+ =q^r+1-\sum_{\nu=1}^{2h_i}\omega_{i,\nu}^r,
+ \qquad N_r(Y_i)=\sum_{d\mid r}dB_d(Y_i).
+ \label{eq:points}
+\end{equation}
+For an integer $T\ge1$, the Fej\'er identity is
+\begin{equation}
+ 1+2\sum_{r=1}^T\left(1-\frac r{T+1}\right)\cos(r\theta)
+ =\frac1{T+1}\left|\sum_{a=0}^T e^{\mathrm i a\theta}\right|^2\ge0.
+ \label{eq:fejer}
+\end{equation}
+The parameter $T$ controls this analytic truncation; $J$ in \eqref{eq:LJ} controls the degrees of places included in the correction.
+
+Summing \eqref{eq:fejer} over the $2h_i$ reciprocal roots and using \eqref{eq:points} yields
+\begin{equation}
+ \sum_{r=1}^T\left(1-\frac r{T+1}\right)q^{-r/2}
+       (N_r(Y_i)-q^r-1)\le h_i.
+ \label{eq:fejerfinite}
+\end{equation}
+Keep $T$ fixed and divide by $h_i$. Along the subsequence in \eqref{eq:betad},
+\begin{equation}
+ \sum_{r=1}^T\left(1-\frac r{T+1}\right)q^{-r/2}
+       \sum_{d\mid r}d\beta_d\le1.
+ \label{eq:fejerlimit}
+\end{equation}
+Every term in this limiting sum is nonnegative. For fixed $r$, its coefficient, extended as zero for $r>T$, increases to $q^{-r/2}$. Monotone convergence followed by a nonnegative interchange of sums gives
+\begin{align}
+ 1&\ge\sum_{r\ge1}q^{-r/2}\sum_{d\mid r}d\beta_d\notag\\
+  &=\sum_{d\ge1}d\beta_d\sum_{a\ge1}q^{-ad/2}
+   =\sum_{d\ge1}\frac{d\beta_d}{q^{d/2}-1}.
+ \label{eq:basic}
+\end{align}
+This is the function-field basic inequality. Its constant is independent of the sequence and of whether $q$ is a square.
+
+\subsection{The class-number limit}
+Let
+\[
+ Z_Y(T)=\frac{P_Y(T)}{(1-T)(1-qT)},\qquad
+ P_Y(T)=\prod_{\nu=1}^{2h}(1-\omega_\nu T).
+\]
+The functional equation and the class-number identity give
+$H_K=P_Y(1)=q^hP_Y(1/q)$ \cite[Ch.~5]{stichtenoth}. Since
+$|\omega_\nu|=\sqrt q$, the analytic logarithm of $P_Y(T)$, normalized to vanish at zero, has the absolutely convergent expansion
+\[
+ \ln P_Y(T)=\sum_{r\ge1}\frac{N_r(Y)-q^r-1}{r}T^r,
+ \qquad |T|<q^{-1/2}.
+\]
+Evaluation at $T=1/q$ is within this disk and gives
+\begin{equation}
+ \log_qH_K=h+
+ \frac1{\ln q}\sum_{r\ge1}
+      \frac{N_r(Y)-q^r-1}{r q^r}.
+ \label{eq:classseries}
+\end{equation}
+For positive genus, the absolute value of the $r$th summand after division by $h$ is at most
+\begin{equation}
+ \frac{2}{r q^{r/2}\ln q},\qquad
+ \sum_{r\ge1}\frac{2}{r q^{r/2}\ln q}<\infty.
+ \label{eq:dominate}
+\end{equation}
+Thus dominated convergence applies uniformly to the curves in the extracted sequence.
+
+Using \eqref{eq:points}, we obtain
+\begin{align}
+ \lim_i\frac{\log_qH_{K_i}}{h_i}
+ &=1+\frac1{\ln q}\sum_{r\ge1}\frac{q^{-r}}r
+                    \sum_{d\mid r}d\beta_d\notag\\
+ &=1+\sum_{d\ge1}\beta_d\log_q\frac1{1-q^{-d}}.
+ \label{eq:BS}
+\end{align}
+The interchange in the second line has nonnegative terms. Formula \eqref{eq:dominate} also establishes finiteness of the resulting sum. These steps use the zeta numerator at a point where its logarithmic series converges absolutely.
+
+\subsection{Cancellation and a uniform bound}
+For the fixed integer $J$, combine \eqref{eq:bq}, \eqref{eq:LJ}, and \eqref{eq:BS}. The logarithmic terms for degrees at most $J$ cancel, leaving
+\begin{align}
+ \lim_i\frac{L_J(Y_i)}{h_i}
+ =1+\sum_{d\le J}\frac{d\beta_d}{q^d-1}
+   +\sum_{d>J}\beta_d\log_q\frac1{1-q^{-d}}.
+ \label{eq:cancellation}
+\end{align}
+The nonnegativity of $b_q(d)$ implies
+\[
+ \log_q\frac1{1-q^{-d}}\le\frac d{q^d-1}.
+\]
+Moreover,
+\begin{equation}
+ \frac d{q^d-1}
+ =\frac1{q^{d/2}+1}\frac d{q^{d/2}-1}
+ \le\frac1{\sqrt q+1}\frac d{q^{d/2}-1}.
+ \label{eq:weights}
+\end{equation}
+It follows from \eqref{eq:basic} that
+\begin{equation}
+ \lim_i\frac{L_J(Y_i)}{h_i}
+ \le1+\sum_{d\ge1}\frac{d\beta_d}{q^d-1}
+ \le1+\frac1{\sqrt q+1}=c_q.
+ \label{eq:limitjoint}
+\end{equation}
+The same place densities appear in both terms of \eqref{eq:cancellation}; this common dependence is retained throughout the estimate.
+
+We now pass from the subsequence statement to Proposition~\ref{prop:joint}. If
+$L_J(Y)\le(c_q+\eta)h$ failed at arbitrarily large genus, a violating sequence would have a subsequence as in \eqref{eq:betad}. Equation~\eqref{eq:limitjoint} would then contradict the strict excess $\eta$. Hence the inequality holds beyond a genus threshold depending only on $q,J,\eta$.
+
+For bounded genus, the estimates
+\begin{equation}
+ H_K\le(1+\sqrt q)^{2h},\qquad
+ B_d(Y)\le\frac{q^d+1+2h q^{d/2}}d
+ \label{eq:boundedgenus}
+\end{equation}
+provide a uniform bound for $L_J(Y)$. They also cover genus zero, for which $H_K=1$. Absorbing this bounded range into $B_{q,J,\eta}$ proves \eqref{eq:joint}. Every parameter used in the proposition is fixed before the genus threshold is chosen.
+
+\section{The Uniform Genus Bound}\label{sec:upper}
+In this section, we combine the local and global estimates to prove Theorem~\ref{thm:finite}. A fixed degree cutoff separates the finitely many low-degree terms controlled by Proposition~\ref{prop:joint} from the high-degree terms controlled by the mean conductor itself.
+
+At a ramified place, at least a proportion $1-1/e_P$ of the inertia characters are nontrivial. Their conductors are at least one, so
+\begin{equation}
+ \bar c_P\ge1-\frac1{e_P}\ge\frac12.
+ \label{eq:half}
+\end{equation}
+If $d_P>J$, Lemma~\ref{lem:localbound} and \eqref{eq:half} give
+\[
+ b_q(d_P)\le\frac{d_P}{q^{d_P}-1}
+ \le\frac{2}{q^{J+1}-1}\,d_P\bar c_P.
+\]
+For the remaining places, nonnegativity permits the sum over ramified places to be enlarged to all places of degrees at most $J$. Substitution into \eqref{eq:raw} yields
+\begin{equation}
+ \log_qM\le(1+\varepsilon_J)A+L_J(Y),
+ \qquad \varepsilon_J=\frac2{q^{J+1}-1}.
+ \label{eq:keyglobal}
+\end{equation}
+This bound accommodates an arbitrary number of ramified places and arbitrary conductor depths.
+\begin{proof}[Proof of Theorem~\ref{thm:finite}]
+Fix $\varepsilon>0$ and choose $J=J(q,\varepsilon)$ so that $\varepsilon_J\le\varepsilon$. Set
+\begin{equation}
+ \eta_q=\gamma_q=\frac{2-c_q}{2}>0,
+ \qquad c_q+\eta_q=2-\gamma_q.
+ \label{eq:gamma}
+\end{equation}
+Proposition~\ref{prop:joint} gives a constant $B=B_{q,J,\eta_q}\ge0$ such that
+\begin{align}
+ \log_qM
+ &\le(1+\varepsilon)A+(2-\gamma_q)h+B\notag\\
+ &\le(1+\varepsilon)(A+2h)+B\notag\\
+ &=(1+\varepsilon)\frac{2g_X-2}{M}+2(1+\varepsilon)+B,
+ \label{eq:closing}
+\end{align}
+where the last equality is \eqref{eq:hurwitzmean}. Define
+\begin{equation}
+ C_{q,\varepsilon}
+ =B_{q,J(q,\varepsilon),\eta_q}+2(1+\varepsilon).
+ \label{eq:Cconstant}
+\end{equation}
+Rearranging \eqref{eq:closing} proves \eqref{eq:main}, with precisely the required dependence of the constant.
+\end{proof}
+
+Along any sequence with $g_X\to\infty$, bounded values of $M$ contribute zero to $M\log_qM/g_X$. On a subsequence with $M\to\infty$, \eqref{eq:main} with a fixed choice such as $\varepsilon=1$ implies $M/g_X\to0$. Multiplying \eqref{eq:closing} by $M/g_X$ therefore gives
+\begin{equation}
+ \limsup\frac{M\log_qM}{g_X}\le2(1+\varepsilon).
+ \label{eq:epslimit}
+\end{equation}
+The limit in the curve sequence is taken with $\varepsilon$ fixed. Letting $\varepsilon\downarrow0$ afterward establishes the upper constant two, uniformly over all finite abelian actions.
+
+The slack in the quotient-genus coefficient will also be useful. Keeping the term discarded in the second line of \eqref{eq:closing} gives
+\begin{equation}
+ \log_qM\le
+ (1+\varepsilon)\frac{2g_X-2}{M}
+ -(\gamma_q+2\varepsilon)h+C_{q,\varepsilon}.
+ \label{eq:slack}
+\end{equation}
+$\gamma_q$ depends only on $q$, whereas $C_{q,\varepsilon}$ may depend on the fixed error parameter. This distinction in \eqref{eq:slack} separates the contributions that can persist in an extremal sequence.
+
+\section{Sharpness and Extremal Sequences}\label{sec:sharp}
+In this section, we complete Theorem~\ref{thm:exact} using the classical Carlitz family and then derive the necessary structure of sequences attaining the limiting constant. We also express the result using genus as the argument of the logarithm, which is convenient for code applications.
+
+\subsection{Carlitz cyclotomic attainment}
+For each integer $m\ge2$, choose a monic irreducible polynomial $P_m\in\F_q[T]$ of degree $m$, and let
+\begin{equation}
+ L_m=\F_q(T)(\Lambda_{P_m}),\qquad M_m=q^m-1.
+ \label{eq:carlitzfield}
+\end{equation}
+The standard Carlitz construction gives a cyclic Galois group
+$(\F_q[T]/P_m)^\times$ of order $M_m$. The place $P_m$ is totally ramified with residue degree one. Above infinity there are $M_m/(q-1)$ places, each with ramification index $q-1$ and residue degree one. All other places are unramified \cite[Prop.~2.1]{maxing}. In particular, the rational places above infinity ensure that the full constant field is $\F_q$.
+
+These extensions are tame because $M_m$ is prime to the characteristic. At $P_m$, the different exponent is $M_m-1$, and the upper place has degree $m$. At infinity, the different exponent is $q-2$ at each of the $M_m/(q-1)$ degree-one places. Hurwitz's formula therefore gives
+\begin{align}
+ 2g_m-2
+ &=-2M_m+m(M_m-1)+\frac{M_m}{q-1}(q-2)\notag\\
+ &=M_m\left(m-1-\frac1{q-1}\right)-m.
+ \label{eq:carlitzgenus}
+\end{align}
+For $q=2$, the infinite places are unramified and their different contribution is zero, as also reflected in this formula.
+
+Since $\log_q M_m=m+o(1)$, \eqref{eq:carlitzgenus} implies
+\begin{equation}
+ \lim_{m\to\infty}\frac{M_m\log_qM_m}{g_m}=2.
+ \label{eq:carlitzlimit}
+\end{equation}
+The construction is the attainment family used by Ma and Xing \cite[Ex.~1]{maxing}. The largest abelian subgroup on the corresponding curve has order at least $M_m$. Together with \eqref{eq:epslimit}, this proves $M_q=2$.
+
+\subsection{The logarithm of the genus}
+An equivalent form of the result is
+\begin{equation}
+ \limsup_{g_X\to\infty}
+ \frac{a_q(X)\log_qg_X}{g_X}=2.
+ \label{eq:genuslog}
+\end{equation}
+To prove it, take a subsequence on which the ratio in \eqref{eq:genuslog} has a positive lower bound and put $M=a_q(X)$. Then $M\ge c g_X/\log_qg_X$, so
+\[
+ \ln M\ge\ln g_X-\ln\log_qg_X+O(1).
+\]
+Theorem~\ref{thm:finite} also implies $M/g_X\to0$ along this subsequence and hence $M\le g_X$ eventually. These estimates give $\ln M/\ln g_X\to1$. Subsequences with ratio tending to zero do not affect the positive limsup, and the Carlitz family attains two in both normalizations. In particular,
+\begin{equation}
+ a_q(X)\le(2+o(1))\frac{g_X}{\log_qg_X}
+ \label{eq:orderform}
+\end{equation}
+holds uniformly as the genus grows.
+
+\subsection{The quotient genus near the extremal value}
+Suppose an abelian-action sequence satisfies
+$M\log_qM/g_X\to2$. Then $M\to\infty$ and
+\[
+ \frac{2g_X-2}{M\log_qM}\longrightarrow1.
+\]
+For a fixed $\varepsilon>0$, divide \eqref{eq:slack} by $\log_qM$ and take a limsup. This yields
+\begin{equation}
+ (\gamma_q+2\varepsilon)
+ \limsup\frac h{\log_qM}\le\varepsilon.
+ \label{eq:nearlimit}
+\end{equation}
+The constant term vanishes because its parameters are fixed. As $\gamma_q>0$ is independent of $\varepsilon$, letting $\varepsilon\downarrow0$ proves $h=o(\log_qM)$. Finally, \eqref{eq:hurwitzmean} gives
+\begin{equation}
+ A=\frac{2g_X-2}{M}-2h+2
+   =(1+o(1))\log_qM.
+ \label{eq:nearA}
+\end{equation}
+This proves the remaining assertion of Theorem~\ref{thm:exact}. In an extremal sequence, the mean ramification contribution supplies the leading logarithmic term, while the quotient genus contributes a lower-order term.
+
+\section{Geometric Cyclic Evaluation Codes}\label{sec:codes}
+In this section, we apply the uniform genus bound to cyclic code symmetries induced by curve automorphisms. The argument retains the actual dimension of the evaluation space, so it applies to complete and incomplete linear series and to special divisors.
+
+\subsection{Evaluation model and rate bound}
+Let $X/\F_q$ carry an automorphism $\sigma$ with a full orbit of distinct rational points
+$P_1,\ldots,P_n$. Choose a rational divisor $G$ whose support is disjoint from this orbit, and a nonzero $\F_q$-subspace
+\[
+ V\subseteq L(G),\qquad \sigma^*V=V.
+\]
+Evaluation gives the ordinary cyclic code
+\begin{equation}
+ C=\{(f(P_1),\ldots,f(P_n)):f\in V\}\le\F_q^n.
+ \label{eq:evalcode}
+\end{equation}
+Write $k=\dim C$, $v=\dim V$, and $D=\deg G$. Then $k\le v$; the geometric cyclic construction in \cite{cabana} includes the invariant-divisor choice $V=L(G)$.
+
+\begin{corollary}\label{cor:rate}
+Fix $q$ and $A_0>0$. For every sequence of codes \eqref{eq:evalcode} with $n\to\infty$ and $D\le A_0n$,
+\begin{equation}
+ \limsup_{n\to\infty}\frac{k\log_qn}{n}\le A_0^2.
+ \label{eq:ratebound}
+\end{equation}
+If instead $\liminf k/n\ge R_0>0$, then
+\begin{equation}
+ \liminf_{n\to\infty}\frac{D}{n\sqrt{\log_qn}}
+ \ge\sqrt{R_0}.
+ \label{eq:divisorlb}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Terms with $v\le2$ have zero contribution to \eqref{eq:ratebound}, so assume $v\ge3$. Choose a basis $f_0,\ldots,f_{v-1}$ of $V$ and remove the common base divisor of its linear series. The resulting morphism to $\mathbb P^{v-1}$ factors through the normalization $Y$ of its image. Put
+\begin{equation}
+ K_V=\F_q(f_1/f_0,\ldots,f_{v-1}/f_0),\qquad
+ e=[\F_q(X):K_V],\qquad d=\deg(\text{image}).
+ \label{eq:image}
+\end{equation}
+The total degree $e$ includes the inseparable degree. The image is nondegenerate, its normalization maps birationally to it, and
+\begin{equation}
+ ed\le D,\qquad d\ge v-1,
+ \qquad e(v-1)\le D.
+ \label{eq:degreeimage}
+\end{equation}
+These relations use the moving part of the given linear series.
+
+Stability of $V$ implies that $\sigma$ preserves $K_V$ and induces an automorphism $\bar\sigma$ of $Y$. The kernel of the action of $\langle\sigma\rangle$ on $K_V$ has order at most $e$. Since the orbit on $X$ has size $n$, the order $M_Y$ of $\bar\sigma$ satisfies $M_Y\ge n/e$. The images of the $P_i$ give at least $n/e$ distinct rational points of $Y$.
+
+Whenever $n/e\to\infty$, the Weil bound forces $g(Y)\to\infty$. Theorem~\ref{thm:finite}, applied to the cyclic group generated by $\bar\sigma$, then gives
+\begin{equation}
+ g(Y)\ge\left(\frac12-o(1)\right)
+             \frac ne\log_q(n/e).
+ \label{eq:imagegenuslower}
+\end{equation}
+For the simple linear series on $Y$, Castelnuovo's genus bound \cite[eq.~(2.5)]{abdon} gives
+\begin{equation}
+ g(Y)\le\frac{(d-1)^2}{2(v-2)}
+       \le\frac{D^2}{2e^2(v-2)}.
+ \label{eq:imagegenusupper}
+\end{equation}
+Combining these inequalities yields
+\begin{equation}
+ (v-2)e n\log_q(n/e)\le(1+o(1))D^2.
+ \label{eq:codekey}
+\end{equation}
+
+To prove \eqref{eq:ratebound}, consider any subsequence on which $k\log_qn/n$ is bounded below by a positive constant. Under $D\le A_0n$, \eqref{eq:degreeimage} implies $e=O(\log n)$. Thus $n/e\to\infty$ and $\log_q(n/e)=(1-o(1))\log_qn$. Substituting into \eqref{eq:codekey}, and using $k\le v$ and $e\ge1$, gives the asserted limsup. Subsequences on which $k\log_qn/n\to0$ satisfy the same bound.
+
+For \eqref{eq:divisorlb}, it suffices to consider a subsequence with $D/(n\sqrt{\log_qn})$ bounded. Positive rate and \eqref{eq:degreeimage} give $e=O(\sqrt{\log n})$. Equation~\eqref{eq:codekey} consequently implies
+\[
+ \frac{D^2}{n^2\log_qn}
+ \ge(1-o(1))\frac{v-2}{n}\,e
+ \ge R_0-o(1).
+\]
+Taking square roots proves the claim.
+\end{proof}
+
+The support and stability assumptions in \eqref{eq:evalcode} specify the geometric realization to which Corollary~\ref{cor:rate} applies. In the common designed-distance range $D<n$, its rate bound specializes to $k\le(1+o(1))n/\log_qn$. More generally, \eqref{eq:divisorlb} quantifies the divisor degree associated with positive-rate equivariant evaluation. Both conclusions use the dimension of the actual evaluation image.
+
+\section{Conclusion}\label{sec:conclusion}
+In this paper, we have determined the asymptotic extremal constant for abelian automorphism groups over every fixed finite field. The value $M_q=2$ follows from a uniform genus bound and the classical Carlitz attainment family. The proof combines a local mean-conductor inequality with a joint class-number and place-density estimate, retaining the ramification normalization through the global argument.
+
+The estimates also identify necessary features of extremal sequences: the quotient genus is negligible relative to the logarithm of the group order, and the mean conductor degree supplies the leading term. For geometric cyclic evaluation codes, the same bound yields a uniform dimension estimate under a linear divisor-degree constraint. Determining effective lower-order terms and characterizing the families that approach equality would further clarify the relation between abelian symmetry and the geometric parameters of code constructions.
+
+\section*{Acknowledgment}
+\emph{Artificial intelligence (AI) use disclosure---}ChatGPT (GPT-6 Astra Pro) assisted with the exploratory development of the average-conductor argument in Section~\ref{sec:local} and the joint class-number estimate in Section~\ref{sec:class}, and with drafting and revising the exposition in Sections~\ref{sec:intro}--\ref{sec:conclusion}. The author is responsible for the mathematical statements, proofs, and references.
+
+\begin{thebibliography}{10}
+\bibitem{stichtenoth}
+H. Stichtenoth, \emph{Algebraic Function Fields and Codes}, 2nd ed., ser. Graduate Texts in Mathematics, vol. 254. Berlin, Germany: Springer, 2009, \doi{10.1007/978-3-540-76878-4}.
+
+\bibitem{transitive}
+H. Stichtenoth, ``Transitive and self-dual codes attaining the Tsfasman--Vl\u{a}du\c{t}--Zink bound,'' \emph{IEEE Trans. Inf. Theory}, vol. 52, no. 5, pp. 2218--2224, May 2006, \doi{10.1109/TIT.2006.872986}.
+
+\bibitem{cabana}
+G. Caba\~na, M. Chara, R. Podest\'a, and R. Toledano, ``On cyclic algebraic-geometry codes,'' \emph{Finite Fields Appl.}, vol. 82, Art. no. 102064, Sep. 2022, \doi{10.1016/j.ffa.2022.102064}.
+
+\bibitem{maxing}
+L. Ma and C. Xing, ``The asymptotic behavior of automorphism groups of function fields over finite fields,'' \emph{Trans. Amer. Math. Soc.}, vol. 372, pp. 35--52, 2019, \doi{10.1090/tran/7822}.
+
+\bibitem{yoshida}
+T. Yoshida, ``Local class field theory via Lubin--Tate theory,'' \emph{Ann. Fac. Sci. Toulouse Math.}, ser. 6, vol. 17, no. 2, pp. 411--438, 2008, \doi{10.5802/afst.1188}.
+
+\bibitem{li}
+C. Li, ``Class field theory,'' notes for J. Rabinoff's Math 223a, Harvard University, Fall 2012. Accessed: Oct. 18, 2026. [Online]. Available: \url{https://www.math.columbia.edu/~chaoli/docs/ClassFieldTheory.html}.
+
+\bibitem{genus}
+M. Maldonado-Ram\'irez, M. Rzedowski-Calder\'on, and G. Villa-Salvador, ``Genus fields of congruence function fields,'' \emph{Finite Fields Appl.}, vol. 44, pp. 56--75, Mar. 2017, \doi{10.1016/j.ffa.2016.10.001}.
+
+\bibitem{tv}
+M. A. Tsfasman and S. G. Vl\u{a}du\c{t}, ``Infinite global fields and the generalized Brauer--Siegel theorem,'' \emph{Moscow Math. J.}, vol. 2, no. 2, pp. 329--402, 2002, \doi{10.17323/1609-4514-2002-2-2-329-402}.
+
+\bibitem{abdon}
+M. Abd\'on and F. Torres, ``On $\F_{q^2}$-maximal curves of genus $\tfrac16(q-3)q$,'' \emph{Beitr. Algebra Geom.}, vol. 46, no. 1, pp. 241--260, 2005. [Online]. Available: \href{https://www.kurims.kyoto-u.ac.jp/EMIS/journals/BAG/vol.46/no.1/b46h1tor.pdf}{EMIS journal archive}.
+
+\bibitem{note}
+Yang Shifu, ``The asymptotic extremal constant for abelian automorphism groups over fixed finite fields,'' mathematical proof note, ver. 1.0, Oct. 18, 2026. [Online]. Available: \href{https://github.com/stalin1943/Coding-Theory-Proof-Notes/blob/main/abelian-automorphism-constant-two/proof.pdf}{Coding-Theory-Proof-Notes, fixed version}.
+\end{thebibliography}
+\end{document}
